@@ -39,11 +39,11 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     stopButton.onClick = [this] { stopButtonClicked(); };
     stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
     stopButton.setEnabled(false);
+
+	songTitle = "No song loaded";
 }
 
-AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor()
-{
-}
+AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() { }
 
 //==============================================================================
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
@@ -54,10 +54,8 @@ void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
 
-    if (songTitle.isNotEmpty())
-    {
-        g.drawFittedText(songTitle, 0, 160, getWidth(), 30, juce::Justification::centred, 1);
-    }
+    g.drawFittedText(songTitle, 0, 160, getWidth(), 30, juce::Justification::centred, 1);
+   
 }
 
 void AudioPlayerAudioProcessorEditor::resized()
@@ -81,10 +79,10 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
                 audioProcessor.loadFile(file);
                 playButton.setEnabled(true);
                 songTitle = file.getFileName();
+                changeTransportState(TransportState::Stopped);
+				repaint();
             }
         });
-
-    changeTransportState(TransportState::Stopped);
 }
 
 void AudioPlayerAudioProcessorEditor::playButtonClicked()

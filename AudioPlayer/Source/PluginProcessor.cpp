@@ -27,6 +27,8 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
 
 AudioPlayerAudioProcessor::~AudioPlayerAudioProcessor()
 {
+    transportSource.setSource(nullptr);
+	readerSource.reset();
 }
 
 //==============================================================================

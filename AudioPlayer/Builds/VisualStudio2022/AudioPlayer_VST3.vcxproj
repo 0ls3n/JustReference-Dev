@@ -260,10 +260,10 @@ echo : Info: VST3 manifest generation is disabled for AudioPlayer because a AMD6
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Github Repositories\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
+    <ClCompile Include="..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Github Repositories\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
+    <ClCompile Include="..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_VST3.cpp"/>
