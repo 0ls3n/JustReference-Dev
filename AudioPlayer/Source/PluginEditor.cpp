@@ -17,6 +17,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     // editor's size to whatever you need it to be.
     setSize (300, 200);
 
+	setResizable(true, true);
+
     addAndMakeVisible(&openButton);
     openButton.setButtonText("Open...");
     openButton.onClick = [this] { openButtonClicked(); };
@@ -140,6 +142,4 @@ void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
 	audioProcessor.setTransportState(state);
     updateButtonStates();
 	repaint();
-
-    
 }
