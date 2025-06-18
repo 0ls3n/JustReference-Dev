@@ -13,6 +13,14 @@
 //==============================================================================
 /**
 */
+
+enum class TransportState
+{
+    Playing,
+    Paused,
+    Stopped
+};
+
 class AudioPlayerAudioProcessor  : public juce::AudioProcessor
 {
 public:
@@ -55,13 +63,18 @@ public:
 
     void loadFile(const juce::File& file);
     
-
-    
     juce::AudioTransportSource transportSource;
 
+    TransportState getTransportState() const { return transportState; }
+    void setTransportState(TransportState newState) { transportState = newState; }
+
 private:
+
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessor)
+
+    TransportState transportState = TransportState::Stopped;
 
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;

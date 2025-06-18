@@ -41,6 +41,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     stopButton.setEnabled(false);
 
 	songTitle = "No song loaded";
+
+    updateButtonStates();
 }
 
 AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() { }
@@ -100,36 +102,44 @@ void AudioPlayerAudioProcessorEditor::stopButtonClicked()
     changeTransportState(TransportState::Stopped);
 }
 
-void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
+void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
-    if (state == TransportState::Playing)
-    {
-        audioProcessor.transportSource.start();
-    }
-    else 
-    {
-        audioProcessor.transportSource.stop();
-    }
+	auto state = audioProcessor.getTransportState();
+
     switch (state)
     {
     case TransportState::Playing:
-        playButton.setEnabled(false);
-        playButton.setButtonText("Playing...");
-        pauseButton.setEnabled(true);
-        stopButton.setEnabled(true);
+        audioProcessor.transportSource.start();
+		playButton.setEnabled(false);
+		pauseButton.setEnabled(true);
+		stopButton.setEnabled(true);
+		playButton.setButtonText("Playing...");
         break;
     case TransportState::Paused:
-        pauseButton.setEnabled(false);
-        playButton.setEnabled(true);
-        playButton.setButtonText("Paused...");
-        stopButton.setEnabled(false);
+        audioProcessor.transportSource.stop();
+		playButton.setEnabled(true);
+		pauseButton.setEnabled(false);
+		stopButton.setEnabled(false);
+		playButton.setButtonText("Paused...");
         break;
     case TransportState::Stopped:
+        audioProcessor.transportSource.stop();
         audioProcessor.transportSource.setPosition(0.0);
-        playButton.setEnabled(true);
-        playButton.setButtonText("Play");
-        stopButton.setEnabled(false);
-        pauseButton.setEnabled(false);
+		playButton.setEnabled(true);
+		pauseButton.setEnabled(false);
+		stopButton.setEnabled(false);
+		playButton.setButtonText("Play");
+        break;
+    default:
         break;
     }
+}
+
+void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
+{
+	audioProcessor.setTransportState(state);
+    updateButtonStates();
+	repaint();
+
+    
 }

@@ -25,12 +25,6 @@ public:
     void resized() override;
 
 private:
-    enum TransportState
-    {
-        Playing,
-        Paused,
-        Stopped
-    };
 
     AudioPlayerAudioProcessor& audioProcessor;
     std::unique_ptr<juce::FileChooser> chooser;
@@ -39,6 +33,8 @@ private:
     void playButtonClicked();
     void pauseButtonClicked();
     void stopButtonClicked();
+
+	void updateButtonStates();
 
     void changeTransportState(TransportState state);
 
