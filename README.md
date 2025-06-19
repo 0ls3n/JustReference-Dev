@@ -2,7 +2,7 @@
 
 A simple audio plugin (VST/AU) built with JUCE that allows you to load, play, pause, stop, and adjust the gain of audio files. This project is ideal for learning JUCE plugin development and real-time audio control with a clean UI.
 
-![screenshot](screenshot.png)
+![screenshot](Resources/screenshot.png)
 
 ---
 
