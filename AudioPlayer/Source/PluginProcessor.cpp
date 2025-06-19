@@ -162,7 +162,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const
-{
+{   
     return true; // (change this to false if you choose to not supply an editor)
 }
 
