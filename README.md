@@ -1,25 +1,28 @@
-# JUCE Audio Plugin Player
+# A/B Reference Audio Plugin (JUCE)
 
-A simple audio plugin (VST/AU) built with JUCE that allows you to load, play, pause, stop, and adjust the gain of audio files. This project is ideal for learning JUCE plugin development and real-time audio control with a clean UI.
-
-![screenshot](Resources/screenshot.png)
+A simple A/B reference audio plugin built with JUCE. This plugin lets you load a reference track (B) and switch between your DAW signal (A) and the reference track to compare them quickly and accurately. Ideal for mixing, mastering, or general A/B comparison during music production.
 
 ---
 
-## Features
+## Key Features
 
-- Load `.wav` or `.mp3` files
-- Playback controls: Play / Pause / Stop
-- Gain control in decibels (dB)
-- Real-time audio processing
-- Resizable and responsive UI
+- 🎵 **Load Reference Track** (WAV, MP3)
+- 🔁 **Switch between A (DAW input) and B (Reference track)**
+- ▶️ Playback Controls: **Play / Pause / Stop**
+- 🎚 Adjustable **Gain in dB** for level-matched referencing
+- 🖥️ Resizable and clean UI
+- 🎛 Simple integration into any DAW as a plugin
 
 ---
 
-## Plugin Format
+## Plugin Formats
 
-This project builds as an **Audio Plugin** compatible with:
+- **VST3**
+- **AU** (macOS)
+- **Standalone app** (optional)
 
-- VST3
-- AU (on macOS)
-- Standalone application (optional)
+---
+
+## Screenshot
+
+![[image]](Resources/screenshot.png)
