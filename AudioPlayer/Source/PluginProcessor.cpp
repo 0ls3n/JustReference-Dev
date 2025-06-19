@@ -142,19 +142,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
     }
     else {
-        // DAW Input only
-		juce::ScopedNoDenormals noDenormals;
-        auto totalNumInputChannels  = getTotalNumInputChannels();
-        auto totalNumOutputChannels = getTotalNumOutputChannels();
-        // Clear any output channels that don't contain input data
-        for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-            buffer.clear (i, 0, buffer.getNumSamples());
-        // Process the input channels
-        for (int channel = 0; channel < totalNumInputChannels; ++channel)
-        {
-            auto* channelData = buffer.getWritePointer(channel);
-            // Do something with channelData if needed
-		}
+        
     }
 
     buffer.applyGain(gain.load());

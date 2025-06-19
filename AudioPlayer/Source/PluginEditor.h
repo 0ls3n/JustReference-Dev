@@ -14,7 +14,7 @@
 //==============================================================================
 /**
 */
-class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor
+class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor, private juce::ChangeListener
 {
 public:
     AudioPlayerAudioProcessorEditor (AudioPlayerAudioProcessor&);
@@ -25,6 +25,8 @@ public:
     void resized() override;
 
 private:
+
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
     AudioPlayerAudioProcessor& audioProcessor;
     std::unique_ptr<juce::FileChooser> chooser;
@@ -43,10 +45,17 @@ private:
     juce::TextButton playButton;
     juce::TextButton pauseButton;
     juce::TextButton stopButton;
+    juce::TextButton referenceSwitchButton;
 
     juce::String songTitle;
 
-    juce::TextButton referenceSwitchButton;
+    juce::Label songTitleLabel;
+
+    juce::AudioFormatManager formatManager;
+
+    juce::AudioThumbnailCache thumbnailCache{ 10 };
+    juce::AudioThumbnail thumbnail{ 512, formatManager, thumbnailCache };
+
 
 	
 

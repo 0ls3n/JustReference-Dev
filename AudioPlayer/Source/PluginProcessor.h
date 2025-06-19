@@ -73,6 +73,8 @@ public:
 
     std::shared_ptr<const juce::String> getFileName();
 
+    juce::AudioFormatManager formatManager;
+
 private:
 
     void setFileName(const juce::String newFilename);
@@ -82,7 +84,6 @@ private:
 
     TransportState transportState = TransportState::Stopped;
 
-    juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 
     

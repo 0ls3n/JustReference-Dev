@@ -15,7 +15,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (300, 300);
+    setSize (700, 500);
 
 	setResizable(true, true);
 
@@ -48,23 +48,53 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
     referenceSwitchButton.setEnabled(true);
 
+    addAndMakeVisible(&songTitleLabel);
+    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
+    songTitleLabel.setJustificationType(juce::Justification::centred);
+    songTitleLabel.setFont(juce::Font(15.0f, juce::Font::bold));
+    songTitleLabel.setSize(getWidth(), 50);
+
+    formatManager.registerBasicFormats();
+
+    thumbnail.addChangeListener(this);
+
 	chooser.reset();
 
     updateButtonStates();
 }
 
-AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() { }
+AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() { thumbnail.removeChangeListener(this); }
 
 //==============================================================================
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll(juce::Colour(18, 18, 18));
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
 
-    g.drawFittedText(songTitle, 0, 160, getWidth(), 30, juce::Justification::centred, 1);
+    g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
+
+    juce::ColourGradient gradient(juce::Colours::cyan, 0, 0,
+        juce::Colours::lightblue, getWidth(), 0, false);
+
+    
+
+    if (thumbnail.getTotalLength() > 0.0)
+    {
+
+        g.setColour(juce::Colours::aqua);
+        auto bounds = juce::Rectangle<int>(10, 260, getWidth() - 20, 200);
+
+        // Draw waveform using built-in thumbnail renderer
+        thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
+    }
+    else
+    {
+        g.setFont(15.0f);
+        g.drawFittedText("No waveform loaded", 10, 240, getWidth() - 20, 50, juce::Justification::centred, 1);
+    }
    
 }
 
@@ -74,7 +104,14 @@ void AudioPlayerAudioProcessorEditor::resized()
     playButton.setBounds(10, 50, getWidth() - 20, 30);
     pauseButton.setBounds(10, 90, getWidth() - 20, 30);
     stopButton.setBounds(10, 130, getWidth() - 20, 30);
-	referenceSwitchButton.setBounds(10, 200, getWidth() - 20, 30);
+    songTitleLabel.setBounds(0, 160, getWidth(), 50);
+	referenceSwitchButton.setBounds(10, 210, getWidth() - 20, 30);
+}
+
+void AudioPlayerAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &thumbnail)
+        repaint(); // redraw waveform when updated
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -95,6 +132,10 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
 					this->songTitle = *fileName;
                 }
                 changeTransportState(TransportState::Stopped);
+
+                thumbnail.clear();
+                thumbnail.setSource(new juce::FileInputSource(file));
+
 				repaint();
             }
         });
@@ -170,6 +211,18 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     {
 		this->songTitle = *fileName;
     }
+
+    if (audioProcessor.isReferenceActive)
+    {
+        referenceSwitchButton.setButtonText("A/B (Active)");
+        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+    }
+    else {
+        referenceSwitchButton.setButtonText("A/B (Inactive)");
+        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
+    }
+
+    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
 
 
 }
