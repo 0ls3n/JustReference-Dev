@@ -69,10 +69,14 @@ public:
     void setTransportState(TransportState newState) { transportState = newState; }
 
     std::atomic<float> gain{ 1.0f };
+	std::atomic<bool> isReferenceActive{ false };
+
+    std::shared_ptr<const juce::String> getFileName();
 
 private:
 
-    
+    void setFileName(const juce::String newFilename);
+    std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song selected...") };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessor)
 

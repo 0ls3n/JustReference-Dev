@@ -133,9 +133,29 @@ bool AudioPlayerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    buffer.clear();
+    
 
-    transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+    if (isReferenceActive.load())
+    {
+        // Audio Player only
+        buffer.clear();
+        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+    }
+    else {
+        // DAW Input only
+		juce::ScopedNoDenormals noDenormals;
+        auto totalNumInputChannels  = getTotalNumInputChannels();
+        auto totalNumOutputChannels = getTotalNumOutputChannels();
+        // Clear any output channels that don't contain input data
+        for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+            buffer.clear (i, 0, buffer.getNumSamples());
+        // Process the input channels
+        for (int channel = 0; channel < totalNumInputChannels; ++channel)
+        {
+            auto* channelData = buffer.getWritePointer(channel);
+            // Do something with channelData if needed
+		}
+    }
 
     buffer.applyGain(gain.load());
 }
@@ -173,7 +193,20 @@ void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
         transportSource.setSource(nullptr);
         readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
+        setFileName(file.getFileNameWithoutExtension());
     }
+}
+
+void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)
+{
+    std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFilename);
+
+	std::atomic_store_explicit(&filename, newPtr, std::memory_order_release);
+}
+
+std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()
+{
+	return std::atomic_load_explicit(&filename, std::memory_order_acquire);
 }
 
 //==============================================================================

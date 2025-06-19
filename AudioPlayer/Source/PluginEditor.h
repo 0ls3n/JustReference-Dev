@@ -33,6 +33,7 @@ private:
     void playButtonClicked();
     void pauseButtonClicked();
     void stopButtonClicked();
+	void referenceSwitchButtonClicked();
 
 	void updateButtonStates();
 
@@ -45,8 +46,7 @@ private:
 
     juce::String songTitle;
 
-	juce::Slider gainSlider;
-	juce::Label gainLabel;
+    juce::TextButton referenceSwitchButton;
 
 	
 

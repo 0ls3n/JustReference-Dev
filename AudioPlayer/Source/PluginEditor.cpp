@@ -42,25 +42,13 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
     stopButton.setEnabled(false);
 
-	addAndMakeVisible(gainSlider);
-    gainSlider.setRange(-100.0, 12, 0.01);
-    gainSlider.setValue(juce::Decibels::gainToDecibels(1.0f));
-	gainSlider.setTextValueSuffix(" dB");
-    gainSlider.onValueChange = [this]() {
-        const float dB = (float)gainSlider.getValue();
-        audioProcessor.gain = (dB <= -100.0f) ? 0.0f : juce::Decibels::decibelsToGain(dB);
-        };
-    gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);
-	gainSlider.setSliderStyle(juce::Slider::Rotary);
-    gainSlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
-
-	addAndMakeVisible(gainLabel);
-    gainLabel.setText("Gain in dB", juce::dontSendNotification);
-	gainLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(&referenceSwitchButton);
+    referenceSwitchButton.setButtonText("A/B (Inactive)");
+    referenceSwitchButton.onClick = [this] { referenceSwitchButtonClicked(); };
+    referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
+    referenceSwitchButton.setEnabled(true);
 
 	chooser.reset();
-
-	songTitle = "No song loaded";
 
     updateButtonStates();
 }
@@ -86,8 +74,7 @@ void AudioPlayerAudioProcessorEditor::resized()
     playButton.setBounds(10, 50, getWidth() - 20, 30);
     pauseButton.setBounds(10, 90, getWidth() - 20, 30);
     stopButton.setBounds(10, 130, getWidth() - 20, 30);
-    gainSlider.setBounds(10, 230, getWidth() - 20, 100);
-	gainLabel.setBounds(10, 200, getWidth() - 20, 20);
+	referenceSwitchButton.setBounds(10, 200, getWidth() - 20, 30);
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -102,7 +89,11 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             {
                 audioProcessor.loadFile(file);
                 playButton.setEnabled(true);
-                songTitle = file.getFileName();
+				auto fileName = audioProcessor.getFileName();
+                if (fileName != nullptr)
+                {
+					this->songTitle = *fileName;
+                }
                 changeTransportState(TransportState::Stopped);
 				repaint();
             }
@@ -122,6 +113,24 @@ void AudioPlayerAudioProcessorEditor::pauseButtonClicked()
 void AudioPlayerAudioProcessorEditor::stopButtonClicked()
 {
     changeTransportState(TransportState::Stopped);
+}
+
+void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
+{
+	audioProcessor.isReferenceActive = !audioProcessor.isReferenceActive;
+
+    if (audioProcessor.isReferenceActive)
+    {
+        referenceSwitchButton.setButtonText("A/B (Active)");
+        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+    }
+    else
+    {
+        referenceSwitchButton.setButtonText("A/B (Inactive)");
+        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightblue);
+    }
+
+	repaint();
 }
 
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
@@ -155,6 +164,14 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     default:
         break;
     }
+
+	auto fileName = audioProcessor.getFileName();
+    if (fileName != nullptr)
+    {
+		this->songTitle = *fileName;
+    }
+
+
 }
 
 void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
