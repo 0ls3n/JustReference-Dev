@@ -25,4 +25,4 @@ A simple A/B reference audio plugin built with JUCE. This plugin lets you load a
 
 ## Screenshot
 
-![[Resources/screenshot.png]]
+![[image]](Resources/screenshot.png)
