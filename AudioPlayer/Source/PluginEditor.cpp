@@ -15,7 +15,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (300, 200);
+    setSize (300, 300);
 
 	setResizable(true, true);
 
@@ -41,6 +41,24 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     stopButton.onClick = [this] { stopButtonClicked(); };
     stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
     stopButton.setEnabled(false);
+
+	addAndMakeVisible(gainSlider);
+    gainSlider.setRange(-100.0, 12, 0.01);
+    gainSlider.setValue(juce::Decibels::gainToDecibels(1.0f));
+	gainSlider.setTextValueSuffix(" dB");
+    gainSlider.onValueChange = [this]() {
+        const float dB = (float)gainSlider.getValue();
+        audioProcessor.gain = (dB <= -100.0f) ? 0.0f : juce::Decibels::decibelsToGain(dB);
+        };
+    gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 20);
+	gainSlider.setSliderStyle(juce::Slider::Rotary);
+    gainSlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
+
+	addAndMakeVisible(gainLabel);
+    gainLabel.setText("Gain in dB", juce::dontSendNotification);
+	gainLabel.setJustificationType(juce::Justification::centred);
+
+	chooser.reset();
 
 	songTitle = "No song loaded";
 
@@ -68,6 +86,8 @@ void AudioPlayerAudioProcessorEditor::resized()
     playButton.setBounds(10, 50, getWidth() - 20, 30);
     pauseButton.setBounds(10, 90, getWidth() - 20, 30);
     stopButton.setBounds(10, 130, getWidth() - 20, 30);
+    gainSlider.setBounds(10, 230, getWidth() - 20, 100);
+	gainLabel.setBounds(10, 200, getWidth() - 20, 20);
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()

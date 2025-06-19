@@ -45,7 +45,10 @@ private:
 
     juce::String songTitle;
 
+	juce::Slider gainSlider;
+	juce::Label gainLabel;
 
+	
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessorEditor)
 };

@@ -68,6 +68,8 @@ public:
     TransportState getTransportState() const { return transportState; }
     void setTransportState(TransportState newState) { transportState = newState; }
 
+    std::atomic<float> gain{ 1.0f };
+
 private:
 
     
@@ -78,4 +80,6 @@ private:
 
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+
+    
 };

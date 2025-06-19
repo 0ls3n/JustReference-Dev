@@ -134,7 +134,10 @@ bool AudioPlayerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
+
     transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+
+    buffer.applyGain(gain.load());
 }
 
 //==============================================================================
