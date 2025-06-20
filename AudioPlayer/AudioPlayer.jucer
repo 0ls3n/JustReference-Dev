@@ -4,6 +4,14 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
   <MAINGROUP id="chsqBg" name="AB Reference">
     <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
+      <FILE id="G4NQkX" name="WaveformVisualizerComponent.cpp" compile="1"
+            resource="0" file="Source/WaveformVisualizerComponent.cpp"/>
+      <FILE id="qyELtB" name="WaveformVisualizerComponent.h" compile="0"
+            resource="0" file="Source/WaveformVisualizerComponent.h"/>
+      <FILE id="xUirlf" name="SectionComponent.cpp" compile="1" resource="0"
+            file="Source/SectionComponent.cpp"/>
+      <FILE id="t1Z2TS" name="SectionComponent.h" compile="0" resource="0"
+            file="Source/SectionComponent.h"/>
       <FILE id="vm0tPa" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="NMItCL" name="PluginProcessor.h" compile="0" resource="0"

@@ -601,6 +601,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
+      <Filter>AB Reference\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SectionComponent.cpp">
+      <Filter>AB Reference\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>AB Reference\Source</Filter>
     </ClCompile>
@@ -3072,6 +3078,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
+      <Filter>AB Reference\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SectionComponent.h">
+      <Filter>AB Reference\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>AB Reference\Source</Filter>
     </ClInclude>

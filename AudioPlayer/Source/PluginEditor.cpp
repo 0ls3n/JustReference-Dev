@@ -15,12 +15,15 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (700, 500);
+    setSize (1000, 600);
 
 	setResizable(true, true);
 
+    addAndMakeVisible(header);
+    addAndMakeVisible(footer);
+
     addAndMakeVisible(&openButton);
-    openButton.setButtonText("Open...");
+    openButton.setButtonText("Open file");
     openButton.onClick = [this] { openButtonClicked(); };
     
     addAndMakeVisible(&playButton);
@@ -28,13 +31,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     playButton.onClick = [this] { playButtonClicked(); };
     playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
     playButton.setEnabled(false);
-    
-
-    addAndMakeVisible(&pauseButton);
-    pauseButton.setButtonText("Pause");
-    pauseButton.onClick = [this] { pauseButtonClicked(); };
-    pauseButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
-    pauseButton.setEnabled(false);
 
     addAndMakeVisible(&stopButton); 
     stopButton.setButtonText("Stop");
@@ -51,67 +47,59 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
-    songTitleLabel.setFont(juce::Font(15.0f, juce::Font::bold));
-    songTitleLabel.setSize(getWidth(), 50);
+    songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
+    songTitleLabel.setSize(getWidth(), 60);
 
-    formatManager.registerBasicFormats();
+    addAndMakeVisible(pluginName);
+	pluginName.setText("AB Reference", juce::NotificationType::dontSendNotification);
+	pluginName.setJustificationType(juce::Justification::centredLeft);
+	pluginName.setFont(juce::Font(20.0f, juce::Font::bold));
+	pluginName.setSize(getWidth(), 60);
 
-    thumbnail.addChangeListener(this);
+	addAndMakeVisible(waveformVisualizer);
 
 	chooser.reset();
 
     updateButtonStates();
 }
 
-AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() { thumbnail.removeChangeListener(this); }
+AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() {  }
 
 //==============================================================================
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(juce::Colour(18, 18, 18));
+    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-
-    g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
-
-    juce::ColourGradient gradient(juce::Colours::cyan, 0, 0,
-        juce::Colours::lightblue, getWidth(), 0, false);
-
-    
-
-    if (thumbnail.getTotalLength() > 0.0)
-    {
-
-        g.setColour(juce::Colours::aqua);
-        auto bounds = juce::Rectangle<int>(10, 260, getWidth() - 20, 200);
-
-        // Draw waveform using built-in thumbnail renderer
-        thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
-    }
-    else
-    {
-        g.setFont(15.0f);
-        g.drawFittedText("No waveform loaded", 10, 240, getWidth() - 20, 50, juce::Justification::centred, 1);
-    }
    
 }
 
 void AudioPlayerAudioProcessorEditor::resized()
 {
-    openButton.setBounds(10, 10, getWidth() - 20, 30);
-    playButton.setBounds(10, 50, getWidth() - 20, 30);
-    pauseButton.setBounds(10, 90, getWidth() - 20, 30);
-    stopButton.setBounds(10, 130, getWidth() - 20, 30);
-    songTitleLabel.setBounds(0, 160, getWidth(), 50);
-	referenceSwitchButton.setBounds(10, 210, getWidth() - 20, 30);
-}
+    auto headerAndFooterHeight = 60;
+	auto sidebarWidth = 80;
+    auto buttonWidth = 100;
+    auto buttonMargin = 10;
+    auto area = getLocalBounds();
 
-void AudioPlayerAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster* source)
-{
-    if (source == &thumbnail)
-        repaint(); // redraw waveform when updated
+	auto headerArea = area.removeFromTop(headerAndFooterHeight);
+	auto footerArea = area.removeFromBottom(headerAndFooterHeight);
+
+	header.setBounds(headerArea);
+    footer.setBounds(footerArea);
+
+    pluginName.setBounds(headerArea.removeFromLeft(200).reduced(0));
+    songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
+
+	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(0, 20));
+
+	openButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
+    playButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
+	stopButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
+    referenceSwitchButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
+
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -133,8 +121,7 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
                 }
                 changeTransportState(TransportState::Stopped);
 
-                thumbnail.clear();
-                thumbnail.setSource(new juce::FileInputSource(file));
+				waveformVisualizer.setAudioFile(file);
 
 				repaint();
             }
@@ -182,25 +169,22 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     {
     case TransportState::Playing:
         audioProcessor.transportSource.start();
-		playButton.setEnabled(false);
-		pauseButton.setEnabled(true);
+        playButton.onClick = [this] { pauseButtonClicked(); };
 		stopButton.setEnabled(true);
-		playButton.setButtonText("Playing...");
+		playButton.setButtonText("Pause");
         break;
     case TransportState::Paused:
         audioProcessor.transportSource.stop();
-		playButton.setEnabled(true);
-		pauseButton.setEnabled(false);
+		playButton.onClick = [this] { playButtonClicked(); };
+		playButton.setButtonText("Play");
 		stopButton.setEnabled(false);
-		playButton.setButtonText("Paused...");
         break;
     case TransportState::Stopped:
         audioProcessor.transportSource.stop();
         audioProcessor.transportSource.setPosition(0.0);
-		playButton.setEnabled(true);
-		pauseButton.setEnabled(false);
-		stopButton.setEnabled(false);
 		playButton.setButtonText("Play");
+		playButton.onClick = [this] { playButtonClicked(); };
+		stopButton.setEnabled(false);
         break;
     default:
         break;

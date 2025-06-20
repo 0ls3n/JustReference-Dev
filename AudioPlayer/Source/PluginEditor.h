@@ -10,11 +10,13 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "SectionComponent.h"
+#include "WaveformVisualizerComponent.h"
 
 //==============================================================================
 /**
 */
-class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor, private juce::ChangeListener
+class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     AudioPlayerAudioProcessorEditor (AudioPlayerAudioProcessor&);
@@ -25,8 +27,6 @@ public:
     void resized() override;
 
 private:
-
-    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
     AudioPlayerAudioProcessor& audioProcessor;
     std::unique_ptr<juce::FileChooser> chooser;
@@ -43,19 +43,18 @@ private:
 
     juce::TextButton openButton;
     juce::TextButton playButton;
-    juce::TextButton pauseButton;
     juce::TextButton stopButton;
     juce::TextButton referenceSwitchButton;
 
     juce::String songTitle;
 
     juce::Label songTitleLabel;
+    juce::Label pluginName;
 
-    juce::AudioFormatManager formatManager;
+	SectionComponent header;
+	SectionComponent footer;
 
-    juce::AudioThumbnailCache thumbnailCache{ 10 };
-    juce::AudioThumbnail thumbnail{ 512, formatManager, thumbnailCache };
-
+	WaveformVisualizerComponent waveformVisualizer;
 
 	
 
