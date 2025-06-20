@@ -22,7 +22,6 @@ Modern plugins are often cluttered with flashy meters, analyzers, and visual gim
 
 - **VST3**
 - **AU** (macOS)
-- **Standalone app** (optional)
 
 ---
 
