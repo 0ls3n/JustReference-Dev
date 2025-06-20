@@ -1,4 +1,4 @@
-# A/B Reference Audio Plugin (JUCE)
+# A/B Reference Audio Plugin
 
 A simple A/B reference audio plugin built with JUCE. This plugin lets you load a reference track (B) and switch between your DAW signal (A) and the reference track to compare them quickly and accurately. Ideal for mixing, mastering, or general A/B comparison during music production.
 
