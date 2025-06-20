@@ -49,7 +49,8 @@ private:
     juce::String songTitle;
 
     juce::Label songTitleLabel;
-    juce::Label pluginName;
+    juce::Label pluginNameLabel;
+    juce::Label brandNameLabel;
 
 	SectionComponent header;
 	SectionComponent footer;

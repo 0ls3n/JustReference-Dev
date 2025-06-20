@@ -50,11 +50,17 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
     songTitleLabel.setSize(getWidth(), 60);
 
-    addAndMakeVisible(pluginName);
-	pluginName.setText("AB Reference", juce::NotificationType::dontSendNotification);
-	pluginName.setJustificationType(juce::Justification::centredLeft);
-	pluginName.setFont(juce::Font(20.0f, juce::Font::bold));
-	pluginName.setSize(getWidth(), 60);
+    addAndMakeVisible(pluginNameLabel);
+	pluginNameLabel.setText("AB Reference", juce::NotificationType::dontSendNotification);
+	pluginNameLabel.setJustificationType(juce::Justification::centredLeft);
+	pluginNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
+	pluginNameLabel.setSize(200, 60);
+
+    addAndMakeVisible(brandNameLabel);
+	brandNameLabel.setText("JustMixing", juce::NotificationType::dontSendNotification);
+	brandNameLabel.setJustificationType(juce::Justification::centredRight);
+	brandNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
+    brandNameLabel.setSize(200, 60);
 
 	addAndMakeVisible(waveformVisualizer);
 
@@ -90,8 +96,10 @@ void AudioPlayerAudioProcessorEditor::resized()
 	header.setBounds(headerArea);
     footer.setBounds(footerArea);
 
-    pluginName.setBounds(headerArea.removeFromLeft(200).reduced(0));
+    pluginNameLabel.setBounds(headerArea.removeFromLeft(200).reduced(0));
+	brandNameLabel.setBounds(headerArea.removeFromRight(200).reduced(0));
     songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
+
 
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(0, 20));
 
