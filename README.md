@@ -8,13 +8,13 @@ Modern plugins are often cluttered with flashy meters, analyzers, and visual gim
 
 > *Built to sharpen your ears — not your eyes.*
 
-## 🎛Features
+## Features
 
-- 🔁 **Toggle between reference and mix** at the click of a button  
-- 🎵 **Waveform view** for basic visual context (no analyzers or distractions)  
-- 🧠 **Minimal design**, intentionally simple and clean  
-- 🚦 Intuitive controls with responsive layout  
-- ⚡ Lightweight, fast, and efficient  
+- **Toggle between reference and mix** at the click of a button  
+- **Waveform view** for basic visual context (no analyzers or distractions)  
+- **Minimal design**, intentionally simple and clean  
+- Intuitive controls with responsive layout  
+- Lightweight, fast, and efficient  
 
 ---
 
