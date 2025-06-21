@@ -75,7 +75,7 @@ AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() {  }
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+    g.fillAll(ApplicationColours().background);
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
@@ -172,6 +172,16 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
 	auto state = audioProcessor.getTransportState();
+
+    if (audioProcessor.isFileLoaded())
+    {
+        playButton.setEnabled(true);
+		waveformVisualizer.setAudioFile(audioProcessor.getCurrentFile());
+    }
+    else
+    {
+        playButton.setEnabled(false);
+	}
 
     switch (state)
     {

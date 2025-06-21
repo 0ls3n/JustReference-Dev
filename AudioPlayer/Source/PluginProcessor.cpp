@@ -144,10 +144,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     else {
         
     }
-
-    buffer.applyGain(gain.load());
 }
-
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const
 {   
@@ -175,6 +172,7 @@ void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeI
 
 void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
 {
+	currentFile = file;
     auto* reader = formatManager.createReaderFor(file);
     if (reader != nullptr)
     {

@@ -61,3 +61,9 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessorEditor)
 };
+
+struct ApplicationColours
+{
+public:
+	const juce::Colour background = juce::Colour(0xff1a1a1a);
+};

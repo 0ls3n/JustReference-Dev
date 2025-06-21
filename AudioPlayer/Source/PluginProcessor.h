@@ -67,8 +67,10 @@ public:
 
     TransportState getTransportState() const { return transportState; }
     void setTransportState(TransportState newState) { transportState = newState; }
+	bool isFileLoaded() const { return readerSource != nullptr; }
 
-    std::atomic<float> gain{ 1.0f };
+	juce::File getCurrentFile() const { return currentFile; }
+
 	std::atomic<bool> isReferenceActive{ false };
 
     std::shared_ptr<const juce::String> getFileName();
@@ -85,6 +87,8 @@ private:
     TransportState transportState = TransportState::Stopped;
 
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+
+    juce::File currentFile;
 
     
 };
