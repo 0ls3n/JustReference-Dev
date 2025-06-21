@@ -26,12 +26,15 @@ public:
     void resized() override;
 
 	void setAudioFile(const juce::File& audioFile);
+    void setWaveformColour(const juce::Colour& colour);
 
 private:
 
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumbnailCache{ 10 };
 	juce::AudioThumbnail thumbnail{ 512, formatManager, thumbnailCache };
+
+	juce::Colour waveformColour{ ApplicationColours().secondary };
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;

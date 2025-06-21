@@ -29,13 +29,10 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
 
-    juce::ColourGradient gradient(ApplicationColours().primary, 0, 0,
-        juce::Colours::lightblue, getWidth(), 0, false);
-
     if (thumbnail.getTotalLength() > 0.0)
     {
 
-        g.setColour(ApplicationColours().primary);
+        g.setColour(waveformColour);
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
@@ -43,7 +40,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
     }
     else
     {
-		g.setColour(ApplicationColours().primary);
+		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
         g.drawFittedText("No waveform loaded", getLocalBounds(), juce::Justification::centred, 1);
     }
@@ -61,6 +58,12 @@ void WaveformVisualizerComponent::setAudioFile(const juce::File& audioFile)
         thumbnail.clear();
 		thumbnail.setSource(new juce::FileInputSource(audioFile));
     }
+}
+
+void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
+{
+    waveformColour = colour;
+	repaint();
 }
 
 void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster* source)

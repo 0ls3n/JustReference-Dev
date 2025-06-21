@@ -25,7 +25,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(&openButton);
     openButton.setButtonText("Open file");
     openButton.onClick = [this] { openButtonClicked(); };
-    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
+    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
     
     addAndMakeVisible(&playButton);
     playButton.setButtonText("Play");
@@ -160,11 +160,13 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
     {
         referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
+        waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else
     {
         referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+        waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 
 	repaint();
@@ -219,10 +221,12 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     {
         referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
+		waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else {
         referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+		waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
