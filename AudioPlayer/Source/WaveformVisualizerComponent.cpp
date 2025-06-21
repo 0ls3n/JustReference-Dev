@@ -29,14 +29,22 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
 
-    if (thumbnail.getTotalLength() > 0.0)
+    auto duration = thumbnail.getTotalLength();
+
+    if (duration > 0.0)
     {
+
 
         g.setColour(waveformColour);
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
         thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
+
+        double playheadX = (currentPlayheadTime / duration) * getWidth();
+        g.setColour(juce::Colours::white);
+        g.drawLine(playheadX, 0.0f, playheadX, (float)getHeight(), 2.0f);
+
     }
     else
     {
@@ -64,6 +72,12 @@ void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
 {
     waveformColour = colour;
 	repaint();
+}
+
+void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
+{
+    currentPlayheadTime = timeInSeconds;
+    repaint();
 }
 
 void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster* source)

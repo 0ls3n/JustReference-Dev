@@ -17,7 +17,7 @@
 //==============================================================================
 /**
 */
-class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor
+class AudioPlayerAudioProcessorEditor  : public juce::AudioProcessorEditor, private juce::Timer
 {
 public:
     AudioPlayerAudioProcessorEditor (AudioPlayerAudioProcessor&);
@@ -60,7 +60,9 @@ private:
 
 	WaveformVisualizerComponent waveformVisualizer;
 
+    void timerCallback() override;
 	
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessorEditor)
+
 };

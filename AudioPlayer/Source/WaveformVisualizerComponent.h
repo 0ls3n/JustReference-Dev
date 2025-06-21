@@ -28,13 +28,17 @@ public:
 	void setAudioFile(const juce::File& audioFile);
     void setWaveformColour(const juce::Colour& colour);
 
+    void setPlayheadTime(double timeInSeconds);
+
 private:
 
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumbnailCache{ 10 };
-	juce::AudioThumbnail thumbnail{ 512, formatManager, thumbnailCache };
+	juce::AudioThumbnail thumbnail{ 256, formatManager, thumbnailCache };
 
 	juce::Colour waveformColour{ ApplicationColours().secondary };
+
+    double currentPlayheadTime = 0.0f;
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;

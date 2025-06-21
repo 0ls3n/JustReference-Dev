@@ -66,6 +66,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
 	addAndMakeVisible(waveformVisualizer);
 
+    startTimerHz(30);
+
 	chooser.reset();
 
     updateButtonStates();
@@ -114,6 +116,8 @@ void AudioPlayerAudioProcessorEditor::resized()
     referenceSwitchButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
     playButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	stopButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
+
+    
 
 }
 
@@ -243,4 +247,10 @@ void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
 	audioProcessor.setTransportState(state);
     updateButtonStates();
 	repaint();
+}
+
+void AudioPlayerAudioProcessorEditor::timerCallback()
+{
+    // Update the playhead!!
+    waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
 }
