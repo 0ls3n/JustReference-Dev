@@ -40,7 +40,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     stopButton.setEnabled(false);
 
     addAndMakeVisible(&referenceSwitchButton);
-    referenceSwitchButton.setButtonText("A/B (Inactive)");
+    referenceSwitchButton.setButtonText("Reference");
     referenceSwitchButton.onClick = [this] { referenceSwitchButtonClicked(); };
     referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
     referenceSwitchButton.setEnabled(true);
@@ -158,12 +158,12 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
     if (audioProcessor.isReferenceActive)
     {
-        referenceSwitchButton.setButtonText("A/B (Active)");
+        referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
     }
     else
     {
-        referenceSwitchButton.setButtonText("A/B (Inactive)");
+        referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
     }
 
@@ -217,11 +217,11 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isReferenceActive)
     {
-        referenceSwitchButton.setButtonText("A/B (Active)");
+        referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
     }
     else {
-        referenceSwitchButton.setButtonText("A/B (Inactive)");
+        referenceSwitchButton.setButtonText("Reference");
         referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
     }
 
