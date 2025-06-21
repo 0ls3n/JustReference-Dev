@@ -21,6 +21,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
     addAndMakeVisible(header);
     addAndMakeVisible(footer);
+    // addAndMakeVisible(rightSidebar);
+    // addAndMakeVisible(leftSidebar);
 
     addAndMakeVisible(&openButton);
     openButton.setButtonText("Open file");
@@ -49,7 +51,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
     songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
-    songTitleLabel.setSize(getWidth(), 60);
 
     addAndMakeVisible(pluginNameLabel);
 	pluginNameLabel.setText("AB Reference", juce::NotificationType::dontSendNotification);
@@ -89,20 +90,25 @@ void AudioPlayerAudioProcessorEditor::resized()
 	auto sidebarWidth = 80;
     auto buttonWidth = 100;
     auto buttonMargin = 10;
+    auto sideBarWidth = 100;
     auto area = getLocalBounds();
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
 	auto footerArea = area.removeFromBottom(headerAndFooterHeight);
+    auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
+    auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
 	header.setBounds(headerArea);
     footer.setBounds(footerArea);
+    leftSidebar.setBounds(leftSidebarArea);
+    rightSidebar.setBounds(rightSidebarArea);
 
     pluginNameLabel.setBounds(headerArea.removeFromLeft(200).reduced(0));
 	brandNameLabel.setBounds(headerArea.removeFromRight(200).reduced(0));
     songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
 
 
-	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(0, 20));
+	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 20));
 
 	openButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
     referenceSwitchButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
@@ -230,8 +236,6 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     }
 
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
-
-
 }
 
 void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)

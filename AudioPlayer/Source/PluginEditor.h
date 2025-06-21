@@ -55,6 +55,8 @@ private:
 
 	SectionComponent header;
 	SectionComponent footer;
+    SectionComponent leftSidebar;
+    SectionComponent rightSidebar;
 
 	WaveformVisualizerComponent waveformVisualizer;
 
