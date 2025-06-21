@@ -35,6 +35,7 @@ public:
 private:
 
     void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;
+    void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e) override;
 
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumbnailCache{ 10 };

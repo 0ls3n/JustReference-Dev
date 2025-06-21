@@ -94,6 +94,17 @@ void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
     }
 }
 
+void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e)
+{
+    double duration = thumbnail.getTotalLength();
+    if (duration > 0.0)
+    {
+        double draggedTime = (double)e.x / getWidth() * duration;
+        if (onSeek != nullptr)
+            onSeek(draggedTime);
+	}
+}
+
 void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (source == &thumbnail)
