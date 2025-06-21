@@ -17,6 +17,8 @@ WaveformVisualizerComponent::WaveformVisualizerComponent()
 	formatManager.registerBasicFormats();
 
 	thumbnail.addChangeListener(this);
+
+	currentPlayheadTime = 0.0;
 }
 
 WaveformVisualizerComponent::~WaveformVisualizerComponent()
@@ -78,6 +80,18 @@ void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
 {
     currentPlayheadTime = timeInSeconds;
     repaint();
+}
+
+void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
+{
+    double duration = thumbnail.getTotalLength();
+    if (duration > 0.0)
+    {
+        double clickedTime = (double)e.x / getWidth() * duration;
+
+        if (onSeek != nullptr)
+            onSeek(clickedTime);
+    }
 }
 
 void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster* source)

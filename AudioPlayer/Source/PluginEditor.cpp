@@ -65,6 +65,10 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     brandNameLabel.setSize(200, 60);
 
 	addAndMakeVisible(waveformVisualizer);
+    waveformVisualizer.onSeek = [this](double position) {
+        audioProcessor.transportSource.setPosition(position);
+        repaint();
+		};
 
     startTimerHz(30);
 

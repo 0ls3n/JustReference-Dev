@@ -30,7 +30,11 @@ public:
 
     void setPlayheadTime(double timeInSeconds);
 
+    std::function<void(double timeInSeconds)> onSeek;
+
 private:
+
+    void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;
 
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumbnailCache{ 10 };
