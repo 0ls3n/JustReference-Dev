@@ -21,7 +21,7 @@ Modern plugins are often cluttered with flashy meters, analyzers, and visual gim
 ## Plugin Formats
 
 - **VST3**
-- **AU** (macOS)
+- **AU** (Coming Soon!)
 
 ---
 
