@@ -3540,6 +3540,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ApplicationColours.h">
+      <Filter>AB Reference\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
       <Filter>AB Reference\Source</Filter>
     </ClInclude>

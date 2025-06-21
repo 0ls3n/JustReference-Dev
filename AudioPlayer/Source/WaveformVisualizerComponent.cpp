@@ -29,13 +29,13 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
 
-    juce::ColourGradient gradient(juce::Colours::cyan, 0, 0,
+    juce::ColourGradient gradient(ApplicationColours().primary, 0, 0,
         juce::Colours::lightblue, getWidth(), 0, false);
 
     if (thumbnail.getTotalLength() > 0.0)
     {
 
-        g.setColour(juce::Colours::aqua);
+        g.setColour(ApplicationColours().primary);
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
@@ -43,6 +43,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
     }
     else
     {
+		g.setColour(ApplicationColours().primary);
         g.setFont(15.0f);
         g.drawFittedText("No waveform loaded", getLocalBounds(), juce::Justification::centred, 1);
     }
