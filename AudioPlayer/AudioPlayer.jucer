@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
   <MAINGROUP id="chsqBg" name="AB Reference">
     <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
+      <FILE id="SEpaxo" name="BrandingHeader.cpp" compile="1" resource="0"
+            file="Source/BrandingHeader.cpp"/>
+      <FILE id="KYXRGK" name="BrandingHeader.h" compile="0" resource="0"
+            file="Source/BrandingHeader.h"/>
       <FILE id="dr00E7" name="TransportToolComponent.cpp" compile="1" resource="0"
             file="Source/TransportToolComponent.cpp"/>
       <FILE id="VjEVHg" name="TransportToolComponent.h" compile="0" resource="0"

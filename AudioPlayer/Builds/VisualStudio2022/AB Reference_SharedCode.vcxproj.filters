@@ -670,6 +670,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\BrandingHeader.cpp">
+      <Filter>AB Reference\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\TransportToolComponent.cpp">
       <Filter>AB Reference\Source</Filter>
     </ClCompile>
@@ -3543,6 +3546,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\BrandingHeader.h">
+      <Filter>AB Reference\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\TransportToolComponent.h">
       <Filter>AB Reference\Source</Filter>
     </ClInclude>

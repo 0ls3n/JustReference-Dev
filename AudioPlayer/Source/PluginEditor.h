@@ -14,6 +14,7 @@
 #include "WaveformVisualizerComponent.h"
 #include "ApplicationColours.h"
 #include "TransportToolComponent.h"
+#include "BrandingHeader.h"
 
 //==============================================================================
 /**
@@ -46,13 +47,11 @@ private:
     juce::String songTitle;
 
     juce::Label songTitleLabel;
-    juce::Label pluginNameLabel;
-    juce::Label brandNameLabel;
 
-	SectionComponent header;
     SectionComponent leftSidebar;
     SectionComponent rightSidebar;
 
+    BrandingHeader brandingHeader{ "AB Reference", "JustMixing" };
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };

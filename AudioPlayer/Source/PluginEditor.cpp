@@ -19,7 +19,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
 	setResizable(true, true);
 
-    addAndMakeVisible(header);
+    addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
 
 	transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
@@ -34,18 +34,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
     songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
-
-    addAndMakeVisible(pluginNameLabel);
-	pluginNameLabel.setText("AB Reference", juce::NotificationType::dontSendNotification);
-	pluginNameLabel.setJustificationType(juce::Justification::centredLeft);
-	pluginNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-	pluginNameLabel.setSize(200, 60);
-
-    addAndMakeVisible(brandNameLabel);
-	brandNameLabel.setText("JustMixing", juce::NotificationType::dontSendNotification);
-	brandNameLabel.setJustificationType(juce::Justification::centredRight);
-	brandNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-    brandNameLabel.setSize(200, 60);
 
 	addAndMakeVisible(waveformVisualizer);
     waveformVisualizer.onSeek = [this](double position) {
@@ -87,13 +75,9 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
-	header.setBounds(headerArea);
+	brandingHeader.setBounds(headerArea);
     transportTool.setBounds(transportArea);
-    leftSidebar.setBounds(leftSidebarArea);
-    rightSidebar.setBounds(rightSidebarArea);
 
-    pluginNameLabel.setBounds(headerArea.removeFromLeft(200).reduced(0));
-	brandNameLabel.setBounds(headerArea.removeFromRight(200).reduced(0));
     songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
 
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 20));

@@ -144,6 +144,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\BrandingHeader.cpp"/>
     <ClCompile Include="..\..\Source\TransportToolComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp"/>
     <ClCompile Include="..\..\Source\SectionComponent.cpp"/>
@@ -2837,6 +2838,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\BrandingHeader.h"/>
     <ClInclude Include="..\..\Source\TransportToolComponent.h"/>
     <ClInclude Include="..\..\Source\ApplicationColours.h"/>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h"/>
