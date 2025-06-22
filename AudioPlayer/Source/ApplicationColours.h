@@ -18,5 +18,6 @@ public:
     const juce::Colour secondary = juce::Colour(0xff3a3a3a);
     const juce::Colour text = juce::Colour(0xfff0f0f0);
     const juce::Colour textSecondary = juce::Colour(0xffaaaaaa);
+    const juce::Colour toolbar = juce::Colour(0xff1e1e1e);
 
 };

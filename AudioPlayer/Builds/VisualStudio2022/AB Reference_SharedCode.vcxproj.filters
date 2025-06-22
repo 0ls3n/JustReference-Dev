@@ -670,6 +670,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\TransportToolComponent.cpp">
+      <Filter>AB Reference\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
       <Filter>AB Reference\Source</Filter>
     </ClCompile>
@@ -3540,6 +3543,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TransportToolComponent.h">
+      <Filter>AB Reference\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\ApplicationColours.h">
       <Filter>AB Reference\Source</Filter>
     </ClInclude>

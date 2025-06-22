@@ -13,6 +13,7 @@
 #include "SectionComponent.h"
 #include "WaveformVisualizerComponent.h"
 #include "ApplicationColours.h"
+#include "TransportToolComponent.h"
 
 //==============================================================================
 /**
@@ -42,11 +43,6 @@ private:
 
     void changeTransportState(TransportState state);
 
-    juce::TextButton openButton;
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
-    juce::TextButton referenceSwitchButton;
-
     juce::String songTitle;
 
     juce::Label songTitleLabel;
@@ -54,9 +50,10 @@ private:
     juce::Label brandNameLabel;
 
 	SectionComponent header;
-	SectionComponent footer;
     SectionComponent leftSidebar;
     SectionComponent rightSidebar;
+
+	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
 
