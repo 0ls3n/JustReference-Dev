@@ -23,6 +23,8 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
 #endif
 {
     formatManager.registerBasicFormats();
+
+    audioThumbnail.addChangeListener(this);
 }
 
 AudioPlayerAudioProcessor::~AudioPlayerAudioProcessor()
@@ -179,6 +181,7 @@ void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
         transportSource.setSource(nullptr);
         readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
+        audioThumbnail.setSource(new juce::FileInputSource(file));
         setFileName(file.getFileNameWithoutExtension());
     }
 }
@@ -188,6 +191,14 @@ void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)
     std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFilename);
 
 	std::atomic_store_explicit(&filename, newPtr, std::memory_order_release);
+}
+
+void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    if (source == &audioThumbnail)
+    {
+        // Handle thumbnail changes if necessary
+	}
 }
 
 std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()

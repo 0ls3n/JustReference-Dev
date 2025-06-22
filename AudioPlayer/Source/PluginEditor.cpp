@@ -120,9 +120,6 @@ void AudioPlayerAudioProcessorEditor::resized()
     referenceSwitchButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
     playButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	stopButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
-
-    
-
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -143,8 +140,6 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
 					this->songTitle = *fileName;
                 }
                 changeTransportState(TransportState::Stopped);
-
-				waveformVisualizer.setAudioFile(file);
 
 				repaint();
             }
@@ -193,7 +188,7 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     if (audioProcessor.isFileLoaded())
     {
         playButton.setEnabled(true);
-		waveformVisualizer.setAudioFile(audioProcessor.getCurrentFile());
+        waveformVisualizer.repaint();
     }
     else
     {

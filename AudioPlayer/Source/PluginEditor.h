@@ -58,7 +58,7 @@ private:
     SectionComponent leftSidebar;
     SectionComponent rightSidebar;
 
-	WaveformVisualizerComponent waveformVisualizer;
+    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
 
     void timerCallback() override;
 	

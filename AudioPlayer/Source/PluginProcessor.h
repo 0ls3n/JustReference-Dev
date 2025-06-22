@@ -21,7 +21,7 @@ enum class TransportState
     Stopped
 };
 
-class AudioPlayerAudioProcessor  : public juce::AudioProcessor
+class AudioPlayerAudioProcessor  : public juce::AudioProcessor, private juce::ChangeListener
 {
 public:
     //==============================================================================
@@ -77,7 +77,13 @@ public:
 
     juce::AudioFormatManager formatManager;
 
+    juce::AudioThumbnail& getAudioThumbnail() { return audioThumbnail; }
+	juce::AudioThumbnailCache& getThumbnailCache() { return thumbnailCache; }
+
 private:
+
+	juce::AudioThumbnailCache thumbnailCache{ 10 };
+	juce::AudioThumbnail audioThumbnail{ 512, formatManager, thumbnailCache };
 
     void setFileName(const juce::String newFilename);
     std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song selected...") };
@@ -91,4 +97,8 @@ private:
     juce::File currentFile;
 
     
+
+    // Inherited via ChangeListener
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+
 };
