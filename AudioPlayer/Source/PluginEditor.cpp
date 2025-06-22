@@ -19,50 +19,21 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
 	setResizable(true, true);
 
-    addAndMakeVisible(header);
-    addAndMakeVisible(footer);
+    addAndMakeVisible(brandingHeader);
+    addAndMakeVisible(transportTool);
+
+	transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
+	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
+	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
+	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
+
     // addAndMakeVisible(rightSidebar);
     // addAndMakeVisible(leftSidebar);
-
-    addAndMakeVisible(&openButton);
-    openButton.setButtonText("Open file");
-    openButton.onClick = [this] { openButtonClicked(); };
-    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-    
-    addAndMakeVisible(&playButton);
-    playButton.setButtonText("Play");
-    playButton.onClick = [this] { playButtonClicked(); };
-    playButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-    playButton.setEnabled(false);
-
-    addAndMakeVisible(&stopButton); 
-    stopButton.setButtonText("Stop");
-    stopButton.onClick = [this] { stopButtonClicked(); };
-    stopButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-    stopButton.setEnabled(false);
-
-    addAndMakeVisible(&referenceSwitchButton);
-    referenceSwitchButton.setButtonText("Reference");
-    referenceSwitchButton.onClick = [this] { referenceSwitchButtonClicked(); };
-    referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-    referenceSwitchButton.setEnabled(true);
 
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
     songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
-
-    addAndMakeVisible(pluginNameLabel);
-	pluginNameLabel.setText("AB Reference", juce::NotificationType::dontSendNotification);
-	pluginNameLabel.setJustificationType(juce::Justification::centredLeft);
-	pluginNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-	pluginNameLabel.setSize(200, 60);
-
-    addAndMakeVisible(brandNameLabel);
-	brandNameLabel.setText("JustMixing", juce::NotificationType::dontSendNotification);
-	brandNameLabel.setJustificationType(juce::Justification::centredRight);
-	brandNameLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-    brandNameLabel.setSize(200, 60);
 
 	addAndMakeVisible(waveformVisualizer);
     waveformVisualizer.onSeek = [this](double position) {
@@ -100,29 +71,16 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto area = getLocalBounds();
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
-	auto footerArea = area.removeFromBottom(headerAndFooterHeight);
+	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
     auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
-	header.setBounds(headerArea);
-    footer.setBounds(footerArea);
-    leftSidebar.setBounds(leftSidebarArea);
-    rightSidebar.setBounds(rightSidebarArea);
+	brandingHeader.setBounds(headerArea);
+    transportTool.setBounds(transportArea);
 
-    pluginNameLabel.setBounds(headerArea.removeFromLeft(200).reduced(0));
-	brandNameLabel.setBounds(headerArea.removeFromRight(200).reduced(0));
     songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
 
-
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 20));
-
-	openButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
-    referenceSwitchButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
-    playButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
-	stopButton.setBounds(footerArea.removeFromLeft(buttonWidth).reduced(buttonMargin));
-
-    
-
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -136,15 +94,13 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             if (file.existsAsFile())
             {
                 audioProcessor.loadFile(file);
-                playButton.setEnabled(true);
+                transportTool.setPlayButtonEnabled(true);
 				auto fileName = audioProcessor.getFileName();
                 if (fileName != nullptr)
                 {
 					this->songTitle = *fileName;
                 }
                 changeTransportState(TransportState::Stopped);
-
-				waveformVisualizer.setAudioFile(file);
 
 				repaint();
             }
@@ -172,14 +128,12 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
     if (audioProcessor.isReferenceActive)
     {
-        referenceSwitchButton.setButtonText("Reference");
-        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
+		transportTool.setReferenceButtonColour(ApplicationColours().primary);
         waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else
     {
-        referenceSwitchButton.setButtonText("Reference");
-        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+		transportTool.setReferenceButtonColour(ApplicationColours().secondary);
         waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 
@@ -192,34 +146,34 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isFileLoaded())
     {
-        playButton.setEnabled(true);
-		waveformVisualizer.setAudioFile(audioProcessor.getCurrentFile());
+		transportTool.setPlayButtonEnabled(true);
+        waveformVisualizer.repaint();
     }
     else
     {
-        playButton.setEnabled(false);
+		transportTool.setPlayButtonEnabled(false);
 	}
 
     switch (state)
     {
     case TransportState::Playing:
         audioProcessor.transportSource.start();
-        playButton.onClick = [this] { pauseButtonClicked(); };
-		stopButton.setEnabled(true);
-		playButton.setButtonText("Pause");
+		transportTool.onPlayButtonClicked = [this] { pauseButtonClicked(); };
+		transportTool.setStopButtonEnabled(true);
+        transportTool.setPlayButtonText("Pause");
         break;
     case TransportState::Paused:
         audioProcessor.transportSource.stop();
-		playButton.onClick = [this] { playButtonClicked(); };
-		playButton.setButtonText("Play");
-		stopButton.setEnabled(false);
+		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
+		transportTool.setPlayButtonText("Play");
+		transportTool.setStopButtonEnabled(false);
         break;
     case TransportState::Stopped:
         audioProcessor.transportSource.stop();
         audioProcessor.transportSource.setPosition(0.0);
-		playButton.setButtonText("Play");
-		playButton.onClick = [this] { playButtonClicked(); };
-		stopButton.setEnabled(false);
+		transportTool.setPlayButtonText("Play");
+		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
+		transportTool.setStopButtonEnabled(false);
         break;
     default:
         break;
@@ -233,13 +187,11 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isReferenceActive)
     {
-        referenceSwitchButton.setButtonText("Reference");
-        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().primary);
+		transportTool.setReferenceButtonColour(ApplicationColours().primary);
 		waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else {
-        referenceSwitchButton.setButtonText("Reference");
-        referenceSwitchButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+		transportTool.setReferenceButtonColour(ApplicationColours().secondary);
 		waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 

@@ -12,10 +12,8 @@
 #include "WaveformVisualizerComponent.h"
 
 //==============================================================================
-WaveformVisualizerComponent::WaveformVisualizerComponent()
+WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
 {
-	formatManager.registerBasicFormats();
-
 	thumbnail.addChangeListener(this);
 
 	currentPlayheadTime = 0.0;
@@ -35,8 +33,6 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     if (duration > 0.0)
     {
-
-
         g.setColour(waveformColour);
         auto bounds = getLocalBounds();
 
@@ -61,15 +57,6 @@ void WaveformVisualizerComponent::resized()
 
 }
 
-void WaveformVisualizerComponent::setAudioFile(const juce::File& audioFile)
-{
-    if (audioFile.existsAsFile()) 
-    {
-        thumbnail.clear();
-		thumbnail.setSource(new juce::FileInputSource(audioFile));
-    }
-}
-
 void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
 {
     waveformColour = colour;
@@ -80,6 +67,11 @@ void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
 {
     currentPlayheadTime = timeInSeconds;
     repaint();
+}
+
+void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)
+{
+    
 }
 
 void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)

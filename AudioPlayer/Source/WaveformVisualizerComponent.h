@@ -19,27 +19,26 @@
 class WaveformVisualizerComponent  : public juce::Component, private juce::ChangeListener
 {
 public:
-    WaveformVisualizerComponent();
+    WaveformVisualizerComponent(juce::AudioThumbnail&);
     ~WaveformVisualizerComponent() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
 
-	void setAudioFile(const juce::File& audioFile);
     void setWaveformColour(const juce::Colour& colour);
 
     void setPlayheadTime(double timeInSeconds);
 
     std::function<void(double timeInSeconds)> onSeek;
 
+    void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
+
 private:
 
     void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;
     void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e) override;
 
-    juce::AudioFormatManager formatManager;
-    juce::AudioThumbnailCache thumbnailCache{ 10 };
-	juce::AudioThumbnail thumbnail{ 256, formatManager, thumbnailCache };
+    juce::AudioThumbnail& thumbnail;
 
 	juce::Colour waveformColour{ ApplicationColours().secondary };
 
