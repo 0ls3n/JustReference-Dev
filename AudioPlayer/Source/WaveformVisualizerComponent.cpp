@@ -48,7 +48,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 		playheadComponent.setVisible(false);
 		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
-        g.drawFittedText("Choose file, or drag and drop here!", getLocalBounds(), juce::Justification::centred, 1);
+        g.drawFittedText("Click here, or drag and drop file", getLocalBounds(), juce::Justification::centred, 1);
 
         g.drawRoundedRectangle(getLocalBounds().toFloat(), 20.0f, 1.0f);
     }
@@ -90,6 +90,11 @@ void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
 
         if (onSeek != nullptr)
             onSeek(clickedTime);
+    }
+    else {
+        if (onComponentClicked != nullptr)
+			onComponentClicked();
+
     }
 }
 

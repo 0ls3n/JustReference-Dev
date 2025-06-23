@@ -32,6 +32,7 @@ public:
 
     std::function<void(double timeInSeconds)> onSeek;
     std::function<void(const juce::StringArray&, int, int)> onFileDropped;
+    std::function<void()> onComponentClicked;
 
     void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
 

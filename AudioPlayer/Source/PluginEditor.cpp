@@ -59,6 +59,11 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
             }
         };
 
+    waveformVisualizer.onComponentClicked = [this]()
+        {
+            openButtonClicked();
+        };
+
     startTimerHz(30);
 
 	chooser.reset();
