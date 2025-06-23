@@ -74,3 +74,60 @@ void TransportToolComponent::resized()
 	stopButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 
 }
+
+void TransportToolComponent::setButtonEnabled(ButtonId buttonId, bool enabled)
+{
+    switch (buttonId)
+    {
+    case ButtonId::PlayButton:
+        playButton.setEnabled(enabled);
+        break;
+    case ButtonId::StopButton:
+        stopButton.setEnabled(enabled);
+        break;
+    case ButtonId::OpenButton:
+        openButton.setEnabled(enabled);
+        break;
+    case ButtonId::ReferenceButton:
+        referenceButton.setEnabled(enabled);
+        break;
+    }
+}
+
+void TransportToolComponent::setButtonText(ButtonId buttonId, const juce::String& text)
+{
+    switch (buttonId)
+    {
+    case ButtonId::PlayButton:
+        playButton.setButtonText(text);
+        break;
+    case ButtonId::StopButton:
+        stopButton.setButtonText(text);
+        break;
+    case ButtonId::OpenButton:
+        openButton.setButtonText(text);
+        break;
+    case ButtonId::ReferenceButton:
+        referenceButton.setButtonText(text);
+        break;
+	}
+}
+
+void TransportToolComponent::setButtonColour(ButtonId buttonId, const juce::Colour& colour)
+{
+    switch (buttonId)
+    {
+    case ButtonId::PlayButton:
+        playButton.setColour(juce::TextButton::buttonColourId, colour);
+        break;
+    case ButtonId::StopButton:
+        stopButton.setColour(juce::TextButton::buttonColourId, colour);
+        break;
+    case ButtonId::OpenButton:
+        openButton.setColour(juce::TextButton::buttonColourId, colour);
+        break;
+    case ButtonId::ReferenceButton:
+        referenceButton.setColour(juce::TextButton::buttonColourId, colour);
+        break;
+	}
+}

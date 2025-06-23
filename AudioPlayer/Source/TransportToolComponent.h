@@ -22,22 +22,27 @@ public:
     TransportToolComponent();
     ~TransportToolComponent() override;
 
+    enum class ButtonId
+    {
+        PlayButton,
+        StopButton,
+        OpenButton,
+        ReferenceButton
+    };
+
     void paint (juce::Graphics&) override;
     void resized() override;
 
-	void setPlayButtonEnabled(bool enabled) { playButton.setEnabled(enabled); }
-	void setStopButtonEnabled(bool enabled) { stopButton.setEnabled(enabled); }
-
-	void setPlayButtonText(const juce::String& text) { playButton.setButtonText(text); }
-
-    void setReferenceButtonColour(const juce::Colour& colour) { 
-        referenceButton.setColour(juce::TextButton::buttonColourId, colour); 
-	}
+    void setButtonEnabled(ButtonId buttonId, bool enabled);
+	void setButtonText(ButtonId buttonId, const juce::String& text);
+	void setButtonColour(ButtonId buttonId, const juce::Colour& colour);
 
     std::function<void()> onPlayButtonClicked;
 	std::function<void()> onStopButtonClicked;
 	std::function<void()> onOpenButtonClicked;
     std::function<void()> onReferenceButtonClicked;
+
+    
 
 private:
 
@@ -48,3 +53,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TransportToolComponent)
 };
+
+
