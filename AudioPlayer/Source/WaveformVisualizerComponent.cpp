@@ -14,6 +14,8 @@
 //==============================================================================
 WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
 {
+    setInterceptsMouseClicks(true, true);
+    setWantsKeyboardFocus(true);
 	thumbnail.addChangeListener(this);
 
 	currentPlayheadTime = 0.0;
@@ -102,5 +104,24 @@ void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster
     if (source == &thumbnail)
     {
         repaint(); // Trigger a repaint when the thumbnail changes
+	}
+}
+
+bool WaveformVisualizerComponent::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    return true;
+}
+
+void WaveformVisualizerComponent::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    if (files.size() > 0)
+    {
+        juce::File file(files[0]);
+        if (file.existsAsFile())
+        {
+            thumbnail.clear();
+            thumbnail.addChangeListener(this);
+            thumbnail.setSource(new juce::FileInputSource(file));
+        }
 	}
 }
