@@ -12,13 +12,14 @@
 #include "WaveformVisualizerComponent.h"
 
 //==============================================================================
-WaveformVisualizerComponent::WaveformVisualizerComponent()
+WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
 {
-	formatManager.registerBasicFormats();
-
+    setInterceptsMouseClicks(true, false);
 	thumbnail.addChangeListener(this);
 
 	currentPlayheadTime = 0.0;
+
+	addAndMakeVisible(playheadComponent);
 }
 
 WaveformVisualizerComponent::~WaveformVisualizerComponent()
@@ -35,39 +36,27 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     if (duration > 0.0)
     {
-
-
+		playheadComponent.setVisible(true);
         g.setColour(waveformColour);
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
         thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
-
-        double playheadX = (currentPlayheadTime / duration) * getWidth();
-        g.setColour(juce::Colours::white);
-        g.drawLine(playheadX, 0.0f, playheadX, (float)getHeight(), 2.0f);
-
     }
     else
     {
+		playheadComponent.setVisible(false);
 		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
-        g.drawFittedText("No waveform loaded", getLocalBounds(), juce::Justification::centred, 1);
+        g.drawFittedText("Right click, or drag and drop to open a file", getLocalBounds(), juce::Justification::centred, 1);
+
+        g.drawRoundedRectangle(getLocalBounds().toFloat(), 20.0f, 1.0f);
     }
 }
 
 void WaveformVisualizerComponent::resized()
 {
-
-}
-
-void WaveformVisualizerComponent::setAudioFile(const juce::File& audioFile)
-{
-    if (audioFile.existsAsFile()) 
-    {
-        thumbnail.clear();
-		thumbnail.setSource(new juce::FileInputSource(audioFile));
-    }
+    playheadComponent.setBounds(getLocalBounds());
 }
 
 void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
@@ -78,19 +67,34 @@ void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
 
 void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
 {
-    currentPlayheadTime = timeInSeconds;
-    repaint();
+    double duration = thumbnail.getTotalLength();
+
+    if (duration > 0.0)
+    {
+        double x = (timeInSeconds / duration) * getWidth();
+		playheadComponent.setPlayheadPosition(x);
+    }
+}
+
+void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)
+{
+    
 }
 
 void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
 {
     double duration = thumbnail.getTotalLength();
-    if (duration > 0.0)
+    if (duration > 0.0 && e.mods.isLeftButtonDown())
     {
         double clickedTime = (double)e.x / getWidth() * duration;
 
         if (onSeek != nullptr)
             onSeek(clickedTime);
+    }
+
+    if (e.mods.isRightButtonDown())
+    {
+        onComponentClicked();
     }
 }
 
@@ -111,4 +115,14 @@ void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster
     {
         repaint(); // Trigger a repaint when the thumbnail changes
 	}
+}
+
+bool WaveformVisualizerComponent::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    return true;
+}
+
+void WaveformVisualizerComponent::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    onFileDropped(files, x, y);
 }

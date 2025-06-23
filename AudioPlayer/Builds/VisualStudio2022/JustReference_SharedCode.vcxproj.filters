@@ -2,11 +2,14 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="AB Reference\Source">
-      <UniqueIdentifier>{A5BFE558-E9F1-5A38-8F48-9B32FB868D93}</UniqueIdentifier>
+    <Filter Include="JustReference\WaveformVisualizer">
+      <UniqueIdentifier>{D21D8DD7-D237-0733-0DA2-86402D54607B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AB Reference">
-      <UniqueIdentifier>{3359734D-5A09-0D41-C777-64A4A804027B}</UniqueIdentifier>
+    <Filter Include="JustReference\Source">
+      <UniqueIdentifier>{2CB598E4-5CF2-9537-2A36-8BF5897B48C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JustReference">
+      <UniqueIdentifier>{7070B9CD-1E32-8971-B72B-BFFD3C5801EE}</UniqueIdentifier>
     </Filter>
     <Filter Include="JUCE Modules\juce_audio_basics\audio_play_head">
       <UniqueIdentifier>{EB58F05A-A968-CEBE-40C4-107CDD8F240F}</UniqueIdentifier>
@@ -601,23 +604,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\BrandingHeader.cpp">
-      <Filter>AB Reference\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\TransportToolComponent.cpp">
-      <Filter>AB Reference\Source</Filter>
+    <ClCompile Include="..\..\Source\PlayheadComponent.cpp">
+      <Filter>JustReference\WaveformVisualizer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\BrandingHeader.cpp">
+      <Filter>JustReference\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\TransportToolComponent.cpp">
+      <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SectionComponent.cpp">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PluginEditor.cpp">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
@@ -3084,26 +3090,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\BrandingHeader.h">
-      <Filter>AB Reference\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\TransportToolComponent.h">
-      <Filter>AB Reference\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ApplicationColours.h">
-      <Filter>AB Reference\Source</Filter>
+    <ClInclude Include="..\..\Source\PlayheadComponent.h">
+      <Filter>JustReference\WaveformVisualizer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BrandingHeader.h">
+      <Filter>JustReference\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TransportToolComponent.h">
+      <Filter>JustReference\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ApplicationColours.h">
+      <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SectionComponent.h">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginEditor.h">
-      <Filter>AB Reference\Source</Filter>
+      <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>

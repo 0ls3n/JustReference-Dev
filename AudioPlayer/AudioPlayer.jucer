@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="iHl3Xw" name="AB Reference" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="iHl3Xw" name="JustReference" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
-  <MAINGROUP id="chsqBg" name="AB Reference">
-    <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
-      <FILE id="OuLeIn" name="ApplicationColours.h" compile="0" resource="0"
-            file="Source/ApplicationColours.h"/>
+  <MAINGROUP id="chsqBg" name="JustReference">
+    <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
+      <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
+            file="Source/PlayheadComponent.cpp"/>
+      <FILE id="CW2r51" name="PlayheadComponent.h" compile="0" resource="0"
+            file="Source/PlayheadComponent.h"/>
       <FILE id="G4NQkX" name="WaveformVisualizerComponent.cpp" compile="1"
             resource="0" file="Source/WaveformVisualizerComponent.cpp"/>
       <FILE id="qyELtB" name="WaveformVisualizerComponent.h" compile="0"
             resource="0" file="Source/WaveformVisualizerComponent.h"/>
+    </GROUP>
+    <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
+      <FILE id="SEpaxo" name="BrandingHeader.cpp" compile="1" resource="0"
+            file="Source/BrandingHeader.cpp"/>
+      <FILE id="KYXRGK" name="BrandingHeader.h" compile="0" resource="0"
+            file="Source/BrandingHeader.h"/>
+      <FILE id="dr00E7" name="TransportToolComponent.cpp" compile="1" resource="0"
+            file="Source/TransportToolComponent.cpp"/>
+      <FILE id="VjEVHg" name="TransportToolComponent.h" compile="0" resource="0"
+            file="Source/TransportToolComponent.h"/>
+      <FILE id="OuLeIn" name="ApplicationColours.h" compile="0" resource="0"
+            file="Source/ApplicationColours.h"/>
       <FILE id="xUirlf" name="SectionComponent.cpp" compile="1" resource="0"
             file="Source/SectionComponent.cpp"/>
       <FILE id="t1Z2TS" name="SectionComponent.h" compile="0" resource="0"

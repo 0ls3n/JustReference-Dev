@@ -13,6 +13,8 @@
 #include "SectionComponent.h"
 #include "WaveformVisualizerComponent.h"
 #include "ApplicationColours.h"
+#include "TransportToolComponent.h"
+#include "BrandingHeader.h"
 
 //==============================================================================
 /**
@@ -42,23 +44,17 @@ private:
 
     void changeTransportState(TransportState state);
 
-    juce::TextButton openButton;
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
-    juce::TextButton referenceSwitchButton;
-
     juce::String songTitle;
 
     juce::Label songTitleLabel;
-    juce::Label pluginNameLabel;
-    juce::Label brandNameLabel;
 
-	SectionComponent header;
-	SectionComponent footer;
     SectionComponent leftSidebar;
     SectionComponent rightSidebar;
 
-	WaveformVisualizerComponent waveformVisualizer;
+    BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
+	TransportToolComponent transportTool;
+
+    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
 
     void timerCallback() override;
 	
