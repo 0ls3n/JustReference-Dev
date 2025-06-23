@@ -27,9 +27,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
 
-    // addAndMakeVisible(rightSidebar);
-    // addAndMakeVisible(leftSidebar);
-
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
@@ -55,8 +52,6 @@ void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(ApplicationColours().background);
-
-    g.setColour (juce::Colours::white);
 }
 
 void AudioPlayerAudioProcessorEditor::resized()
