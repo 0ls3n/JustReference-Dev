@@ -69,8 +69,22 @@ void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
 
 void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
 {
+    double duration = thumbnail.getTotalLength();
+
+    if (duration > 0.0)
+    {
+        auto previousX = (currentPlayheadTime / duration) * getWidth();
+        auto newX = (timeInSeconds / duration) * getWidth();
+
+        // Define a buffer width around the playhead line (to clear old + draw new)
+        const int buffer = 2; // adjust depending on line width
+
+        // Repaint old and new playhead areas
+        repaint((int)previousX - buffer, 0, buffer * 2 + 1, getHeight());
+        repaint((int)newX - buffer, 0, buffer * 2 + 1, getHeight());
+    }
+
     currentPlayheadTime = timeInSeconds;
-    repaint();
 }
 
 void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)
