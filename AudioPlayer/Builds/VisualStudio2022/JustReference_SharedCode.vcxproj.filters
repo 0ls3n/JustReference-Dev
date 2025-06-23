@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="JustReference\WaveformVisualizer">
+      <UniqueIdentifier>{D21D8DD7-D237-0733-0DA2-86402D54607B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JustReference\Source">
       <UniqueIdentifier>{2CB598E4-5CF2-9537-2A36-8BF5897B48C8}</UniqueIdentifier>
     </Filter>
@@ -601,13 +604,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\PlayheadComponent.cpp">
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\BrandingHeader.cpp">
       <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\TransportToolComponent.cpp">
-      <Filter>JustReference\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
       <Filter>JustReference\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SectionComponent.cpp">
@@ -3084,6 +3090,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\PlayheadComponent.h">
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
+      <Filter>JustReference\WaveformVisualizer</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\BrandingHeader.h">
       <Filter>JustReference\Source</Filter>
     </ClInclude>
@@ -3091,9 +3103,6 @@
       <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ApplicationColours.h">
-      <Filter>JustReference\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
       <Filter>JustReference\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SectionComponent.h">
