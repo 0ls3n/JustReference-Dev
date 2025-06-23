@@ -1,4 +1,4 @@
-# A/B Reference Audio Plugin
+# JustReference Audio Plugin
 
 A minimalist JUCE-based plugin that helps you make better mixing decisions — **with your ears, not your eyes**.
 
