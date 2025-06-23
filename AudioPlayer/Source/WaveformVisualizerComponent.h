@@ -16,13 +16,13 @@
 //==============================================================================
 /*
 */
-class WaveformVisualizerComponent  : public juce::Component, private juce::ChangeListener
+class WaveformVisualizerComponent : public juce::Component, private juce::ChangeListener
 {
 public:
     WaveformVisualizerComponent(juce::AudioThumbnail&);
     ~WaveformVisualizerComponent() override;
 
-    void paint (juce::Graphics&) override;
+    void paint(juce::Graphics&) override;
     void resized() override;
 
     void setWaveformColour(const juce::Colour& colour);
@@ -40,7 +40,7 @@ private:
 
     juce::AudioThumbnail& thumbnail;
 
-	juce::Colour waveformColour{ ApplicationColours().secondary };
+    juce::Colour waveformColour{ ApplicationColours().secondary };
 
     double currentPlayheadTime = 0.0f;
 
@@ -49,8 +49,4 @@ private:
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
-    
-
-        
-
 };

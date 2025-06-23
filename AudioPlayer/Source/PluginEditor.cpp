@@ -92,7 +92,7 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             if (file.existsAsFile())
             {
                 audioProcessor.loadFile(file);
-                transportTool.setPlayButtonEnabled(true);
+                transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
 				auto fileName = audioProcessor.getFileName();
                 if (fileName != nullptr)
                 {
@@ -126,12 +126,12 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setReferenceButtonColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
         waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else
     {
-		transportTool.setReferenceButtonColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
         waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 
@@ -144,12 +144,12 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isFileLoaded())
     {
-		transportTool.setPlayButtonEnabled(true);
+        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
         waveformVisualizer.repaint();
     }
     else
     {
-		transportTool.setPlayButtonEnabled(false);
+        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, false);
 	}
 
     switch (state)
@@ -157,21 +157,21 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     case TransportState::Playing:
         audioProcessor.transportSource.start();
 		transportTool.onPlayButtonClicked = [this] { pauseButtonClicked(); };
-		transportTool.setStopButtonEnabled(true);
-        transportTool.setPlayButtonText("Pause");
+        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, true);
+		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Pause");
         break;
     case TransportState::Paused:
         audioProcessor.transportSource.stop();
 		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setPlayButtonText("Play");
-		transportTool.setStopButtonEnabled(false);
+		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
+		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
         break;
     case TransportState::Stopped:
         audioProcessor.transportSource.stop();
         audioProcessor.transportSource.setPosition(0.0);
-		transportTool.setPlayButtonText("Play");
+		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
 		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setStopButtonEnabled(false);
+		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
         break;
     default:
         break;
@@ -185,11 +185,11 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setReferenceButtonColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
 		waveformVisualizer.setWaveformColour(ApplicationColours().primary);
     }
     else {
-		transportTool.setReferenceButtonColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
 		waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
     }
 
