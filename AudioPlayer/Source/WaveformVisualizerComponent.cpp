@@ -14,11 +14,12 @@
 //==============================================================================
 WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
 {
-    setInterceptsMouseClicks(true, true);
-    setWantsKeyboardFocus(true);
+    setInterceptsMouseClicks(true, false);
 	thumbnail.addChangeListener(this);
 
 	currentPlayheadTime = 0.0;
+
+	addAndMakeVisible(playheadComponent);
 }
 
 WaveformVisualizerComponent::~WaveformVisualizerComponent()
@@ -35,19 +36,16 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
     if (duration > 0.0)
     {
+		playheadComponent.setVisible(true);
         g.setColour(waveformColour);
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
         thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
-
-        double playheadX = (currentPlayheadTime / duration) * getWidth();
-        g.setColour(juce::Colours::white);
-        g.drawLine(playheadX, 0.0f, playheadX, (float)getHeight(), 2.0f);
-
     }
     else
     {
+		playheadComponent.setVisible(false);
 		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
         g.drawFittedText("Choose file, or drag and drop here!", getLocalBounds(), juce::Justification::centred, 1);
@@ -58,7 +56,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 
 void WaveformVisualizerComponent::resized()
 {
-
+    playheadComponent.setBounds(getLocalBounds());
 }
 
 void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
@@ -73,18 +71,9 @@ void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
 
     if (duration > 0.0)
     {
-        auto previousX = (currentPlayheadTime / duration) * getWidth();
-        auto newX = (timeInSeconds / duration) * getWidth();
-
-        // Define a buffer width around the playhead line (to clear old + draw new)
-        const int buffer = 2; // adjust depending on line width
-
-        // Repaint old and new playhead areas
-        repaint((int)previousX - buffer, 0, buffer * 2 + 1, getHeight());
-        repaint((int)newX - buffer, 0, buffer * 2 + 1, getHeight());
+        double x = (timeInSeconds / duration) * getWidth();
+		playheadComponent.setPlayheadPosition(x);
     }
-
-    currentPlayheadTime = timeInSeconds;
 }
 
 void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)

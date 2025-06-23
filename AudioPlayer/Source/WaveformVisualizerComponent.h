@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "ApplicationColours.h"
+#include "PlayheadComponent.h"
 
 //==============================================================================
 /*
@@ -50,6 +51,8 @@ private:
 
     bool isInterestedInFileDrag(const juce::StringArray& files) override;
     void filesDropped(const juce::StringArray& files, int x, int y) override;
+
+	PlayheadComponent playheadComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };
