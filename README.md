@@ -28,3 +28,8 @@ Modern plugins are often cluttered with flashy meters, analyzers, and visual gim
 ## Screenshot
 
 ![[image]](Resources/screenshot.png)
+
+## License
+
+This project is **not open source**. It is proprietary software owned by Rasmus Olsen.  
+You are not permitted to copy, modify, or redistribute any part of this repository.
