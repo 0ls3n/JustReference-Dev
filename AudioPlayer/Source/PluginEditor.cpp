@@ -38,6 +38,27 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         repaint();
 		};
 
+    waveformVisualizer.onFileDropped = [this](const juce::StringArray& files, int x, int y)
+        {
+            if (files.size() > 0)
+            {
+                juce::File file(files[0]);
+                if (file.existsAsFile())
+                {
+                    audioProcessor.loadFile(file);
+                    transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
+                    auto fileName = audioProcessor.getFileName();
+                    if (fileName != nullptr)
+                    {
+                        this->songTitle = *fileName;
+                    }
+                    changeTransportState(TransportState::Stopped);
+
+                    repaint();
+                }
+            }
+        };
+
     startTimerHz(30);
 
 	chooser.reset();

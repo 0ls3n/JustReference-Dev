@@ -114,14 +114,5 @@ bool WaveformVisualizerComponent::isInterestedInFileDrag(const juce::StringArray
 
 void WaveformVisualizerComponent::filesDropped(const juce::StringArray& files, int x, int y)
 {
-    if (files.size() > 0)
-    {
-        juce::File file(files[0]);
-        if (file.existsAsFile())
-        {
-            thumbnail.clear();
-            thumbnail.addChangeListener(this);
-            thumbnail.setSource(new juce::FileInputSource(file));
-        }
-	}
+    onFileDropped(files, x, y);
 }

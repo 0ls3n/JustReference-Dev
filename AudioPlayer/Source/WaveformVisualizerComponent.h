@@ -30,6 +30,7 @@ public:
     void setPlayheadTime(double timeInSeconds);
 
     std::function<void(double timeInSeconds)> onSeek;
+    std::function<void(const juce::StringArray&, int, int)> onFileDropped;
 
     void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
 
