@@ -50,7 +50,9 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
     {
 		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
-        g.drawFittedText("No waveform loaded", getLocalBounds(), juce::Justification::centred, 1);
+        g.drawFittedText("Choose file, or drag and drop here!", getLocalBounds(), juce::Justification::centred, 1);
+
+        g.drawRoundedRectangle(getLocalBounds().toFloat(), 20.0f, 1.0f);
     }
 }
 
