@@ -57,8 +57,6 @@ void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillAll(ApplicationColours().background);
 
     g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-   
 }
 
 void AudioPlayerAudioProcessorEditor::resized()

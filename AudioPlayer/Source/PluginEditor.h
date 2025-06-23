@@ -51,7 +51,7 @@ private:
     SectionComponent leftSidebar;
     SectionComponent rightSidebar;
 
-    BrandingHeader brandingHeader{ "AB Reference", "JustMixing" };
+    BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
