@@ -83,7 +83,7 @@ public:
 private:
 
 	juce::AudioThumbnailCache thumbnailCache{ 10 };
-	juce::AudioThumbnail audioThumbnail{ 512, formatManager, thumbnailCache };
+	juce::AudioThumbnail audioThumbnail{ 256, formatManager, thumbnailCache };
 
     void setFileName(const juce::String newFilename);
     std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song selected...") };

@@ -14,6 +14,8 @@
 //==============================================================================
 WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
 {
+    setInterceptsMouseClicks(true, true);
+    setWantsKeyboardFocus(true);
 	thumbnail.addChangeListener(this);
 
 	currentPlayheadTime = 0.0;
@@ -48,7 +50,9 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
     {
 		g.setColour(juce::Colours::white);
         g.setFont(15.0f);
-        g.drawFittedText("No waveform loaded", getLocalBounds(), juce::Justification::centred, 1);
+        g.drawFittedText("Choose file, or drag and drop here!", getLocalBounds(), juce::Justification::centred, 1);
+
+        g.drawRoundedRectangle(getLocalBounds().toFloat(), 20.0f, 1.0f);
     }
 }
 
@@ -103,4 +107,14 @@ void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster
     {
         repaint(); // Trigger a repaint when the thumbnail changes
 	}
+}
+
+bool WaveformVisualizerComponent::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    return true;
+}
+
+void WaveformVisualizerComponent::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    onFileDropped(files, x, y);
 }

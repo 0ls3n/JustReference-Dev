@@ -15,9 +15,9 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "FileDescription",  "AB Reference\0"
+      VALUE "FileDescription",  "JustReference\0"
       VALUE "FileVersion",  "1.0.0\0"
-      VALUE "ProductName",  "AB Reference\0"
+      VALUE "ProductName",  "JustReference\0"
       VALUE "ProductVersion",  "1.0.0\0"
     END
   END

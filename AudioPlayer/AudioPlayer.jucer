@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="iHl3Xw" name="AB Reference" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="iHl3Xw" name="JustReference" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
-  <MAINGROUP id="chsqBg" name="AB Reference">
+  <MAINGROUP id="chsqBg" name="JustReference">
     <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
       <FILE id="SEpaxo" name="BrandingHeader.cpp" compile="1" resource="0"
             file="Source/BrandingHeader.cpp"/>

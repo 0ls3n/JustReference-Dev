@@ -16,7 +16,7 @@
 //==============================================================================
 /*
 */
-class WaveformVisualizerComponent : public juce::Component, private juce::ChangeListener
+class WaveformVisualizerComponent : public juce::Component, private juce::ChangeListener, public juce::FileDragAndDropTarget
 {
 public:
     WaveformVisualizerComponent(juce::AudioThumbnail&);
@@ -30,6 +30,7 @@ public:
     void setPlayheadTime(double timeInSeconds);
 
     std::function<void(double timeInSeconds)> onSeek;
+    std::function<void(const juce::StringArray&, int, int)> onFileDropped;
 
     void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
 
@@ -47,6 +48,8 @@ private:
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
+    bool isInterestedInFileDrag(const juce::StringArray& files) override;
+    void filesDropped(const juce::StringArray& files, int x, int y) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };
