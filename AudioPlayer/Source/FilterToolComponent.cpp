@@ -17,22 +17,22 @@ FilterToolComponent::FilterToolComponent()
     addAndMakeVisible(subFilterButton);
 	subFilterButton.setButtonText("Sub");
 	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	subFilterButton.setSize(20, getHeight());
+	//subFilterButton.setSize(20, getHeight());
 
 	addAndMakeVisible(lowMidFilterButton);
 	lowMidFilterButton.setButtonText("Low Mid");
 	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	lowMidFilterButton.setSize(20, getHeight());
+	//lowMidFilterButton.setSize(20, getHeight());
 
 	addAndMakeVisible(highMidFilterButton);
 	highMidFilterButton.setButtonText("High Mid");
 	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	highMidFilterButton.setSize(20, getHeight());
+	//highMidFilterButton.setSize(20, getHeight());
 
     addAndMakeVisible(airFilterButton);
 	airFilterButton.setButtonText("Air");
 	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	airFilterButton.setSize(20, getHeight());
+	//airFilterButton.setSize(20, getHeight());
 }
 
 FilterToolComponent::~FilterToolComponent()
@@ -50,7 +50,7 @@ void FilterToolComponent::resized()
 	
 	int buttonWidth = 80;
 	int buttonHeight = 30;
-	int buttonSpacing = 175;
+	int buttonSpacing = 20;
 
 	int totalWidth = 4 * buttonWidth + 3 * buttonSpacing;
 	int startX = (area.getWidth() - totalWidth) / 2;
