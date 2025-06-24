@@ -76,11 +76,6 @@ void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
     }
 }
 
-void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)
-{
-    
-}
-
 void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
 {
     double duration = thumbnail.getTotalLength();

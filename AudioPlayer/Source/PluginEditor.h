@@ -15,6 +15,7 @@
 #include "ApplicationColours.h"
 #include "TransportToolComponent.h"
 #include "BrandingHeader.h"
+#include "FilterToolComponent.h"
 
 //==============================================================================
 /**
@@ -52,6 +53,7 @@ private:
     SectionComponent rightSidebar;
 
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
+	FilterToolComponent filterTool;
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };

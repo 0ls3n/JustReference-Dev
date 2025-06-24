@@ -34,8 +34,6 @@ public:
     std::function<void(const juce::StringArray&, int, int)> onFileDropped;
     std::function<void()> onComponentClicked;
 
-    void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
-
 private:
 
     void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;

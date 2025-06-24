@@ -21,6 +21,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
     addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
+	addAndMakeVisible(filterTool);
 
 	transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
 	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
@@ -91,15 +92,15 @@ void AudioPlayerAudioProcessorEditor::resized()
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
 	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
+	auto filterArea = area.removeFromBottom(headerAndFooterHeight);
     auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
 	brandingHeader.setBounds(headerArea);
+    songTitleLabel.setBounds(area.removeFromTop(60));
+	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
+	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
-
-    songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
-
-	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 20));
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
