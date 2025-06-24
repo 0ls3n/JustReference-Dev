@@ -17,22 +17,34 @@ FilterToolComponent::FilterToolComponent()
     addAndMakeVisible(subFilterButton);
 	subFilterButton.setButtonText("Sub");
 	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	//subFilterButton.setSize(20, getHeight());
+	subFilterButton.onClick = [this]() {
+			if (onSubFilterButtonClicked)
+				onSubFilterButtonClicked();
+		};
 
 	addAndMakeVisible(lowMidFilterButton);
 	lowMidFilterButton.setButtonText("Low Mid");
 	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	//lowMidFilterButton.setSize(20, getHeight());
+	lowMidFilterButton.onClick = [this]() {
+			if (onLowMidFilterButtonClicked)
+				onLowMidFilterButtonClicked();
+		};
 
 	addAndMakeVisible(highMidFilterButton);
 	highMidFilterButton.setButtonText("High Mid");
 	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	//highMidFilterButton.setSize(20, getHeight());
+	highMidFilterButton.onClick = [this]() {
+			if (onHighMidFilterButtonClicked)
+				onHighMidFilterButtonClicked();
+		};
 
     addAndMakeVisible(airFilterButton);
 	airFilterButton.setButtonText("Air");
 	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	//airFilterButton.setSize(20, getHeight());
+	airFilterButton.onClick = [this]() {
+			if (onAirFilterButtonClicked)
+				onAirFilterButtonClicked();
+		};
 }
 
 FilterToolComponent::~FilterToolComponent()
@@ -60,4 +72,25 @@ void FilterToolComponent::resized()
 	lowMidFilterButton.setBounds(startX + (buttonWidth + buttonSpacing), y, buttonWidth, buttonHeight);
 	highMidFilterButton.setBounds(startX + 2 * (buttonWidth + buttonSpacing), y, buttonWidth, buttonHeight);
 	airFilterButton.setBounds(startX + 3 * (buttonWidth + buttonSpacing), y, buttonWidth, buttonHeight);
+}
+
+void FilterToolComponent::changeButtonColour(FilterButton filterButton, juce::Colour colour)
+{
+	switch (filterButton)
+	{
+	case FilterToolComponent::SubFilterButton:
+		subFilterButton.setColour(juce::TextButton::buttonColourId, colour);
+		break;
+	case FilterToolComponent::LowMidFilterButton:
+		lowMidFilterButton.setColour(juce::TextButton::buttonColourId, colour);
+		break;
+	case FilterToolComponent::HighMidFilterButton:
+		highMidFilterButton.setColour(juce::TextButton::buttonColourId, colour);
+		break;
+	case FilterToolComponent::AirFilterButton:
+		airFilterButton.setColour(juce::TextButton::buttonColourId, colour);
+		break;
+	default:
+		break;
+	}
 }
