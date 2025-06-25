@@ -41,7 +41,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
-        thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
+        thumbnail.drawChannel(g, bounds, 0.0, thumbnail.getTotalLength(), 0,.7f);
     }
     else
     {
