@@ -99,6 +99,15 @@ void AudioPlayerAudioProcessor::changeProgramName (int index, const juce::String
 void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+
+    juce::dsp::ProcessSpec spec;
+
+	spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 1;
+	spec.sampleRate = sampleRate;
+
+	leftChain.prepare(spec);
+	rightChain.prepare(spec);
 }
 
 void AudioPlayerAudioProcessor::releaseResources()
@@ -146,6 +155,17 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
     }
+
+	juce::dsp::AudioBlock<float> block(buffer);
+
+	auto leftBlock = block.getSingleChannelBlock(0);
+	auto rightBlock = block.getSingleChannelBlock(1);
+
+	juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
+	juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
+
+	leftChain.process(leftContext);
+	rightChain.process(rightContext);
 }
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const
