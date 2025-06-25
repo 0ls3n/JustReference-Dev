@@ -109,16 +109,22 @@ void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 	leftChain.prepare(spec);
 	rightChain.prepare(spec);
 
-    auto subCoeffecient = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 120.0f);
-    auto lowMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 800.0, 7.0f);
-    auto highMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 5000.0, 7.0f);
-    auto highCoeffecient = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 10000.0f);
+    auto subCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 60.0f, 8.0f);
+    auto lowMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 500.0, 6.0f);
+    auto highMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 3000.0, 7.0f);
+    auto highCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 10000.0f, 9.0f);
+
+    leftChain.get<0>().coefficients = subCoeffecient;
+    rightChain.get<0>().coefficients = subCoeffecient;
 
     leftChain.get<1>().coefficients = lowMidCoeffecient;
     rightChain.get<1>().coefficients = lowMidCoeffecient;
 
     leftChain.get<2>().coefficients = highMidCoeffecient;
     rightChain.get<2>().coefficients = highMidCoeffecient;
+
+    leftChain.get<3>().coefficients = highCoeffecient;
+    rightChain.get<3>().coefficients = highCoeffecient;
 }
 
 void AudioPlayerAudioProcessor::releaseResources()

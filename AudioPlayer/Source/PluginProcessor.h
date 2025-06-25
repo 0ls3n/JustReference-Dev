@@ -106,13 +106,11 @@ private:
 
     using Filter = juce::dsp::IIR::Filter<float>;
 
-    using CutFilter = juce::dsp::ProcessorChain <Filter, Filter, Filter, Filter>;
-
-    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, Filter, CutFilter>;
+    using MonoChain = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
 
     MonoChain leftChain, rightChain;
 
-    SoloFilterType soloFilterType = SoloFilterType::HighMid;
+    SoloFilterType soloFilterType = SoloFilterType::High;
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
