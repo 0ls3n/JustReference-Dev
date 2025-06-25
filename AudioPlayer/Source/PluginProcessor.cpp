@@ -108,6 +108,17 @@ void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 
 	leftChain.prepare(spec);
 	rightChain.prepare(spec);
+
+    auto subCoeffecient = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 120.0f);
+    auto lowMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 800.0, 7.0f);
+    auto highMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 5000.0, 7.0f);
+    auto highCoeffecient = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 10000.0f);
+
+    leftChain.get<1>().coefficients = lowMidCoeffecient;
+    rightChain.get<1>().coefficients = lowMidCoeffecient;
+
+    leftChain.get<2>().coefficients = highMidCoeffecient;
+    rightChain.get<2>().coefficients = highMidCoeffecient;
 }
 
 void AudioPlayerAudioProcessor::releaseResources()
@@ -149,6 +160,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 		// REFERENCE: Process the audio block with the transport source
         buffer.clear();
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+
     }
     else {
 		// DAW: Process the audio regularly
@@ -157,15 +169,35 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     }
 
 	juce::dsp::AudioBlock<float> block(buffer);
-
+    
 	auto leftBlock = block.getSingleChannelBlock(0);
 	auto rightBlock = block.getSingleChannelBlock(1);
-
+    
 	juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
 	juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
+    
+    switch (soloFilterType)
+    {
+    case SoloFilterType::Sub:
+        leftChain.get<0>().process(leftContext);
+        rightChain.get<0>().process(rightContext);
+        break;
+    case SoloFilterType::LowMid:
+        leftChain.get<1>().process(leftContext);
+        rightChain.get<1>().process(rightContext);
+        break;
+    case SoloFilterType::HighMid:
+        leftChain.get<2>().process(leftContext);
+        rightChain.get<2>().process(rightContext);
+        break;
+    case SoloFilterType::High:
+        leftChain.get<3>().process(leftContext);
+        rightChain.get<3>().process(rightContext);
+        break;
+    default:
+        break;
+    }
 
-	leftChain.process(leftContext);
-	rightChain.process(rightContext);
 }
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const

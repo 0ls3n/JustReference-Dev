@@ -21,6 +21,14 @@ enum class TransportState
     Stopped
 };
 
+enum class SoloFilterType
+{
+    Sub,
+    LowMid,
+    HighMid,
+    High
+};
+
 class AudioPlayerAudioProcessor  : public juce::AudioProcessor, private juce::ChangeListener
 {
 public:
@@ -104,7 +112,7 @@ private:
 
     MonoChain leftChain, rightChain;
 
-    
+    SoloFilterType soloFilterType = SoloFilterType::HighMid;
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
