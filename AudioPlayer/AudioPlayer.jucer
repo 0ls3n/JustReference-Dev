@@ -3,6 +3,16 @@
 <JUCERPROJECT id="iHl3Xw" name="JustReference" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
   <MAINGROUP id="chsqBg" name="JustReference">
+    <GROUP id="{4EE3BEEF-EC93-1CFD-D2F1-350E4D88A875}" name="SoloFilterProcessing">
+      <FILE id="eTxIjE" name="FilterToolComponent.cpp" compile="1" resource="0"
+            file="Source/FilterToolComponent.cpp"/>
+      <FILE id="Sjxygq" name="FilterToolComponent.h" compile="0" resource="0"
+            file="Source/FilterToolComponent.h"/>
+      <FILE id="XDhU9r" name="SoloFilterProcessing.cpp" compile="1" resource="0"
+            file="Source/SoloFilterProcessing.cpp"/>
+      <FILE id="RuYEBe" name="SoloFilterProcessing.h" compile="0" resource="0"
+            file="Source/SoloFilterProcessing.h"/>
+    </GROUP>
     <GROUP id="{87B7227B-EB81-2859-5117-2E909EE5CCAE}" name="GUI">
       <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
         <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
@@ -14,10 +24,6 @@
         <FILE id="qyELtB" name="WaveformVisualizerComponent.h" compile="0"
               resource="0" file="Source/WaveformVisualizerComponent.h"/>
       </GROUP>
-      <FILE id="eTxIjE" name="FilterToolComponent.cpp" compile="1" resource="0"
-            file="Source/FilterToolComponent.cpp"/>
-      <FILE id="Sjxygq" name="FilterToolComponent.h" compile="0" resource="0"
-            file="Source/FilterToolComponent.h"/>
       <FILE id="SEpaxo" name="BrandingHeader.cpp" compile="1" resource="0"
             file="Source/BrandingHeader.cpp"/>
       <FILE id="KYXRGK" name="BrandingHeader.h" compile="0" resource="0"

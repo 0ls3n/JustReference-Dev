@@ -144,9 +144,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\FilterToolComponent.cpp"/>
+    <ClCompile Include="..\..\Source\SoloFilterProcessing.cpp"/>
     <ClCompile Include="..\..\Source\PlayheadComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp"/>
-    <ClCompile Include="..\..\Source\FilterToolComponent.cpp"/>
     <ClCompile Include="..\..\Source\BrandingHeader.cpp"/>
     <ClCompile Include="..\..\Source\TransportToolComponent.cpp"/>
     <ClCompile Include="..\..\Source\SectionComponent.cpp"/>
@@ -2559,9 +2560,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\FilterToolComponent.h"/>
+    <ClInclude Include="..\..\Source\SoloFilterProcessing.h"/>
     <ClInclude Include="..\..\Source\PlayheadComponent.h"/>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h"/>
-    <ClInclude Include="..\..\Source\FilterToolComponent.h"/>
     <ClInclude Include="..\..\Source\BrandingHeader.h"/>
     <ClInclude Include="..\..\Source\TransportToolComponent.h"/>
     <ClInclude Include="..\..\Source\ApplicationColours.h"/>

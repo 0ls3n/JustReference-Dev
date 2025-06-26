@@ -100,31 +100,7 @@ void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 {
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
 
-    juce::dsp::ProcessSpec spec;
-
-	spec.maximumBlockSize = samplesPerBlock;
-    spec.numChannels = 1;
-	spec.sampleRate = sampleRate;
-
-	leftChain.prepare(spec);
-	rightChain.prepare(spec);
-
-    auto subCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 60.0f, 8.0f);
-    auto lowMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 500.0, 6.0f);
-    auto highMidCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 3000.0, 7.0f);
-    auto highCoeffecient = juce::dsp::IIR::Coefficients<float>::makeBandPass(sampleRate, 10000.0f, 9.0f);
-
-    leftChain.get<0>().coefficients = subCoeffecient;
-    rightChain.get<0>().coefficients = subCoeffecient;
-
-    leftChain.get<1>().coefficients = lowMidCoeffecient;
-    rightChain.get<1>().coefficients = lowMidCoeffecient;
-
-    leftChain.get<2>().coefficients = highMidCoeffecient;
-    rightChain.get<2>().coefficients = highMidCoeffecient;
-
-    leftChain.get<3>().coefficients = highCoeffecient;
-    rightChain.get<3>().coefficients = highCoeffecient;
+	soloFilterProcessing.prepareToPlay(sampleRate, samplesPerBlock);
 }
 
 void AudioPlayerAudioProcessor::releaseResources()
@@ -174,40 +150,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
     }
 
-	juce::dsp::AudioBlock<float> block(buffer);
-    
-	auto leftBlock = block.getSingleChannelBlock(0);
-	auto rightBlock = block.getSingleChannelBlock(1);
-    
-	juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
-	juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
-    
-
-    
-    switch (soloFilterType)
-    {
-    case SoloFilterType::Sub:
-        leftChain.get<0>().process(leftContext);
-        rightChain.get<0>().process(rightContext);
-        break;
-    case SoloFilterType::LowMid:
-        leftChain.get<1>().process(leftContext);
-        rightChain.get<1>().process(rightContext);
-        break;
-    case SoloFilterType::HighMid:
-        leftChain.get<2>().process(leftContext);
-        rightChain.get<2>().process(rightContext);
-        break;
-    case SoloFilterType::High:
-        leftChain.get<3>().process(leftContext);
-        rightChain.get<3>().process(rightContext);
-        break;
-    case SoloFilterType::NoSolo:
-        // No filter applied, just pass through the audio
-		break;
-    default:
-        break;
-    }
+    soloFilterProcessing.process(buffer, midiMessages);
     
 
 }

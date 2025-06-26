@@ -53,7 +53,7 @@ private:
     SectionComponent rightSidebar;
 
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
-    FilterToolComponent filterTool{ audioProcessor.getSoloFilterType() };
+    FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };

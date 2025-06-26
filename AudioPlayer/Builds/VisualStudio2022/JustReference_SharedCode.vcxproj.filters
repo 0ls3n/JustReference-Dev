@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="JustReference\SoloFilterProcessing">
+      <UniqueIdentifier>{CFD0752E-5C28-95EB-FEF6-D1CD91480B10}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JustReference\GUI\WaveformVisualizer">
       <UniqueIdentifier>{D7EED565-E645-6523-06C5-A34F6DEB3E05}</UniqueIdentifier>
     </Filter>
@@ -631,14 +634,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\FilterToolComponent.cpp">
+      <Filter>JustReference\SoloFilterProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoloFilterProcessing.cpp">
+      <Filter>JustReference\SoloFilterProcessing</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PlayheadComponent.cpp">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\FilterToolComponent.cpp">
-      <Filter>JustReference\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\BrandingHeader.cpp">
       <Filter>JustReference\GUI</Filter>
@@ -3231,14 +3237,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\FilterToolComponent.h">
+      <Filter>JustReference\SoloFilterProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoloFilterProcessing.h">
+      <Filter>JustReference\SoloFilterProcessing</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PlayheadComponent.h">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\FilterToolComponent.h">
-      <Filter>JustReference\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\BrandingHeader.h">
       <Filter>JustReference\GUI</Filter>
