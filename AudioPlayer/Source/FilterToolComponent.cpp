@@ -68,6 +68,8 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 			repaint();
 		};
 
+	updateFilterButtons();
+
 }
 
 FilterToolComponent::~FilterToolComponent()
