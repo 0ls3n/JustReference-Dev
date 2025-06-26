@@ -12,39 +12,62 @@
 #include "FilterToolComponent.h"
 
 //==============================================================================
-FilterToolComponent::FilterToolComponent()
+FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : soloFilter(sharedFilterType)
 {
     addAndMakeVisible(subFilterButton);
 	subFilterButton.setButtonText("Sub");
 	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	subFilterButton.onClick = [this]() {
-			if (onSubFilterButtonClicked)
-				onSubFilterButtonClicked();
+	subFilterButton.onClick = [this]() 
+		{
+			if (soloFilter == SoloFilterType::Sub)
+				soloFilter = SoloFilterType::NoSolo; // Toggle off if already selected
+			else {
+				soloFilter = SoloFilterType::Sub;
+			}
+				repaint();
 		};
 
 	addAndMakeVisible(lowMidFilterButton);
 	lowMidFilterButton.setButtonText("Low Mid");
 	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	lowMidFilterButton.onClick = [this]() {
-			if (onLowMidFilterButtonClicked)
-				onLowMidFilterButtonClicked();
+	lowMidFilterButton.onClick = [this]() 
+		{
+			if (soloFilter == SoloFilterType::LowMid)
+				soloFilter = SoloFilterType::NoSolo; // Toggle off if already selected
+			else {
+				soloFilter = SoloFilterType::LowMid;
+			}
+			repaint();
 		};
 
 	addAndMakeVisible(highMidFilterButton);
 	highMidFilterButton.setButtonText("High Mid");
 	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	highMidFilterButton.onClick = [this]() {
-			if (onHighMidFilterButtonClicked)
-				onHighMidFilterButtonClicked();
+	highMidFilterButton.onClick = [this]()
+		{
+			if (soloFilter == SoloFilterType::HighMid)
+				soloFilter = SoloFilterType::NoSolo; // Toggle off if already selected
+			else
+			{
+				soloFilter = SoloFilterType::HighMid;
+			}
+			repaint();
 		};
 
     addAndMakeVisible(airFilterButton);
 	airFilterButton.setButtonText("Air");
 	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-	airFilterButton.onClick = [this]() {
-			if (onAirFilterButtonClicked)
-				onAirFilterButtonClicked();
+	airFilterButton.onClick = [this]() 
+		{
+			if (soloFilter == SoloFilterType::High)
+				soloFilter = SoloFilterType::NoSolo; // Toggle off if already selected
+			else
+			{
+				soloFilter = SoloFilterType::High;
+			}
+			repaint();
 		};
+
 }
 
 FilterToolComponent::~FilterToolComponent()
@@ -54,6 +77,7 @@ FilterToolComponent::~FilterToolComponent()
 void FilterToolComponent::paint (juce::Graphics& g)
 {
     g.fillAll (ApplicationColours().toolbar);
+	updateFilterButtons();
 }
 
 void FilterToolComponent::resized()
@@ -90,6 +114,46 @@ void FilterToolComponent::changeButtonColour(FilterButton filterButton, juce::Co
 	case FilterToolComponent::AirFilterButton:
 		airFilterButton.setColour(juce::TextButton::buttonColourId, colour);
 		break;
+	default:
+		break;
+	}
+}
+
+void FilterToolComponent::updateFilterButtons()
+{
+	switch (soloFilter)
+	{
+	case SoloFilterType::Sub:
+		changeButtonColour(SubFilterButton, ApplicationColours().primary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		break;
+	case SoloFilterType::LowMid:
+		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours().primary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		break;
+	case SoloFilterType::HighMid:
+		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours().primary);
+		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		break;
+	case SoloFilterType::High:
+		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours().primary);
+		break;
+	case SoloFilterType::NoSolo:
+		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		break;
+
 	default:
 		break;
 	}

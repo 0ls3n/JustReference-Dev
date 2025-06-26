@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "PluginProcessor.h"
 #include "ApplicationColours.h"
 
 //==============================================================================
@@ -28,7 +29,7 @@ public:
         AirFilterButton
 	};
 
-    FilterToolComponent();
+    FilterToolComponent(SoloFilterType& sharedFilterType);
     ~FilterToolComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -36,12 +37,11 @@ public:
 
 	void changeButtonColour(FilterButton filterType, juce::Colour colour);
 
-	std::function<void()> onSubFilterButtonClicked;
-	std::function<void()> onLowMidFilterButtonClicked;
-	std::function<void()> onHighMidFilterButtonClicked;
-	std::function<void()> onAirFilterButtonClicked;
+    void updateFilterButtons();
 
 private:
+
+	SoloFilterType& soloFilter;
 
     juce::TextButton subFilterButton;
 	juce::TextButton lowMidFilterButton;

@@ -182,6 +182,8 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 	juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
 	juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
     
+
+    
     switch (soloFilterType)
     {
     case SoloFilterType::Sub:
@@ -200,9 +202,13 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         leftChain.get<3>().process(leftContext);
         rightChain.get<3>().process(rightContext);
         break;
+    case SoloFilterType::NoSolo:
+        // No filter applied, just pass through the audio
+		break;
     default:
         break;
     }
+    
 
 }
 //==============================================================================

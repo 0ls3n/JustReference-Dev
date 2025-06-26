@@ -26,7 +26,8 @@ enum class SoloFilterType
     Sub,
     LowMid,
     HighMid,
-    High
+    High,
+    NoSolo
 };
 
 class AudioPlayerAudioProcessor  : public juce::AudioProcessor, private juce::ChangeListener
@@ -75,6 +76,10 @@ public:
 
     TransportState getTransportState() const { return transportState; }
     void setTransportState(TransportState newState) { transportState = newState; }
+
+	SoloFilterType& getSoloFilterType() { return soloFilterType; }
+	//void setSoloFilterType(SoloFilterType newType) { soloFilterType = newType; }
+
 	bool isFileLoaded() const { return readerSource != nullptr; }
 
 	juce::File getCurrentFile() const { return currentFile; }
@@ -110,7 +115,7 @@ private:
 
     MonoChain leftChain, rightChain;
 
-    SoloFilterType soloFilterType = SoloFilterType::High;
+    SoloFilterType soloFilterType = SoloFilterType::NoSolo;
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
