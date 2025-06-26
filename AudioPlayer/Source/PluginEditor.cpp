@@ -66,7 +66,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         };
 
     addAndMakeVisible(filterToggleButton);
-    filterToggleButton.setButtonText("Toggle filter");
+    filterToggleButton.setButtonText("Filters");
+	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
 
     filterToggleButton.onClick = [this]() {
         if (filterIsAnimating)
@@ -80,7 +81,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
-    startTimerHz(30);
+    startTimerHz(60);
 
 	chooser.reset();
 
@@ -250,7 +251,7 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
 
     if (filterIsAnimating)
     {
-        filterAnimationElapsed += 1000 / 30; // 30 fps
+        filterAnimationElapsed += 1000 / 60;
 
         float progress = juce::jlimit(0.0f, 1.0f,
             (float)filterAnimationElapsed / (float)filterAnimationDuration);
