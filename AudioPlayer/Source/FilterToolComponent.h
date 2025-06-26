@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "PluginProcessor.h"
+#include "SoloFilterProcessing.h"
 #include "ApplicationColours.h"
 
 //==============================================================================
