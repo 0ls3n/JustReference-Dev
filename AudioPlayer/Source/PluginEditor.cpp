@@ -65,6 +65,21 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
             openButtonClicked();
         };
 
+    addAndMakeVisible(filterToggleButton);
+    filterToggleButton.setButtonText("Toggle filter");
+
+    filterToggleButton.onClick = [this]() {
+        if (filterIsAnimating)
+            return;
+
+        filterIsVisible = !filterIsVisible;
+        filterStartHeight = filterCurrentHeight;
+        filterTargetHeight = filterIsVisible ? 60 : 0;
+
+        filterAnimationElapsed = 0;
+        filterIsAnimating = true;
+        };
+
     startTimerHz(30);
 
 	chooser.reset();
@@ -89,10 +104,12 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto buttonMargin = 10;
     auto sideBarWidth = 100;
     auto area = getLocalBounds();
+    auto filterButtonContainerHeight = 60;
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
 	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
-	auto filterArea = area.removeFromBottom(headerAndFooterHeight);
+	auto filterArea = area.removeFromBottom(filterCurrentHeight);
+    auto filterToggleButtonArea = area.removeFromBottom(20);
     auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
@@ -101,6 +118,7 @@ void AudioPlayerAudioProcessorEditor::resized()
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
 	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
+    filterToggleButton.setBounds(getWidth() / 2 - (120 / 2), filterToggleButtonArea.getY(), 120, 20);
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -229,4 +247,27 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
 {
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
+
+    if (filterIsAnimating)
+    {
+        filterAnimationElapsed += 1000 / 30; // 30 fps
+
+        float progress = juce::jlimit(0.0f, 1.0f,
+            (float)filterAnimationElapsed / (float)filterAnimationDuration);
+
+        // Ease in-out
+        float eased = 0.5f - 0.5f * std::cos(progress * juce::MathConstants<float>::pi);
+
+        filterCurrentHeight = juce::jmap(eased,
+            (float)filterStartHeight,
+            (float)filterTargetHeight);
+
+        resized();
+
+        if (progress >= 1.0f)
+        {
+            filterCurrentHeight = filterTargetHeight;
+            filterIsAnimating = false;
+        }
+    }
 }

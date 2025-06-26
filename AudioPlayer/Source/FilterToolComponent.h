@@ -35,11 +35,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-	void changeButtonColour(FilterButton filterType, juce::Colour colour);
 
     void updateFilterButtons();
 
 private:
+	void changeButtonColour(FilterButton filterType, juce::Colour colour);
+
+    juce::Component filterButtonContainer;
 
 	SoloFilterType& soloFilter;
 
@@ -47,6 +49,8 @@ private:
 	juce::TextButton lowMidFilterButton;
 	juce::TextButton highMidFilterButton;
 	juce::TextButton airFilterButton;
+
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterToolComponent)
 };

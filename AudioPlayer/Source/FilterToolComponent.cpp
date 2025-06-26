@@ -14,7 +14,7 @@
 //==============================================================================
 FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : soloFilter(sharedFilterType)
 {
-    addAndMakeVisible(subFilterButton);
+	filterButtonContainer.addAndMakeVisible(subFilterButton);
 	subFilterButton.setButtonText("Sub");
 	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
 	subFilterButton.onClick = [this]() 
@@ -27,7 +27,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 				repaint();
 		};
 
-	addAndMakeVisible(lowMidFilterButton);
+	filterButtonContainer.addAndMakeVisible(lowMidFilterButton);
 	lowMidFilterButton.setButtonText("Low Mid");
 	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
 	lowMidFilterButton.onClick = [this]() 
@@ -40,7 +40,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 			repaint();
 		};
 
-	addAndMakeVisible(highMidFilterButton);
+	filterButtonContainer.addAndMakeVisible(highMidFilterButton);
 	highMidFilterButton.setButtonText("High Mid");
 	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
 	highMidFilterButton.onClick = [this]()
@@ -54,7 +54,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 			repaint();
 		};
 
-    addAndMakeVisible(airFilterButton);
+    filterButtonContainer.addAndMakeVisible(airFilterButton);
 	airFilterButton.setButtonText("Air");
 	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
 	airFilterButton.onClick = [this]() 
@@ -67,6 +67,8 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 			}
 			repaint();
 		};
+
+	addAndMakeVisible(filterButtonContainer);
 
 	updateFilterButtons();
 
@@ -85,14 +87,16 @@ void FilterToolComponent::paint (juce::Graphics& g)
 void FilterToolComponent::resized()
 {
 	auto area = getLocalBounds();
+
+	filterButtonContainer.setBounds(area);
 	
 	int buttonWidth = 80;
 	int buttonHeight = 30;
 	int buttonSpacing = 20;
 
 	int totalWidth = 4 * buttonWidth + 3 * buttonSpacing;
-	int startX = (area.getWidth() - totalWidth) / 2;
-	int y = (area.getHeight() - buttonHeight) / 2;
+	int startX = (filterButtonContainer.getWidth() - totalWidth) / 2;
+	int y = (filterButtonContainer.getHeight() - buttonHeight) / 2;
 
 	subFilterButton.setBounds(startX, y, buttonWidth, buttonHeight);
 	lowMidFilterButton.setBounds(startX + (buttonWidth + buttonSpacing), y, buttonWidth, buttonHeight);
