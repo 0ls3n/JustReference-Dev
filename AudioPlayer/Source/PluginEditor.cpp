@@ -17,7 +17,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     // editor's size to whatever you need it to be.
     setSize (1000, 600);
 
-	setResizable(true, true);
+	setResizable(false, false);
 
     addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
@@ -27,6 +27,8 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
+    transportTool.onLoopingButtonClicked = [this] {loopButtonClicked(); };
+
 
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
@@ -179,6 +181,20 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 	repaint();
 }
 
+void AudioPlayerAudioProcessorEditor::loopButtonClicked()
+{
+    if (!waveformVisualizer.getLoopingComponent().getLoopEnabled())
+    {
+        transportTool.setButtonColour(TransportToolComponent::ButtonId::LoopingButton, ApplicationColours().primary);
+        waveformVisualizer.getLoopingComponent().setLoopEnabled(true);
+    }
+    else 
+    {
+        transportTool.setButtonColour(TransportToolComponent::ButtonId::LoopingButton, ApplicationColours().secondary);
+        waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+    }
+}
+
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
 	auto state = audioProcessor.getTransportState();
@@ -248,6 +264,17 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
 {
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
+
+    if (waveformVisualizer.getLoopingComponent().getIsLooping())
+    {
+        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(std::min(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
+        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(std::max(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
+    
+        if (audioProcessor.transportSource.getCurrentPosition() >= loopEnd)
+        {
+            audioProcessor.transportSource.setPosition(loopStart);
+        }
+    }
 
     if (filterIsAnimating)
     {

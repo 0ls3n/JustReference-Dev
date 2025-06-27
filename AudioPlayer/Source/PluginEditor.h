@@ -40,6 +40,7 @@ private:
     void pauseButtonClicked();
     void stopButtonClicked();
 	void referenceSwitchButtonClicked();
+    void loopButtonClicked();
 
 	void updateButtonStates();
 

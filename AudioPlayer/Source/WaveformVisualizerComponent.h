@@ -31,6 +31,8 @@ public:
 
     void setPlayheadTime(double timeInSeconds);
 
+    LoopingZoneComponent& getLoopingComponent(){ return loopingComponent; }
+
     std::function<void(double timeInSeconds)> onSeek;
     std::function<void(const juce::StringArray&, int, int)> onFileDropped;
     std::function<void()> onComponentClicked;
@@ -54,7 +56,7 @@ private:
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
 	PlayheadComponent playheadComponent;
-    LoopingZoneComponent loopingComponent;
+    LoopingZoneComponent loopingComponent{ thumbnail };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };

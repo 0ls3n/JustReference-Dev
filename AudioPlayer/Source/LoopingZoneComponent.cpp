@@ -2,7 +2,7 @@
 #include "LoopingZoneComponent.h"
 
 //==============================================================================
-LoopingZoneComponent::LoopingZoneComponent()
+LoopingZoneComponent::LoopingZoneComponent(juce::AudioThumbnail& sharedThumbnail) : audioThumbnail(sharedThumbnail)
 {
     setInterceptsMouseClicks(false, false);
 }
@@ -29,7 +29,7 @@ void LoopingZoneComponent::paint (juce::Graphics& g)
 
 void LoopingZoneComponent::resized()
 {
-
+    
 }
 
 void LoopingZoneComponent::onMouseDown(const juce::MouseEvent& event)
@@ -37,6 +37,7 @@ void LoopingZoneComponent::onMouseDown(const juce::MouseEvent& event)
     isDraggingLoop = true;
     loopStartX = event.x;
 	loopEndX = event.x;
+
     repaint();
 }
 
@@ -51,7 +52,20 @@ void LoopingZoneComponent::onMouseUp(const juce::MouseEvent& event)
     isDraggingLoop = false;
     loopEndX = event.x;
 
-    loopEnabled = true;
+    double loopDuration = loopEndX - loopStartX;
+
     repaint();
+}
+
+double LoopingZoneComponent::xToTime(int x) const
+{
+    double proportion = static_cast<double>(x) / getWidth();
+    return proportion * audioThumbnail.getTotalLength();
+}
+
+double LoopingZoneComponent::timeToX(double time) const
+{
+    double proportion = time / audioThumbnail.getTotalLength();
+    return proportion * getWidth();
 }
 
