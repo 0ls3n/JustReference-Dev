@@ -119,7 +119,7 @@ void AudioPlayerAudioProcessorEditor::resized()
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
 	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
-    filterToggleButton.setBounds(getWidth() / 2 - (120 / 2), filterToggleButtonArea.getY(), 120, 20);
+    filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
