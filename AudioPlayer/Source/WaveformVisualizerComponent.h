@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "ApplicationColours.h"
 #include "PlayheadComponent.h"
+#include "LoopingZoneComponent.h"
 
 //==============================================================================
 /*
@@ -36,8 +37,9 @@ public:
 
 private:
 
-    void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;
-    void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e) override;
+    void mouseDown(const juce::MouseEvent& e) override;
+    void mouseDrag(const juce::MouseEvent& e) override;
+    void mouseUp(const juce::MouseEvent& e) override;
 
     juce::AudioThumbnail& thumbnail;
 
@@ -52,6 +54,7 @@ private:
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
 	PlayheadComponent playheadComponent;
+    LoopingZoneComponent loopingComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };

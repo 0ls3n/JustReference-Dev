@@ -15,6 +15,10 @@
     </GROUP>
     <GROUP id="{87B7227B-EB81-2859-5117-2E909EE5CCAE}" name="GUI">
       <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
+        <FILE id="CxGNyn" name="LoopingZoneComponent.cpp" compile="1" resource="0"
+              file="Source/LoopingZoneComponent.cpp"/>
+        <FILE id="gsVM33" name="LoopingZoneComponent.h" compile="0" resource="0"
+              file="Source/LoopingZoneComponent.h"/>
         <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
               file="Source/PlayheadComponent.cpp"/>
         <FILE id="CW2r51" name="PlayheadComponent.h" compile="0" resource="0"

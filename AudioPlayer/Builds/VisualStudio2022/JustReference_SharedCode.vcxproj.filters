@@ -640,6 +640,9 @@
     <ClCompile Include="..\..\Source\SoloFilterProcessing.cpp">
       <Filter>JustReference\SoloFilterProcessing</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp">
+      <Filter>JustReference\GUI\WaveformVisualizer</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PlayheadComponent.cpp">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>
     </ClCompile>
@@ -3242,6 +3245,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\SoloFilterProcessing.h">
       <Filter>JustReference\SoloFilterProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\LoopingZoneComponent.h">
+      <Filter>JustReference\GUI\WaveformVisualizer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PlayheadComponent.h">
       <Filter>JustReference\GUI\WaveformVisualizer</Filter>

@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\FilterToolComponent.cpp"/>
     <ClCompile Include="..\..\Source\SoloFilterProcessing.cpp"/>
+    <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp"/>
     <ClCompile Include="..\..\Source\PlayheadComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformVisualizerComponent.cpp"/>
     <ClCompile Include="..\..\Source\BrandingHeader.cpp"/>
@@ -2562,6 +2563,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\FilterToolComponent.h"/>
     <ClInclude Include="..\..\Source\SoloFilterProcessing.h"/>
+    <ClInclude Include="..\..\Source\LoopingZoneComponent.h"/>
     <ClInclude Include="..\..\Source\PlayheadComponent.h"/>
     <ClInclude Include="..\..\Source\WaveformVisualizerComponent.h"/>
     <ClInclude Include="..\..\Source\BrandingHeader.h"/>
