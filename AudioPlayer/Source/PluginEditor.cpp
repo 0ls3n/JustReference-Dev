@@ -17,15 +17,17 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     // editor's size to whatever you need it to be.
     setSize (1000, 600);
 
-	setResizable(true, true);
+	setResizable(false, false);
 
     addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
+	addAndMakeVisible(filterTool);
 
 	transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
 	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
+
 
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
@@ -64,7 +66,23 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
             openButtonClicked();
         };
 
-    startTimerHz(30);
+    addAndMakeVisible(filterToggleButton);
+    filterToggleButton.setButtonText("Filters");
+	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+
+    filterToggleButton.onClick = [this]() {
+        if (filterIsAnimating)
+            return;
+
+        filterIsVisible = !filterIsVisible;
+        filterStartHeight = filterCurrentHeight;
+        filterTargetHeight = filterIsVisible ? 60 : 0;
+
+        filterAnimationElapsed = 0;
+        filterIsAnimating = true;
+        };
+
+    startTimerHz(60);
 
 	chooser.reset();
 
@@ -88,18 +106,21 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto buttonMargin = 10;
     auto sideBarWidth = 100;
     auto area = getLocalBounds();
+    auto filterButtonContainerHeight = 60;
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
 	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
+	auto filterArea = area.removeFromBottom(filterCurrentHeight);
+    auto filterToggleButtonArea = area.removeFromBottom(20);
     auto leftSidebarArea = area.removeFromLeft(sideBarWidth);
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
 	brandingHeader.setBounds(headerArea);
+    songTitleLabel.setBounds(area.removeFromTop(60));
+	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
+	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
-
-    songTitleLabel.setBounds(area.removeFromTop(60).reduced(0));
-
-	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 20));
+    filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
 }
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
@@ -228,4 +249,38 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
 {
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
+
+    if (waveformVisualizer.getLoopingComponent().getIsLooping())
+    {
+        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(std::min(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
+        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(std::max(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
+    
+        if (audioProcessor.transportSource.getCurrentPosition() >= loopEnd)
+        {
+            audioProcessor.transportSource.setPosition(loopStart);
+        }
+    }
+
+    if (filterIsAnimating)
+    {
+        filterAnimationElapsed += 1000 / 60;
+
+        float progress = juce::jlimit(0.0f, 1.0f,
+            (float)filterAnimationElapsed / (float)filterAnimationDuration);
+
+        // Ease in-out
+        float eased = 0.5f - 0.5f * std::cos(progress * juce::MathConstants<float>::pi);
+
+        filterCurrentHeight = juce::jmap(eased,
+            (float)filterStartHeight,
+            (float)filterTargetHeight);
+
+        resized();
+
+        if (progress >= 1.0f)
+        {
+            filterCurrentHeight = filterTargetHeight;
+            filterIsAnimating = false;
+        }
+    }
 }

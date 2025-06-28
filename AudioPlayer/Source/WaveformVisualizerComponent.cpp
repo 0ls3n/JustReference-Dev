@@ -20,6 +20,7 @@ WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t
 	currentPlayheadTime = 0.0;
 
 	addAndMakeVisible(playheadComponent);
+    addAndMakeVisible(loopingComponent);
 }
 
 WaveformVisualizerComponent::~WaveformVisualizerComponent()
@@ -41,7 +42,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
         auto bounds = getLocalBounds();
 
         // Draw waveform using built-in thumbnail renderer
-        thumbnail.drawChannels(g, bounds, 0.0, thumbnail.getTotalLength(), .7f);
+        thumbnail.drawChannel(g, bounds, 0.0, thumbnail.getTotalLength(), 0,.7f);
     }
     else
     {
@@ -57,6 +58,7 @@ void WaveformVisualizerComponent::paint (juce::Graphics& g)
 void WaveformVisualizerComponent::resized()
 {
     playheadComponent.setBounds(getLocalBounds());
+    loopingComponent.setBounds(getLocalBounds());
 }
 
 void WaveformVisualizerComponent::setWaveformColour(const juce::Colour& colour)
@@ -76,11 +78,6 @@ void WaveformVisualizerComponent::setPlayheadTime(double timeInSeconds)
     }
 }
 
-void WaveformVisualizerComponent::updateThumbnail(juce::AudioThumbnail& t, juce::AudioThumbnailCache& tc)
-{
-    
-}
-
 void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
 {
     double duration = thumbnail.getTotalLength();
@@ -88,8 +85,11 @@ void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
     {
         double clickedTime = (double)e.x / getWidth() * duration;
 
+        loopingComponent.onMouseDown(e);
+
         if (onSeek != nullptr)
             onSeek(clickedTime);
+
     }
 
     if (e.mods.isRightButtonDown())
@@ -101,12 +101,19 @@ void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
 void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e)
 {
     double duration = thumbnail.getTotalLength();
-    if (duration > 0.0)
+    if (duration > 0.0 && e.mods.isLeftButtonDown())
     {
-        double draggedTime = (double)e.x / getWidth() * duration;
-        if (onSeek != nullptr)
-            onSeek(draggedTime);
-	}
+        loopingComponent.onMouseDrag(e);
+    }
+}
+
+void WaveformVisualizerComponent::mouseUp(const juce::MouseEvent& e)
+{
+    double duration = thumbnail.getTotalLength();
+    if (duration > 0.0 && e.mods.isLeftButtonDown())
+    {
+        loopingComponent.onMouseUp(e);
+    }
 }
 
 void WaveformVisualizerComponent::changeListenerCallback(juce::ChangeBroadcaster* source)

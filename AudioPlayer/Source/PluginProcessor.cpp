@@ -99,6 +99,8 @@ void AudioPlayerAudioProcessor::changeProgramName (int index, const juce::String
 void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+
+	soloFilterProcessing.prepareToPlay(sampleRate, samplesPerBlock);
 }
 
 void AudioPlayerAudioProcessor::releaseResources()
@@ -140,12 +142,17 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 		// REFERENCE: Process the audio block with the transport source
         buffer.clear();
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+
     }
     else {
 		// DAW: Process the audio regularly
         juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
         transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
     }
+
+    soloFilterProcessing.process(buffer, midiMessages);
+    
+
 }
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const

@@ -3,17 +3,31 @@
 <JUCERPROJECT id="iHl3Xw" name="JustReference" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
   <MAINGROUP id="chsqBg" name="JustReference">
-    <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
-      <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
-            file="Source/PlayheadComponent.cpp"/>
-      <FILE id="CW2r51" name="PlayheadComponent.h" compile="0" resource="0"
-            file="Source/PlayheadComponent.h"/>
-      <FILE id="G4NQkX" name="WaveformVisualizerComponent.cpp" compile="1"
-            resource="0" file="Source/WaveformVisualizerComponent.cpp"/>
-      <FILE id="qyELtB" name="WaveformVisualizerComponent.h" compile="0"
-            resource="0" file="Source/WaveformVisualizerComponent.h"/>
+    <GROUP id="{4EE3BEEF-EC93-1CFD-D2F1-350E4D88A875}" name="SoloFilterProcessing">
+      <FILE id="eTxIjE" name="FilterToolComponent.cpp" compile="1" resource="0"
+            file="Source/FilterToolComponent.cpp"/>
+      <FILE id="Sjxygq" name="FilterToolComponent.h" compile="0" resource="0"
+            file="Source/FilterToolComponent.h"/>
+      <FILE id="XDhU9r" name="SoloFilterProcessing.cpp" compile="1" resource="0"
+            file="Source/SoloFilterProcessing.cpp"/>
+      <FILE id="RuYEBe" name="SoloFilterProcessing.h" compile="0" resource="0"
+            file="Source/SoloFilterProcessing.h"/>
     </GROUP>
-    <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
+    <GROUP id="{87B7227B-EB81-2859-5117-2E909EE5CCAE}" name="GUI">
+      <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
+        <FILE id="CxGNyn" name="LoopingZoneComponent.cpp" compile="1" resource="0"
+              file="Source/LoopingZoneComponent.cpp"/>
+        <FILE id="gsVM33" name="LoopingZoneComponent.h" compile="0" resource="0"
+              file="Source/LoopingZoneComponent.h"/>
+        <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
+              file="Source/PlayheadComponent.cpp"/>
+        <FILE id="CW2r51" name="PlayheadComponent.h" compile="0" resource="0"
+              file="Source/PlayheadComponent.h"/>
+        <FILE id="G4NQkX" name="WaveformVisualizerComponent.cpp" compile="1"
+              resource="0" file="Source/WaveformVisualizerComponent.cpp"/>
+        <FILE id="qyELtB" name="WaveformVisualizerComponent.h" compile="0"
+              resource="0" file="Source/WaveformVisualizerComponent.h"/>
+      </GROUP>
       <FILE id="SEpaxo" name="BrandingHeader.cpp" compile="1" resource="0"
             file="Source/BrandingHeader.cpp"/>
       <FILE id="KYXRGK" name="BrandingHeader.h" compile="0" resource="0"
@@ -28,6 +42,8 @@
             file="Source/SectionComponent.cpp"/>
       <FILE id="t1Z2TS" name="SectionComponent.h" compile="0" resource="0"
             file="Source/SectionComponent.h"/>
+    </GROUP>
+    <GROUP id="{F14F4C32-1DBB-D025-E30A-83A8DFE800BA}" name="Source">
       <FILE id="vm0tPa" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="NMItCL" name="PluginProcessor.h" compile="0" resource="0"
@@ -47,6 +63,7 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -72,6 +89,7 @@
         <MODULEPATH id="juce_graphics" path="../../../Github Repositories/JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../../../Github Repositories/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../Github Repositories/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>

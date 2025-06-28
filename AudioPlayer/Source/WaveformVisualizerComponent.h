@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "ApplicationColours.h"
 #include "PlayheadComponent.h"
+#include "LoopingZoneComponent.h"
 
 //==============================================================================
 /*
@@ -30,16 +31,17 @@ public:
 
     void setPlayheadTime(double timeInSeconds);
 
+    LoopingZoneComponent& getLoopingComponent(){ return loopingComponent; }
+
     std::function<void(double timeInSeconds)> onSeek;
     std::function<void(const juce::StringArray&, int, int)> onFileDropped;
     std::function<void()> onComponentClicked;
 
-    void updateThumbnail(juce::AudioThumbnail&, juce::AudioThumbnailCache&);
-
 private:
 
-    void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e) override;
-    void WaveformVisualizerComponent::mouseDrag(const juce::MouseEvent& e) override;
+    void mouseDown(const juce::MouseEvent& e) override;
+    void mouseDrag(const juce::MouseEvent& e) override;
+    void mouseUp(const juce::MouseEvent& e) override;
 
     juce::AudioThumbnail& thumbnail;
 
@@ -54,6 +56,7 @@ private:
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
 	PlayheadComponent playheadComponent;
+    LoopingZoneComponent loopingComponent{ thumbnail };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };

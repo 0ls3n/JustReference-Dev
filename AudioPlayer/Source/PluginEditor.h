@@ -15,6 +15,7 @@
 #include "ApplicationColours.h"
 #include "TransportToolComponent.h"
 #include "BrandingHeader.h"
+#include "FilterToolComponent.h"
 
 //==============================================================================
 /**
@@ -52,11 +53,23 @@ private:
     SectionComponent rightSidebar;
 
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
+    FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
 
     void timerCallback() override;
+
+    int filterTargetHeight = 60;     // Target height for the filter area
+    int filterCurrentHeight = 0;    // Animated current height
+    int filterStartHeight = 0;      // Start height of the animation
+    int filterAnimationDuration = 200; // ms
+    int filterAnimationElapsed = 0;
+
+    bool filterIsVisible = false;
+    bool filterIsAnimating = false;
+
+    juce::TextButton filterToggleButton;
 	
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessorEditor)
