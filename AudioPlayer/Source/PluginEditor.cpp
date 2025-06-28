@@ -27,7 +27,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
-    transportTool.onLoopingButtonClicked = [this] {loopButtonClicked(); };
 
 
     addAndMakeVisible(&songTitleLabel);
@@ -179,20 +178,6 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
     }
 
 	repaint();
-}
-
-void AudioPlayerAudioProcessorEditor::loopButtonClicked()
-{
-    if (!waveformVisualizer.getLoopingComponent().getLoopEnabled())
-    {
-        transportTool.setButtonColour(TransportToolComponent::ButtonId::LoopingButton, ApplicationColours().primary);
-        waveformVisualizer.getLoopingComponent().setLoopEnabled(true);
-    }
-    else 
-    {
-        transportTool.setButtonColour(TransportToolComponent::ButtonId::LoopingButton, ApplicationColours().secondary);
-        waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-    }
 }
 
 void AudioPlayerAudioProcessorEditor::updateButtonStates()

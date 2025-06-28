@@ -85,10 +85,11 @@ void WaveformVisualizerComponent::mouseDown(const juce::MouseEvent& e)
     {
         double clickedTime = (double)e.x / getWidth() * duration;
 
+        loopingComponent.onMouseDown(e);
+
         if (onSeek != nullptr)
             onSeek(clickedTime);
 
-        loopingComponent.onMouseDown(e);
     }
 
     if (e.mods.isRightButtonDown())

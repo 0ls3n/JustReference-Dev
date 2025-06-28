@@ -50,15 +50,6 @@ TransportToolComponent::TransportToolComponent()
         {
             if (onReferenceButtonClicked) onReferenceButtonClicked();
         };
-
-    addAndMakeVisible(loopingButton);
-    loopingButton.setButtonText("Looping");
-    loopingButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
-    loopingButton.setEnabled(true);
-    loopingButton.onClick = [this]()
-        {
-            if (onLoopingButtonClicked) onLoopingButtonClicked();
-        };
 }
 
 TransportToolComponent::~TransportToolComponent()
@@ -81,7 +72,6 @@ void TransportToolComponent::resized()
 	referenceButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	playButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	stopButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
-    loopingButton.setBounds(area.removeFromRight(buttonWidth).reduced(buttonMargin));
 
 }
 
@@ -100,9 +90,6 @@ void TransportToolComponent::setButtonEnabled(ButtonId buttonId, bool enabled)
         break;
     case ButtonId::ReferenceButton:
         referenceButton.setEnabled(enabled);
-        break;
-    case ButtonId::LoopingButton:
-        loopingButton.setEnabled(enabled);
         break;
     }
 }
@@ -123,9 +110,6 @@ void TransportToolComponent::setButtonText(ButtonId buttonId, const juce::String
     case ButtonId::ReferenceButton:
         referenceButton.setButtonText(text);
         break;
-    case ButtonId::LoopingButton:
-        loopingButton.setButtonText(text);
-        break;
 	}
 }
 
@@ -144,9 +128,6 @@ void TransportToolComponent::setButtonColour(ButtonId buttonId, const juce::Colo
         break;
     case ButtonId::ReferenceButton:
         referenceButton.setColour(juce::TextButton::buttonColourId, colour);
-        break;
-    case ButtonId::LoopingButton:
-        loopingButton.setColour(juce::TextButton::buttonColourId, colour);
         break;
 	}
 }
