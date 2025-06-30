@@ -16,7 +16,7 @@ TransportToolComponent::TransportToolComponent()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-	addAndMakeVisible(playButton);
+	/*addAndMakeVisible(playButton);
     playButton.setButtonText("Play");
     playButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
     playButton.setEnabled(false);
@@ -32,7 +32,7 @@ TransportToolComponent::TransportToolComponent()
     stopButton.onClick = [this]()
         {
             if (onStopButtonClicked) onStopButtonClicked();
-        };
+        };*/
 
     addAndMakeVisible(openButton);
     openButton.setButtonText("Open file");

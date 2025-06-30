@@ -194,31 +194,6 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
         transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, false);
 	}
 
-    switch (state)
-    {
-    case TransportState::Playing:
-        audioProcessor.transportSource.start();
-		transportTool.onPlayButtonClicked = [this] { pauseButtonClicked(); };
-        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, true);
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Pause");
-        break;
-    case TransportState::Paused:
-        audioProcessor.transportSource.stop();
-		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
-		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
-        break;
-    case TransportState::Stopped:
-        audioProcessor.transportSource.stop();
-        audioProcessor.transportSource.setPosition(0.0);
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
-		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
-        break;
-    default:
-        break;
-    }
-
 	auto fileName = audioProcessor.getFileName();
     if (fileName != nullptr)
     {

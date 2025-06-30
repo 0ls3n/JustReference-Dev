@@ -137,19 +137,27 @@ bool AudioPlayerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    if (isReferenceActive)
+    if (auto* playHead = getPlayHead())
     {
-		// REFERENCE: Process the audio block with the transport source
-        buffer.clear();
-        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+        juce::AudioPlayHead::CurrentPositionInfo position;
+        if (playHead->getCurrentPosition(position) && position.isPlaying)
+        {
+            transportSource.start();
+            if (isReferenceActive)
+            {
+                // REFERENCE: Process the audio block with the transport source
+                buffer.clear();
 
-    }
-    else {
-		// DAW: Process the audio regularly
-        juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
-        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
-    }
+                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
 
+            }
+            else {
+                // DAW: Process the audio regularly
+                juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
+                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
+            }
+        }
+    }
     soloFilterProcessing.process(buffer, midiMessages);
     
 
@@ -190,6 +198,8 @@ void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
         audioThumbnail.setSource(new juce::FileInputSource(file));
         setFileName(file.getFileNameWithoutExtension());
+
+		transportSource.start();
     }
 }
 
