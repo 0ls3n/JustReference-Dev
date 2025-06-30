@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="iHl3Xw" name="JustReference" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools"
+              companyName="JustMixing">
   <MAINGROUP id="chsqBg" name="JustReference">
     <GROUP id="{4EE3BEEF-EC93-1CFD-D2F1-350E4D88A875}" name="SoloFilterProcessing">
       <FILE id="eTxIjE" name="FilterToolComponent.cpp" compile="1" resource="0"

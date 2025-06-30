@@ -42,7 +42,7 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "JustReference";
-    const char* const  companyName    = "";
+    const char* const  companyName    = "JustMixing";
     const char* const  versionString  = "1.0.0";
     const int          versionNumber  = 0x10000;
 }
