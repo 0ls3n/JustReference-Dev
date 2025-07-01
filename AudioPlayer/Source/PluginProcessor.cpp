@@ -156,11 +156,15 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
                 juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
                 transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
             }
+
+            if (transportSource.getCurrentPosition() >= transportSource.getLengthInSeconds())
+            {
+                transportSource.setPosition(0.0);
+			}
         }
     }
-    soloFilterProcessing.process(buffer, midiMessages);
-    
 
+    soloFilterProcessing.process(buffer, midiMessages);
 }
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const
@@ -198,8 +202,6 @@ void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
         transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
         audioThumbnail.setSource(new juce::FileInputSource(file));
         setFileName(file.getFileNameWithoutExtension());
-
-		transportSource.start();
     }
 }
 

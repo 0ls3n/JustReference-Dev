@@ -36,14 +36,9 @@ private:
     std::unique_ptr<juce::FileChooser> chooser;
 
     void openButtonClicked();
-    void playButtonClicked();
-    void pauseButtonClicked();
-    void stopButtonClicked();
 	void referenceSwitchButtonClicked();
 
 	void updateButtonStates();
-
-    void changeTransportState(TransportState state);
 
     juce::String songTitle;
 
