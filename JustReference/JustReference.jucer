@@ -4,6 +4,16 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginVST3Category="Tools"
               companyName="JustMixing">
   <MAINGROUP id="chsqBg" name="JustReference">
+    <GROUP id="{2961A776-B31C-D12E-1526-C9B5F979851C}" name="LoopingProcessing">
+      <FILE id="CxGNyn" name="LoopingZoneComponent.cpp" compile="1" resource="0"
+            file="Source/LoopingZoneComponent.cpp"/>
+      <FILE id="gsVM33" name="LoopingZoneComponent.h" compile="0" resource="0"
+            file="Source/LoopingZoneComponent.h"/>
+      <FILE id="ljBrje" name="LoopingZoneProcessor.cpp" compile="1" resource="0"
+            file="Source/LoopingZoneProcessor.cpp"/>
+      <FILE id="WYzeNS" name="LoopingZoneProcessor.h" compile="0" resource="0"
+            file="Source/LoopingZoneProcessor.h"/>
+    </GROUP>
     <GROUP id="{4EE3BEEF-EC93-1CFD-D2F1-350E4D88A875}" name="SoloFilterProcessing">
       <FILE id="eTxIjE" name="FilterToolComponent.cpp" compile="1" resource="0"
             file="Source/FilterToolComponent.cpp"/>
@@ -16,10 +26,6 @@
     </GROUP>
     <GROUP id="{87B7227B-EB81-2859-5117-2E909EE5CCAE}" name="GUI">
       <GROUP id="{0D7856B8-A1A2-D6E3-0532-F602659B5DF3}" name="WaveformVisualizer">
-        <FILE id="CxGNyn" name="LoopingZoneComponent.cpp" compile="1" resource="0"
-              file="Source/LoopingZoneComponent.cpp"/>
-        <FILE id="gsVM33" name="LoopingZoneComponent.h" compile="0" resource="0"
-              file="Source/LoopingZoneComponent.h"/>
         <FILE id="GvR4t9" name="PlayheadComponent.cpp" compile="1" resource="0"
               file="Source/PlayheadComponent.cpp"/>
         <FILE id="CW2r51" name="PlayheadComponent.h" compile="0" resource="0"

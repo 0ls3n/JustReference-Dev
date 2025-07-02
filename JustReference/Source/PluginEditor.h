@@ -12,7 +12,6 @@
 #include "PluginProcessor.h"
 #include "SectionComponent.h"
 #include "WaveformVisualizerComponent.h"
-#include "ApplicationColours.h"
 #include "TransportToolComponent.h"
 #include "BrandingHeader.h"
 #include "FilterToolComponent.h"
@@ -51,7 +50,7 @@ private:
     FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
 	TransportToolComponent transportTool;
 
-    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail() };
+    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail(), audioProcessor.getLoopingZoneProcessor() };
 
     void timerCallback() override;
 

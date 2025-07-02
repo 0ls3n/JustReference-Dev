@@ -2,7 +2,7 @@
 #include "LoopingZoneComponent.h"
 
 //==============================================================================
-LoopingZoneComponent::LoopingZoneComponent(juce::AudioThumbnail& sharedThumbnail) : audioThumbnail(sharedThumbnail)
+LoopingZoneComponent::LoopingZoneComponent(juce::AudioThumbnail& sharedThumbnail, LoopingZoneProcessor& l) : audioThumbnail(sharedThumbnail), loopingZoneProcessor(l)
 {
     setInterceptsMouseClicks(false, false);
 }

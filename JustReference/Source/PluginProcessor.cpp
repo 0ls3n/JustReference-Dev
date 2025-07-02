@@ -157,10 +157,7 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
                 transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
             }
 
-            if (transportSource.getCurrentPosition() >= transportSource.getLengthInSeconds())
-            {
-                transportSource.setPosition(0.0);
-			}
+            loopingZoneProcessor.process(buffer, transportSource);
         }
     }
 
