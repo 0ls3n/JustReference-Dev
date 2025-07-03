@@ -21,7 +21,7 @@
 class WaveformVisualizerComponent : public juce::Component, private juce::ChangeListener, public juce::FileDragAndDropTarget
 {
 public:
-    WaveformVisualizerComponent(juce::AudioThumbnail&);
+    WaveformVisualizerComponent(juce::AudioThumbnail&, LoopingZoneProcessor&);
     ~WaveformVisualizerComponent() override;
 
     void paint(juce::Graphics&) override;
@@ -55,8 +55,10 @@ private:
     bool isInterestedInFileDrag(const juce::StringArray& files) override;
     void filesDropped(const juce::StringArray& files, int x, int y) override;
 
+	LoopingZoneProcessor& loopingZoneProcessor;
+
 	PlayheadComponent playheadComponent;
-    LoopingZoneComponent loopingComponent{ thumbnail };
+    LoopingZoneComponent loopingComponent{ thumbnail, loopingZoneProcessor };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformVisualizerComponent)
 };

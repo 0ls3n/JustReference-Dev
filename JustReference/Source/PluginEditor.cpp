@@ -23,8 +23,6 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(transportTool);
 	addAndMakeVisible(filterTool);
 
-	transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-	transportTool.onStopButtonClicked = [this] { stopButtonClicked(); };
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
 
@@ -48,14 +46,13 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
                 if (file.existsAsFile())
                 {
                     audioProcessor.loadFile(file);
-                    transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
                     auto fileName = audioProcessor.getFileName();
                     if (fileName != nullptr)
                     {
                         this->songTitle = *fileName;
                     }
-                    changeTransportState(TransportState::Stopped);
-
+                    
+                    updateButtonStates();
                     repaint();
                 }
             }
@@ -82,7 +79,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
-    startTimerHz(60);
+    startTimerHz(30);
 
 	chooser.reset();
 
@@ -134,32 +131,16 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             if (file.existsAsFile())
             {
                 audioProcessor.loadFile(file);
-                transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
 				auto fileName = audioProcessor.getFileName();
                 if (fileName != nullptr)
                 {
 					this->songTitle = *fileName;
                 }
-                changeTransportState(TransportState::Stopped);
 
+                updateButtonStates();
 				repaint();
             }
         });
-}
-
-void AudioPlayerAudioProcessorEditor::playButtonClicked()
-{
-    changeTransportState(TransportState::Playing);
-}
-
-void AudioPlayerAudioProcessorEditor::pauseButtonClicked()
-{
-    changeTransportState(TransportState::Paused);
-}
-
-void AudioPlayerAudioProcessorEditor::stopButtonClicked()
-{
-    changeTransportState(TransportState::Stopped);
 }
 
 void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
@@ -182,41 +163,10 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
-	auto state = audioProcessor.getTransportState();
 
     if (audioProcessor.isFileLoaded())
     {
-        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, true);
         waveformVisualizer.repaint();
-    }
-    else
-    {
-        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::PlayButton, false);
-	}
-
-    switch (state)
-    {
-    case TransportState::Playing:
-        audioProcessor.transportSource.start();
-		transportTool.onPlayButtonClicked = [this] { pauseButtonClicked(); };
-        transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, true);
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Pause");
-        break;
-    case TransportState::Paused:
-        audioProcessor.transportSource.stop();
-		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
-		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
-        break;
-    case TransportState::Stopped:
-        audioProcessor.transportSource.stop();
-        audioProcessor.transportSource.setPosition(0.0);
-		transportTool.setButtonText(TransportToolComponent::ButtonId::PlayButton, "Play");
-		transportTool.onPlayButtonClicked = [this] { playButtonClicked(); };
-		transportTool.setButtonEnabled(TransportToolComponent::ButtonId::StopButton, false);
-        break;
-    default:
-        break;
     }
 
 	auto fileName = audioProcessor.getFileName();
@@ -238,32 +188,30 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
 }
 
-void AudioPlayerAudioProcessorEditor::changeTransportState(TransportState state)
-{
-	audioProcessor.setTransportState(state);
-    updateButtonStates();
-	repaint();
-}
-
 void AudioPlayerAudioProcessorEditor::timerCallback()
 {
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
 
-    if (waveformVisualizer.getLoopingComponent().getIsLooping())
+    /*if (waveformVisualizer.getLoopingComponent().getIsLooping())
     {
-        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(std::min(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
-        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(std::max(waveformVisualizer.getLoopingComponent().getLoopStart(), waveformVisualizer.getLoopingComponent().getLoopEnd()));
+        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(
+            std::min(waveformVisualizer.getLoopingComponent().getLoopStart(),
+            waveformVisualizer.getLoopingComponent().getLoopEnd()));
+
+        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(
+            std::max(waveformVisualizer.getLoopingComponent().getLoopStart(),
+            waveformVisualizer.getLoopingComponent().getLoopEnd()));
     
         if (audioProcessor.transportSource.getCurrentPosition() >= loopEnd)
         {
             audioProcessor.transportSource.setPosition(loopStart);
         }
-    }
+    }*/
 
     if (filterIsAnimating)
     {
-        filterAnimationElapsed += 1000 / 60;
+        filterAnimationElapsed += 1000 / 30;
 
         float progress = juce::jlimit(0.0f, 1.0f,
             (float)filterAnimationElapsed / (float)filterAnimationDuration);

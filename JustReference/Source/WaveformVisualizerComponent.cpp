@@ -12,7 +12,7 @@
 #include "WaveformVisualizerComponent.h"
 
 //==============================================================================
-WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t) : thumbnail(t)
+WaveformVisualizerComponent::WaveformVisualizerComponent(juce::AudioThumbnail& t, LoopingZoneProcessor& l) : thumbnail(t), loopingZoneProcessor(l)
 {
     setInterceptsMouseClicks(true, false);
 	thumbnail.addChangeListener(this);

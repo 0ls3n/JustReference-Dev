@@ -137,22 +137,31 @@ bool AudioPlayerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    if (isReferenceActive)
+    if (auto* playHead = getPlayHead())
     {
-		// REFERENCE: Process the audio block with the transport source
-        buffer.clear();
-        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+        juce::AudioPlayHead::CurrentPositionInfo position;
+        if (playHead->getCurrentPosition(position) && position.isPlaying)
+        {
+            transportSource.start();
+            if (isReferenceActive)
+            {
+                // REFERENCE: Process the audio block with the transport source
+                buffer.clear();
 
-    }
-    else {
-		// DAW: Process the audio regularly
-        juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
-        transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
+                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
+
+            }
+            else {
+                // DAW: Process the audio regularly
+                juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
+                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
+            }
+
+            loopingZoneProcessor.process(buffer, transportSource);
+        }
     }
 
     soloFilterProcessing.process(buffer, midiMessages);
-    
-
 }
 //==============================================================================
 bool AudioPlayerAudioProcessor::hasEditor() const

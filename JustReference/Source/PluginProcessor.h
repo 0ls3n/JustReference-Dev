@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "SoloFilterProcessing.h"
+#include "LoopingZoneProcessor.h"
 
 //==============================================================================
 /**
@@ -82,11 +83,15 @@ public:
     juce::AudioThumbnail& getAudioThumbnail() { return audioThumbnail; }
 	juce::AudioThumbnailCache& getThumbnailCache() { return thumbnailCache; }
 
+	LoopingZoneProcessor& getLoopingZoneProcessor() { return loopingZoneProcessor; }
+
     SoloFilterProcessing soloFilterProcessing{ 60.0f, 500.0f, 3000.0f, 10000.0f };
 private:
 
 	juce::AudioThumbnailCache thumbnailCache{ 10 };
 	juce::AudioThumbnail audioThumbnail{ 256, formatManager, thumbnailCache };
+
+    LoopingZoneProcessor loopingZoneProcessor;
 
     void setFileName(const juce::String newFilename);
     std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song loaded...") };

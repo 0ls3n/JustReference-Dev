@@ -24,8 +24,6 @@ public:
 
     enum class ButtonId
     {
-        PlayButton,
-        StopButton,
         OpenButton,
         ReferenceButton
     };
@@ -37,8 +35,6 @@ public:
 	void setButtonText(ButtonId buttonId, const juce::String& text);
 	void setButtonColour(ButtonId buttonId, const juce::Colour& colour);
 
-    std::function<void()> onPlayButtonClicked;
-	std::function<void()> onStopButtonClicked;
 	std::function<void()> onOpenButtonClicked;
     std::function<void()> onReferenceButtonClicked;
 
