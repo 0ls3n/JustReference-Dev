@@ -1,14 +1,14 @@
 #pragma once
 
 #include <JuceHeader.h>
-
+#include "LoopingZoneProcessor.h"
 //==============================================================================
 /*
 */
 class LoopingZoneComponent  : public juce::Component
 {
 public:
-    LoopingZoneComponent(juce::AudioThumbnail&);
+    LoopingZoneComponent(juce::AudioThumbnail&, LoopingZoneProcessor&);
     ~LoopingZoneComponent() override;
 
 	void onMouseDown(const juce::MouseEvent& event);
@@ -39,6 +39,8 @@ private:
     bool loopEnabled = false;
 
     juce::AudioThumbnail& audioThumbnail;
+
+	LoopingZoneProcessor& loopingZoneProcessor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LoopingZoneComponent)
 };

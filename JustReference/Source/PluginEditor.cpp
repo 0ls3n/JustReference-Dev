@@ -193,7 +193,7 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
 
-    if (waveformVisualizer.getLoopingComponent().getIsLooping())
+    /*if (waveformVisualizer.getLoopingComponent().getIsLooping())
     {
         double loopStart = waveformVisualizer.getLoopingComponent().xToTime(
             std::min(waveformVisualizer.getLoopingComponent().getLoopStart(),
@@ -207,7 +207,7 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
         {
             audioProcessor.transportSource.setPosition(loopStart);
         }
-    }
+    }*/
 
     if (filterIsAnimating)
     {
