@@ -12,21 +12,24 @@
 
 #include <JuceHeader.h>
 
-class AudioPlayerAudioProcessor;
+
 
 class LoopingZoneProcessor
 {
 public:
-    LoopingZoneProcessor(AudioPlayerAudioProcessor&);
+    LoopingZoneProcessor();
     ~LoopingZoneProcessor();
 
     void setLoopStart(int startX) { loopStartX = startX; }
 	void setLoopEnd(int endX) { loopEndX = endX; }
 
+    void setLoopDurationInSeconds(double startInSeconds, double endInSeconds);
+
 	int getLoopStart() const { return loopStartX; }
 	int getLoopEnd() const { return loopEndX; }
 
 	void setLoopEnabled(bool isEnabled) { loopEnabled = isEnabled; }
+    bool getLoopEnabled() { return loopEnabled; }
 
     void process(juce::AudioBuffer<float>& buffer, juce::AudioTransportSource& transportSource);
 
@@ -35,6 +38,6 @@ private:
 	bool loopEnabled = false;
     int loopStartX = 0;
 	int loopEndX = 0;
-
-    AudioPlayerAudioProcessor& audioProcessor;
+    double loopStartInSeconds = 0.0f;
+    double loopEndInSeconds = 0.0f;
 };

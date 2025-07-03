@@ -91,7 +91,7 @@ private:
 	juce::AudioThumbnailCache thumbnailCache{ 10 };
 	juce::AudioThumbnail audioThumbnail{ 256, formatManager, thumbnailCache };
 
-    LoopingZoneProcessor loopingZoneProcessor{ *this };
+    LoopingZoneProcessor loopingZoneProcessor;
 
     void setFileName(const juce::String newFilename);
     std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song loaded...") };

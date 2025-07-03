@@ -5,6 +5,11 @@
 LoopingZoneComponent::LoopingZoneComponent(juce::AudioThumbnail& sharedThumbnail, LoopingZoneProcessor& l) : audioThumbnail(sharedThumbnail), loopingZoneProcessor(l)
 {
     setInterceptsMouseClicks(false, false);
+
+    loopStartX = loopingZoneProcessor.getLoopStart();
+    loopEndX = loopingZoneProcessor.getLoopEnd();
+    loopEnabled = loopingZoneProcessor.getLoopEnabled();
+    repaint();
 }
 
 LoopingZoneComponent::~LoopingZoneComponent()
@@ -43,6 +48,8 @@ void LoopingZoneComponent::onMouseDown(const juce::MouseEvent& event)
     loopStartX = event.x;
 	loopEndX = event.x;
 
+    loopingZoneProcessor.setLoopEnabled(loopEnabled);
+
     repaint();
 }
 
@@ -70,6 +77,13 @@ void LoopingZoneComponent::onMouseUp(const juce::MouseEvent& event)
         loopStartX = 0;
 		loopEndX = 0;
     }
+
+    loopingZoneProcessor.setLoopEnabled(loopEnabled);
+    loopingZoneProcessor.setLoopStart(loopStartX);
+    loopingZoneProcessor.setLoopEnd(loopEndX);
+
+    loopingZoneProcessor.setLoopDurationInSeconds(std::min(xToTime(loopStartX), xToTime(loopEndX)),
+        std::max(xToTime(loopEndX), xToTime(loopStartX)));
 
     repaint();
 }
