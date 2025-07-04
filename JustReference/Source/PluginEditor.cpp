@@ -132,6 +132,9 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             {
                 audioProcessor.loadFile(file);
 				auto fileName = audioProcessor.getFileName();
+                audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
+                waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+                waveformVisualizer.getLoopingComponent().repaint();
                 if (fileName != nullptr)
                 {
 					this->songTitle = *fileName;
@@ -192,22 +195,6 @@ void AudioPlayerAudioProcessorEditor::timerCallback()
 {
     // Update the playhead!!
     waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
-
-    /*if (waveformVisualizer.getLoopingComponent().getIsLooping())
-    {
-        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(
-            std::min(waveformVisualizer.getLoopingComponent().getLoopStart(),
-            waveformVisualizer.getLoopingComponent().getLoopEnd()));
-
-        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(
-            std::max(waveformVisualizer.getLoopingComponent().getLoopStart(),
-            waveformVisualizer.getLoopingComponent().getLoopEnd()));
-    
-        if (audioProcessor.transportSource.getCurrentPosition() >= loopEnd)
-        {
-            audioProcessor.transportSource.setPosition(loopStart);
-        }
-    }*/
 
     if (filterIsAnimating)
     {
