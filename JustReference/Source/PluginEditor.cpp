@@ -47,6 +47,9 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
                 {
                     audioProcessor.loadFile(file);
                     auto fileName = audioProcessor.getFileName();
+                    audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
+                    waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+                    waveformVisualizer.getLoopingComponent().repaint();
                     if (fileName != nullptr)
                     {
                         this->songTitle = *fileName;
