@@ -45,7 +45,7 @@ private:
 
     juce::AudioThumbnail& thumbnail;
 
-    juce::Colour waveformColour{ ApplicationColours().secondary };
+    juce::Colour waveformColour{ ApplicationColours::secondary };
 
     double currentPlayheadTime = 0.0f;
 

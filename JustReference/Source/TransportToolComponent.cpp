@@ -17,7 +17,7 @@ TransportToolComponent::TransportToolComponent()
 
     addAndMakeVisible(openButton);
     openButton.setButtonText("Open file");
-    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
     openButton.onClick = [this]()
         {
             if (onOpenButtonClicked) onOpenButtonClicked();
@@ -25,7 +25,7 @@ TransportToolComponent::TransportToolComponent()
 
     addAndMakeVisible(referenceButton);
     referenceButton.setButtonText("Reference");
-    referenceButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+    referenceButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
     referenceButton.setEnabled(true);
     referenceButton.onClick = [this]()
         {
@@ -39,7 +39,7 @@ TransportToolComponent::~TransportToolComponent()
 
 void TransportToolComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (ApplicationColours().toolbar);
+    g.fillAll (ApplicationColours::toolbar);
 }
 
 void TransportToolComponent::resized()
