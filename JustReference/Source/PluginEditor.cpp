@@ -68,7 +68,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 
     addAndMakeVisible(filterToggleButton);
     filterToggleButton.setButtonText("Filters");
-	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 
     filterToggleButton.onClick = [this]() {
         if (filterIsAnimating)
@@ -95,7 +95,7 @@ AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() {  }
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(ApplicationColours().background);
+    g.fillAll(ApplicationColours::background);
 }
 
 void AudioPlayerAudioProcessorEditor::resized()
@@ -155,13 +155,13 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
-        waveformVisualizer.setWaveformColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
+        waveformVisualizer.setWaveformColour(ApplicationColours::primary);
     }
     else
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
-        waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
+        waveformVisualizer.setWaveformColour(ApplicationColours::secondary);
     }
 
 	repaint();
@@ -183,12 +183,12 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
-		waveformVisualizer.setWaveformColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
+		waveformVisualizer.setWaveformColour(ApplicationColours::primary);
     }
     else {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
-		waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
+		waveformVisualizer.setWaveformColour(ApplicationColours::secondary);
     }
 
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);

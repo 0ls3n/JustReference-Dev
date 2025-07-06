@@ -16,7 +16,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 {
 	filterButtonContainer.addAndMakeVisible(subFilterButton);
 	subFilterButton.setButtonText("Sub");
-	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	subFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 	subFilterButton.onClick = [this]() 
 		{
 			if (soloFilter == SoloFilterType::Sub)
@@ -29,7 +29,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 
 	filterButtonContainer.addAndMakeVisible(lowMidFilterButton);
 	lowMidFilterButton.setButtonText("Low Mid");
-	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	lowMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 	lowMidFilterButton.onClick = [this]() 
 		{
 			if (soloFilter == SoloFilterType::LowMid)
@@ -42,7 +42,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 
 	filterButtonContainer.addAndMakeVisible(highMidFilterButton);
 	highMidFilterButton.setButtonText("High Mid");
-	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	highMidFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 	highMidFilterButton.onClick = [this]()
 		{
 			if (soloFilter == SoloFilterType::HighMid)
@@ -56,7 +56,7 @@ FilterToolComponent::FilterToolComponent(SoloFilterType& sharedFilterType) : sol
 
     filterButtonContainer.addAndMakeVisible(airFilterButton);
 	airFilterButton.setButtonText("Air");
-	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	airFilterButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 	airFilterButton.onClick = [this]() 
 		{
 			if (soloFilter == SoloFilterType::High)
@@ -80,7 +80,7 @@ FilterToolComponent::~FilterToolComponent()
 
 void FilterToolComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (ApplicationColours().toolbar);
+    g.fillAll (ApplicationColours::toolbar);
 	updateFilterButtons();
 }
 
@@ -130,34 +130,34 @@ void FilterToolComponent::updateFilterButtons()
 	switch (soloFilter)
 	{
 	case SoloFilterType::Sub:
-		changeButtonColour(SubFilterButton, ApplicationColours().primary);
-		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		changeButtonColour(SubFilterButton, ApplicationColours::primary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours::secondary);
 		break;
 	case SoloFilterType::LowMid:
-		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
-		changeButtonColour(LowMidFilterButton, ApplicationColours().primary);
-		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		changeButtonColour(SubFilterButton, ApplicationColours::secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours::primary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours::secondary);
 		break;
 	case SoloFilterType::HighMid:
-		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
-		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(HighMidFilterButton, ApplicationColours().primary);
-		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		changeButtonColour(SubFilterButton, ApplicationColours::secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours::primary);
+		changeButtonColour(AirFilterButton, ApplicationColours::secondary);
 		break;
 	case SoloFilterType::High:
-		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
-		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(AirFilterButton, ApplicationColours().primary);
+		changeButtonColour(SubFilterButton, ApplicationColours::secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours::primary);
 		break;
 	case SoloFilterType::NoSolo:
-		changeButtonColour(SubFilterButton, ApplicationColours().secondary);
-		changeButtonColour(LowMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(HighMidFilterButton, ApplicationColours().secondary);
-		changeButtonColour(AirFilterButton, ApplicationColours().secondary);
+		changeButtonColour(SubFilterButton, ApplicationColours::secondary);
+		changeButtonColour(LowMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(HighMidFilterButton, ApplicationColours::secondary);
+		changeButtonColour(AirFilterButton, ApplicationColours::secondary);
 		break;
 
 	default:
