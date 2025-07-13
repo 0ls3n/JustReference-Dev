@@ -19,7 +19,9 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, nullptr, juce::Identifier("apvtsJustReference"), 
+                           {
+                           })
 #endif
 {
     formatManager.registerBasicFormats();
@@ -177,14 +179,14 @@ juce::AudioProcessorEditor* AudioPlayerAudioProcessor::createEditor()
 //==============================================================================
 void AudioPlayerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
+    // You should use this method to store your apvts in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
 void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
+    // You should use this method to restore your apvts from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
 
@@ -215,6 +217,21 @@ void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* 
     {
         // Handle thumbnail changes if necessary
 	}
+}
+
+void AudioPlayerAudioProcessor::getCurrentProgramStateInformation(juce::MemoryBlock& destData)
+{
+    juce::MemoryOutputStream stream(destData, true);
+    apvts.state.writeToStream(stream);
+}
+
+void AudioPlayerAudioProcessor::setCurrentProgramStateInformation(const void* data, int sizeInBytes)
+{
+    juce::ValueTree tree = juce::ValueTree::readFromData(data, sizeInBytes);
+    if (tree.isValid())
+    {
+        apvts.state = tree;
+    }
 }
 
 std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()
