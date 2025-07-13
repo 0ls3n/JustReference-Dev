@@ -86,27 +86,29 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
-    auto filePathVar = audioProcessor.getTreeState().state.getProperty("filePath");
-    if (filePathVar.isString())
-    {
-        juce::File file(filePathVar.toString());
-
-        if (file.existsAsFile())
+    if (!audioProcessor.isFileLoaded()) {
+        auto filePathVar = audioProcessor.getTreeState().state.getProperty("filePath");
+        if (filePathVar.isString())
         {
-            audioProcessor.loadFile(file);
-            auto fileName = audioProcessor.getFileName();
-            saveFilePath(file.getFullPathName());
+            juce::File file(filePathVar.toString());
 
-            audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-            waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-            waveformVisualizer.getLoopingComponent().repaint();
-            if (fileName != nullptr)
+            if (file.existsAsFile())
             {
-                this->songTitle = *fileName;
-            }
+                audioProcessor.loadFile(file);
+                auto fileName = audioProcessor.getFileName();
+                saveFilePath(file.getFullPathName());
 
-            updateButtonStates();
-            repaint();
+                audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
+                waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+                waveformVisualizer.getLoopingComponent().repaint();
+                if (fileName != nullptr)
+                {
+                    this->songTitle = *fileName;
+                }
+
+                updateButtonStates();
+                repaint();
+            }
         }
     }
 
