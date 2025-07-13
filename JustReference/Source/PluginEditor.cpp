@@ -43,25 +43,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
             if (files.size() > 0)
             {
                 juce::File file(files[0]);
-                if (file.existsAsFile())
-                {
-                    audioProcessor.loadFile(file);
-                    auto fileName = audioProcessor.getFileName();
-                    saveFilePath(file.getFullPathName());
-
-                    audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-                    waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-                    waveformVisualizer.getLoopingComponent().repaint();
-
-                    if (fileName != nullptr)
-                    {
-                        this->songTitle = *fileName;
-                    }
-
-                    
-                    updateButtonStates();
-                    repaint();
-                }
+                loadFile(file);
             }
         };
 
@@ -92,23 +74,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         {
             juce::File file(filePathVar.toString());
 
-            if (file.existsAsFile())
-            {
-                audioProcessor.loadFile(file);
-                auto fileName = audioProcessor.getFileName();
-                saveFilePath(file.getFullPathName());
-
-                audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-                waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-                waveformVisualizer.getLoopingComponent().repaint();
-                if (fileName != nullptr)
-                {
-                    this->songTitle = *fileName;
-                }
-
-                updateButtonStates();
-                repaint();
-            }
+            loadFile(file);
         }
     }
 
@@ -153,6 +119,27 @@ void AudioPlayerAudioProcessorEditor::resized()
     filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
 }
 
+void AudioPlayerAudioProcessorEditor::loadFile(const juce::File& file)
+{
+    if (file.existsAsFile())
+    {
+        audioProcessor.loadFile(file);
+        auto fileName = audioProcessor.getFileName();
+        saveFilePath(file.getFullPathName());
+
+        audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
+        waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+        waveformVisualizer.getLoopingComponent().repaint();
+        if (fileName != nullptr)
+        {
+            this->songTitle = *fileName;
+        }
+
+        updateButtonStates();
+        repaint();
+    }
+}
+
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
 {
     chooser = std::make_unique<juce::FileChooser>("Select a file...", juce::File{}, "*.wav;*.mp3");
@@ -161,23 +148,7 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
         [this](const juce::FileChooser& fc)
         {
             auto file = fc.getResult();
-            if (file.existsAsFile())
-            {
-                audioProcessor.loadFile(file);
-				auto fileName = audioProcessor.getFileName();
-                saveFilePath(file.getFullPathName());
-
-                audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-                waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-                waveformVisualizer.getLoopingComponent().repaint();
-                if (fileName != nullptr)
-                {
-					this->songTitle = *fileName;
-                }
-
-                updateButtonStates();
-				repaint();
-            }
+            loadFile(file);
         });
 }
 
