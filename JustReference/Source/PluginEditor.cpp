@@ -47,13 +47,17 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
                 {
                     audioProcessor.loadFile(file);
                     auto fileName = audioProcessor.getFileName();
+                    saveFilePath(file.getFullPathName());
+
                     audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
                     waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
                     waveformVisualizer.getLoopingComponent().repaint();
+
                     if (fileName != nullptr)
                     {
                         this->songTitle = *fileName;
                     }
+
                     
                     updateButtonStates();
                     repaint();
@@ -135,6 +139,8 @@ void AudioPlayerAudioProcessorEditor::openButtonClicked()
             {
                 audioProcessor.loadFile(file);
 				auto fileName = audioProcessor.getFileName();
+                saveFilePath(file.getFullPathName());
+
                 audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
                 waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
                 waveformVisualizer.getLoopingComponent().repaint();
@@ -192,6 +198,11 @@ void AudioPlayerAudioProcessorEditor::updateButtonStates()
     }
 
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
+}
+
+void AudioPlayerAudioProcessorEditor::saveFilePath(const juce::String& path) const
+{
+    audioProcessor.getTreeState().state.setProperty("filePath", path, nullptr);
 }
 
 void AudioPlayerAudioProcessorEditor::timerCallback()

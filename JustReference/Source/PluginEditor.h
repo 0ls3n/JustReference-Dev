@@ -41,6 +41,8 @@ private:
 
     juce::String songTitle;
 
+    void saveFilePath(const juce::String& path) const;
+
     juce::Label songTitleLabel;
 
     SectionComponent leftSidebar;

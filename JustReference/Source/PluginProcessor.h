@@ -86,7 +86,11 @@ public:
 	LoopingZoneProcessor& getLoopingZoneProcessor() { return loopingZoneProcessor; }
 
     SoloFilterProcessing soloFilterProcessing{ 60.0f, 500.0f, 3000.0f, 10000.0f };
+
+    juce::AudioProcessorValueTreeState& getTreeState() { return apvts; }
 private:
+
+    juce::AudioProcessorValueTreeState apvts;
 
 	juce::AudioThumbnailCache thumbnailCache{ 10 };
 	juce::AudioThumbnail audioThumbnail{ 256, formatManager, thumbnailCache };
@@ -107,4 +111,7 @@ private:
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
+public:
+    void getCurrentProgramStateInformation(juce::MemoryBlock& destData) override;
+    void setCurrentProgramStateInformation(const void* data, int sizeInBytes) override;
 };
