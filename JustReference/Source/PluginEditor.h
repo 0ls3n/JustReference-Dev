@@ -34,6 +34,8 @@ private:
     AudioPlayerAudioProcessor& audioProcessor;
     std::unique_ptr<juce::FileChooser> chooser;
 
+    void loadFile(const juce::File& file);
+
     void openButtonClicked();
 	void referenceSwitchButtonClicked();
 

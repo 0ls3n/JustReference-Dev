@@ -110,8 +110,4 @@ private:
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
-
-public:
-    void getCurrentProgramStateInformation(juce::MemoryBlock& destData) override;
-    void setCurrentProgramStateInformation(const void* data, int sizeInBytes) override;
 };
