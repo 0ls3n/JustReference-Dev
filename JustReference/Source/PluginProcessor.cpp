@@ -179,15 +179,17 @@ juce::AudioProcessorEditor* AudioPlayerAudioProcessor::createEditor()
 //==============================================================================
 void AudioPlayerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your apvts in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    juce::MemoryOutputStream stream(destData, true);
+    apvts.state.writeToStream(stream);
 }
 
 void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your apvts from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    juce::ValueTree tree = juce::ValueTree::readFromData(data, sizeInBytes);
+    if (tree.isValid())
+    {
+        apvts.state = tree;
+    }
 }
 
 void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
@@ -217,21 +219,6 @@ void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* 
     {
         // Handle thumbnail changes if necessary
 	}
-}
-
-void AudioPlayerAudioProcessor::getCurrentProgramStateInformation(juce::MemoryBlock& destData)
-{
-    juce::MemoryOutputStream stream(destData, true);
-    apvts.state.writeToStream(stream);
-}
-
-void AudioPlayerAudioProcessor::setCurrentProgramStateInformation(const void* data, int sizeInBytes)
-{
-    juce::ValueTree tree = juce::ValueTree::readFromData(data, sizeInBytes);
-    if (tree.isValid())
-    {
-        apvts.state = tree;
-    }
 }
 
 std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()

@@ -86,6 +86,30 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
+    auto filePathVar = audioProcessor.getTreeState().state.getProperty("filePath");
+    if (filePathVar.isString())
+    {
+        juce::File file(filePathVar.toString());
+
+        if (file.existsAsFile())
+        {
+            audioProcessor.loadFile(file);
+            auto fileName = audioProcessor.getFileName();
+            saveFilePath(file.getFullPathName());
+
+            audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
+            waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
+            waveformVisualizer.getLoopingComponent().repaint();
+            if (fileName != nullptr)
+            {
+                this->songTitle = *fileName;
+            }
+
+            updateButtonStates();
+            repaint();
+        }
+    }
+
     startTimerHz(30);
 
 	chooser.reset();
