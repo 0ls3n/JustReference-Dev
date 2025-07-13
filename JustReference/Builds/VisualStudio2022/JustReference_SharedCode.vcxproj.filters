@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="JustReference\SlotFeature">
+      <UniqueIdentifier>{87A14691-2749-77D2-7F05-BA924D3A18D9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JustReference\LoopingProcessing">
       <UniqueIdentifier>{1C447353-D752-AAF6-4094-ED0231E0960D}</UniqueIdentifier>
     </Filter>
@@ -706,6 +709,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SlotsComponent.cpp">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp">
       <Filter>JustReference\LoopingProcessing</Filter>
     </ClCompile>
@@ -3708,6 +3714,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SlotsComponent.h">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\LoopingZoneComponent.h">
       <Filter>JustReference\LoopingProcessing</Filter>
     </ClInclude>

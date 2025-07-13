@@ -144,6 +144,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SlotsComponent.cpp"/>
     <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp"/>
     <ClCompile Include="..\..\Source\LoopingZoneProcessor.cpp"/>
     <ClCompile Include="..\..\Source\FilterToolComponent.cpp"/>
@@ -2949,6 +2950,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SlotsComponent.h"/>
     <ClInclude Include="..\..\Source\LoopingZoneComponent.h"/>
     <ClInclude Include="..\..\Source\LoopingZoneProcessor.h"/>
     <ClInclude Include="..\..\Source\FilterToolComponent.h"/>

@@ -15,6 +15,7 @@
 #include "TransportToolComponent.h"
 #include "BrandingHeader.h"
 #include "FilterToolComponent.h"
+#include "SlotsComponent.h"
 
 //==============================================================================
 /**
@@ -47,11 +48,9 @@ private:
 
     juce::Label songTitleLabel;
 
-    SectionComponent leftSidebar;
-    SectionComponent rightSidebar;
-
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
     FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
+    SlotsComponent slotComponent;
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail(), audioProcessor.getLoopingZoneProcessor() };
