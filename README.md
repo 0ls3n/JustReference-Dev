@@ -8,6 +8,11 @@ Modern plugins are often cluttered with flashy meters, analyzers, and visual gim
 
 > *Built to sharpen your ears — not your eyes.*
 
+## Contribution
+If you like what I do, I would be very happy to recieve any kind of contribution :)
+
+<a href="https://www.buymeacoffee.com/0ls3n" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 ## Features
 
 - **Toggle between reference and mix** at the click of a button  
