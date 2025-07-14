@@ -712,6 +712,9 @@
     <ClCompile Include="..\..\Source\SlotsComponent.cpp">
       <Filter>JustReference\SlotFeature</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SlotsProcessor.cpp">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp">
       <Filter>JustReference\LoopingProcessing</Filter>
     </ClCompile>
@@ -3715,6 +3718,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\SlotsComponent.h">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SlotsProcessor.h">
       <Filter>JustReference\SlotFeature</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LoopingZoneComponent.h">

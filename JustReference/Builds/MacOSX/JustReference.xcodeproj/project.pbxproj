@@ -41,6 +41,7 @@
 		3EC1ACA576B1334E1D07B038 /* TransportToolComponent.cpp */ = {isa = PBXBuildFile; fileRef = 78F7CDDA85FEA2E404EDC86F; };
 		489EB93DD247E0A3645306CD /* include_juce_audio_formats.mm */ = {isa = PBXBuildFile; fileRef = CD1187F84BAB74201FC4279C; };
 		53036A26D566C21483C561E1 /* Standalone Plugin */ = {isa = PBXBuildFile; fileRef = 374CCD77D5F726CE54F252C4; };
+		53E751DD9AD43C290340CF82 /* SlotsProcessor.cpp */ = {isa = PBXBuildFile; fileRef = F779EF916744C267D53B0633; };
 		593534058E10494148844762 /* include_juce_audio_plugin_client_VST3.mm */ = {isa = PBXBuildFile; fileRef = 6C55EBE6F507D0E3D27454FB; };
 		5F9C3E2E57AF28E4010D9242 /* QuartzCore.framework */ = {isa = PBXBuildFile; fileRef = A345A1A09DB7DCC241128984; };
 		610A8671F28CF51479538F30 /* Security.framework */ = {isa = PBXBuildFile; fileRef = 232AA2AA70423B97D3511782; };
@@ -95,6 +96,7 @@
 		1DA3B3500F9023127696ED6D /* include_juce_audio_utils.mm */ /* include_juce_audio_utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_utils.mm; path = ../../JuceLibraryCode/include_juce_audio_utils.mm; sourceTree = SOURCE_ROOT; };
 		1FE7575ED3787ED793FD39FC /* BrandingHeader.cpp */ /* BrandingHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BrandingHeader.cpp; path = ../../Source/BrandingHeader.cpp; sourceTree = SOURCE_ROOT; };
 		232AA2AA70423B97D3511782 /* Security.framework */ /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		250FDD648DAD21A2C4EECFF5 /* SlotsProcessor.h */ /* SlotsProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SlotsProcessor.h; path = ../../Source/SlotsProcessor.h; sourceTree = SOURCE_ROOT; };
 		29514DDC4E8DAC4C3B2B382E /* juce_dsp */ /* juce_dsp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_dsp; path = "~/JUCE/modules/juce_dsp"; sourceTree = "<absolute>"; };
 		2A12C09CA7E13A328ABC25C4 /* include_juce_gui_extra.mm */ /* include_juce_gui_extra.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_extra.mm; path = ../../JuceLibraryCode/include_juce_gui_extra.mm; sourceTree = SOURCE_ROOT; };
 		2B6D337B91DFA5D5F25C8CFF /* include_juce_audio_processors.mm */ /* include_juce_audio_processors.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_processors.mm; path = ../../JuceLibraryCode/include_juce_audio_processors.mm; sourceTree = SOURCE_ROOT; };
@@ -171,6 +173,7 @@
 		EE69902A1D96086BAF8F4099 /* WebKit.framework */ /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		F490F3C363D0DB08198B82C2 /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
 		F5833C618D88057E71E037D2 /* RecentFilesMenuTemplate.nib */ /* RecentFilesMenuTemplate.nib */ = {isa = PBXFileReference; lastKnownFileType = file.nib; name = RecentFilesMenuTemplate.nib; path = RecentFilesMenuTemplate.nib; sourceTree = SOURCE_ROOT; };
+		F779EF916744C267D53B0633 /* SlotsProcessor.cpp */ /* SlotsProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SlotsProcessor.cpp; path = ../../Source/SlotsProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		FF6CB6B61E26978132D00DB7 /* DiscRecording.framework */ /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -438,6 +441,8 @@
 			children = (
 				C3CE9A441D2C9989AF5B3E0B,
 				79107295B496254B20B43E94,
+				F779EF916744C267D53B0633,
+				250FDD648DAD21A2C4EECFF5,
 			);
 			name = SlotFeature;
 			sourceTree = "<group>";
@@ -787,6 +792,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B79D36747ABF8371D0BC371C,
+				53E751DD9AD43C290340CF82,
 				B6A4AC3956099F57658AB193,
 				3908DC7848B1E2DA8260FC56,
 				13DF4130324714FE217B3CD2,
