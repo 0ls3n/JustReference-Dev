@@ -22,6 +22,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
 	addAndMakeVisible(filterTool);
+    addAndMakeVisible(slotComponent);
 
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
 	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
@@ -105,6 +106,7 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto filterButtonContainerHeight = 60;
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
+    auto slotArea = area.removeFromTop(60);
 	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
 	auto filterArea = area.removeFromBottom(filterCurrentHeight);
     auto filterToggleButtonArea = area.removeFromBottom(20);
@@ -113,6 +115,7 @@ void AudioPlayerAudioProcessorEditor::resized()
 
 	brandingHeader.setBounds(headerArea);
     songTitleLabel.setBounds(area.removeFromTop(60));
+    slotComponent.setBounds(slotArea);
 	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
 	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
