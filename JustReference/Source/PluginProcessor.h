@@ -23,6 +23,14 @@ enum class TransportState
     Stopped
 };
 
+enum class SlotSelected
+{
+    Slot1,
+    Slot2,
+    Slot3,
+    Slot4
+};
+
 class AudioPlayerAudioProcessor  : public juce::AudioProcessor, private juce::ChangeListener
 {
 public:
@@ -87,6 +95,8 @@ public:
 
     SoloFilterProcessing soloFilterProcessing{ 60.0f, 500.0f, 3000.0f, 10000.0f };
 
+    SlotSelected& getSlotSelected() { return currentSlot; }
+
     juce::AudioProcessorValueTreeState& getTreeState() { return apvts; }
 private:
 
@@ -107,6 +117,8 @@ private:
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 
     juce::File currentFile;
+
+    SlotSelected currentSlot = SlotSelected::Slot1;
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;

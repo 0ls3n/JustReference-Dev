@@ -50,7 +50,7 @@ private:
 
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
     FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
-    SlotsComponent slotComponent;
+    SlotsComponent slotComponent{ audioProcessor.getSlotSelected() };
 	TransportToolComponent transportTool;
 
     WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail(), audioProcessor.getLoopingZoneProcessor() };

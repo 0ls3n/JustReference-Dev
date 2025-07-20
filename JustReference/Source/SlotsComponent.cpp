@@ -13,7 +13,7 @@
 #include "ApplicationColours.h"
 
 //==============================================================================
-SlotsComponent::SlotsComponent()
+SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(sharedSlotSelected)
 {
     addAndMakeVisible(slot1);
     slot1.setButtonText("Slot 1");
@@ -99,25 +99,25 @@ void SlotsComponent::updateButtonState()
 {
 	switch (currentSlot)
 	{
-	case Slot1:
+	case SlotSelected::Slot1:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot2:
+	case SlotSelected::Slot2:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot3:
+	case SlotSelected::Slot3:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot4:
+	case SlotSelected::Slot4:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);

@@ -10,7 +10,7 @@ public:
 	~SlotProcessor();
 
 	void prepareToPlay(double sampleRate, int samplePerBlock);
-	void process(juce::AudioBuffer<float>& buffer, bool& isReference);
+	void process(juce::AudioBuffer<float>& buffer, const bool& isReference);
 
 	void loadFile(const juce::File& file);
 	std::shared_ptr<const juce::String> getFileName() const;
