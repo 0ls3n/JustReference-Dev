@@ -19,6 +19,8 @@ public:
 	juce::AudioThumbnailCache& getAudioThumbnailCache() { return thumbnailCache; }
 
 	juce::AudioTransportSource& getTransportSource() { return transportSource; }
+
+	LoopingZoneProcessor& getLoopingZoneProcessor() { return loopingZoneProcessor; }
 private:
 	juce::AudioTransportSource transportSource;
 	juce::File currentFile;
