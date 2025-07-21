@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SoloFilterProcessing.h"
 #include "LoopingZoneProcessor.h"
+#include "SlotsProcessor.h"
 
 //==============================================================================
 /**
@@ -98,6 +99,8 @@ public:
     SlotSelected& getSlotSelected() { return currentSlot; }
 
     juce::AudioProcessorValueTreeState& getTreeState() { return apvts; }
+
+    SlotProcessor* getSlotProcessor(int index);
 private:
 
     juce::AudioProcessorValueTreeState apvts;
@@ -119,6 +122,11 @@ private:
     juce::File currentFile;
 
     SlotSelected currentSlot = SlotSelected::Slot1;
+
+    SlotProcessor slotProcessor1 { *this };
+    SlotProcessor slotProcessor2 { *this };
+    SlotProcessor slotProcessor3 { *this };
+    SlotProcessor slotProcessor4 { *this };
 
     // Inherited via ChangeListener
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;

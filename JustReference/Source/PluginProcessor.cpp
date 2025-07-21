@@ -100,7 +100,10 @@ void AudioPlayerAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+    slotProcessor1.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor2.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor3.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor4.prepareToPlay(sampleRate, samplesPerBlock);
 
 	soloFilterProcessing.prepareToPlay(sampleRate, samplesPerBlock);
 }
@@ -144,22 +147,21 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         juce::AudioPlayHead::CurrentPositionInfo position;
         if (playHead->getCurrentPosition(position) && position.isPlaying)
         {
-            transportSource.start();
-            if (isReferenceActive)
-            {
-                // REFERENCE: Process the audio block with the transport source
-                buffer.clear();
-
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-
-            }
-            else {
-                // DAW: Process the audio regularly
-                juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
-            }
-
-            loopingZoneProcessor.process(buffer, transportSource);
+	        switch (currentSlot)
+	        {
+	        case SlotSelected::Slot1:
+                slotProcessor1.process(buffer);
+                break;
+	        case SlotSelected::Slot2:
+                slotProcessor2.process(buffer);
+                break;
+	        case SlotSelected::Slot3:
+                slotProcessor3.process(buffer);
+                break;
+	        case SlotSelected::Slot4:
+                slotProcessor4.process(buffer);
+                break;
+	        }
         }
     }
 
@@ -204,6 +206,29 @@ void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
         audioThumbnail.setSource(new juce::FileInputSource(file));
         setFileName(file.getFileNameWithoutExtension());
     }
+}
+
+SlotProcessor* AudioPlayerAudioProcessor::getSlotProcessor(int index)
+{
+	switch (index)
+	{
+	case 1:
+        return &slotProcessor1;
+        break;
+	case 2:
+        return &slotProcessor2;
+        break;
+	case 3:
+        return &slotProcessor3;
+        break;
+	case 4:
+        return &slotProcessor4;
+		break;
+	default:
+        return nullptr;
+        break;
+
+	}
 }
 
 void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)

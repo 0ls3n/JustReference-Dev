@@ -24,34 +24,12 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
 	addAndMakeVisible(filterTool);
     addAndMakeVisible(slotComponent);
 
+    slotComponent.onSlotSelected = [this](SlotSelected slotToBeSelected)
+        {
+            changeSlot(slotToBeSelected);
+        };
+
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
-	//transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
-
-
-    addAndMakeVisible(&songTitleLabel);
-    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
-    songTitleLabel.setJustificationType(juce::Justification::centred);
-    songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
-
-	addAndMakeVisible(waveformVisualizer);
-    waveformVisualizer.onSeek = [this](double position) {
-        audioProcessor.transportSource.setPosition(position);
-        repaint();
-		};
-
-    waveformVisualizer.onFileDropped = [this](const juce::StringArray& files, int x, int y)
-        {
-            if (files.size() > 0)
-            {
-                juce::File file(files[0]);
-                loadFile(file);
-            }
-        };
-
-    waveformVisualizer.onComponentClicked = [this]()
-        {
-            openButtonClicked();
-        };
 
     addAndMakeVisible(filterToggleButton);
     filterToggleButton.setButtonText("Filters");
@@ -69,19 +47,25 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
-    if (!audioProcessor.isFileLoaded()) {
-        auto filePathVar = audioProcessor.getTreeState().state.getProperty("filePath");
-        if (filePathVar.isString())
-        {
-            juce::File file(filePathVar.toString());
+    addAndMakeVisible(slotMainContent1);
+    slotMainContent1.setVisible(true);
 
-            loadFile(file);
-        }
-    }
+    addAndMakeVisible(slotMainContent2);
+    slotMainContent2.setVisible(false);
+
+    addAndMakeVisible(slotMainContent3);
+    slotMainContent3.setVisible(false);
+
+    addAndMakeVisible(slotMainContent4);
+    slotMainContent4.setVisible(false);
+
+    slotMainContent1.update();
+    slotMainContent2.update();
+    slotMainContent3.update();
+    slotMainContent4.update();
+
 
     startTimerHz(30);
-
-	chooser.reset();
 
     updateButtonStates();
 }
@@ -114,11 +98,15 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
 	brandingHeader.setBounds(headerArea);
-    songTitleLabel.setBounds(area.removeFromTop(60));
     slotComponent.setBounds(slotArea);
-	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
 	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
+
+    slotMainContent1.setBounds(area);
+    slotMainContent2.setBounds(area);
+    slotMainContent3.setBounds(area);
+    slotMainContent4.setBounds(area);
+
     filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
 }
 
@@ -131,12 +119,6 @@ void AudioPlayerAudioProcessorEditor::loadFile(const juce::File& file)
         saveFilePath(file.getFullPathName());
 
         audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-        waveformVisualizer.getLoopingComponent().setLoopEnabled(false);
-        waveformVisualizer.getLoopingComponent().repaint();
-        if (fileName != nullptr)
-        {
-            this->songTitle = *fileName;
-        }
 
         updateButtonStates();
         repaint();
@@ -145,14 +127,6 @@ void AudioPlayerAudioProcessorEditor::loadFile(const juce::File& file)
 
 void AudioPlayerAudioProcessorEditor::openButtonClicked()
 {
-    chooser = std::make_unique<juce::FileChooser>("Select a file...", juce::File{}, "*.wav;*.mp3");
-
-    chooser->launchAsync(juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
-        [this](const juce::FileChooser& fc)
-        {
-            auto file = fc.getResult();
-            loadFile(file);
-        });
 }
 
 void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
@@ -162,42 +136,31 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
     if (audioProcessor.isReferenceActive)
     {
 		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
-        waveformVisualizer.setWaveformColour(ApplicationColours::primary);
     }
     else
     {
 		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
-        waveformVisualizer.setWaveformColour(ApplicationColours::secondary);
     }
 
 	repaint();
+
+    slotMainContent1.update();
+    slotMainContent2.update();
+    slotMainContent3.update();
+    slotMainContent4.update();
 }
 
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
-
-    if (audioProcessor.isFileLoaded())
-    {
-        waveformVisualizer.repaint();
-    }
-
-	auto fileName = audioProcessor.getFileName();
-    if (fileName != nullptr)
-    {
-		this->songTitle = *fileName;
-    }
+    changeSlot(audioProcessor.getSlotSelected());
 
     if (audioProcessor.isReferenceActive)
     {
 		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
-		waveformVisualizer.setWaveformColour(ApplicationColours::primary);
     }
     else {
 		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
-		waveformVisualizer.setWaveformColour(ApplicationColours::secondary);
     }
-
-    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
 }
 
 void AudioPlayerAudioProcessorEditor::saveFilePath(const juce::String& path) const
@@ -205,10 +168,39 @@ void AudioPlayerAudioProcessorEditor::saveFilePath(const juce::String& path) con
     audioProcessor.getTreeState().state.setProperty("filePath", path, nullptr);
 }
 
+void AudioPlayerAudioProcessorEditor::changeSlot(SlotSelected slot)
+{
+	switch (slot)
+	{
+	case SlotSelected::Slot1:
+        slotMainContent1.setVisible(true);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot2:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(true);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot3:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(true);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot4:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(true);
+        break;
+	}
+}
+
 void AudioPlayerAudioProcessorEditor::timerCallback()
 {
-    // Update the playhead!!
-    waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
 
     if (filterIsAnimating)
     {

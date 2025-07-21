@@ -10,7 +10,9 @@
 
 #include "SlotsProcessor.h"
 
-SlotProcessor::SlotProcessor(bool& sharedReference) : isReference(sharedReference)
+#include "PluginProcessor.h"
+
+SlotProcessor::SlotProcessor(AudioPlayerAudioProcessor& p) : audioProcessor(p)
 {
     formatManager.registerBasicFormats();
 }
@@ -29,7 +31,7 @@ void SlotProcessor::prepareToPlay(double sampleRate, int samplePerBlock)
 void SlotProcessor::process(juce::AudioBuffer<float>& buffer)
 {
     transportSource.start();
-    if (isReference)
+    if (audioProcessor.isReferenceActive)
     {
         buffer.clear();
 
@@ -60,6 +62,11 @@ void SlotProcessor::loadFile(const juce::File& file)
 std::shared_ptr<const juce::String> SlotProcessor::getFileName() const
 {
     return std::atomic_load_explicit(&fileName, std::memory_order_acquire);
+}
+
+bool SlotProcessor::getIsReference() const
+{
+    return audioProcessor.isReferenceActive;
 }
 
 void SlotProcessor::setFileName(juce::String newFileName)

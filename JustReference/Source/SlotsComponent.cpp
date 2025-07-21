@@ -23,6 +23,7 @@ SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(s
             if (currentSlot != SlotSelected::Slot1)
             {
                 currentSlot = SlotSelected::Slot1;
+                onSlotSelected(SlotSelected::Slot1);
             }
             repaint();
         };
@@ -35,6 +36,7 @@ SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(s
             if (currentSlot != SlotSelected::Slot2)
             {
                 currentSlot = SlotSelected::Slot2;
+                onSlotSelected(SlotSelected::Slot2);
             }
             repaint();
         };
@@ -47,6 +49,7 @@ SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(s
             if (currentSlot != SlotSelected::Slot3)
             {
                 currentSlot = SlotSelected::Slot3;
+                onSlotSelected(SlotSelected::Slot3);
             }
             repaint();
         };
@@ -60,6 +63,7 @@ SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(s
             if (currentSlot != SlotSelected::Slot4)
             {
                 currentSlot = SlotSelected::Slot4;
+                onSlotSelected(SlotSelected::Slot4);
             }
             repaint();
         };

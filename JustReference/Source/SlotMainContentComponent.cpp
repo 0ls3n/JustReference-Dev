@@ -87,6 +87,8 @@ void SlotMainContentComponent::loadFile(const juce::File& file)
             this->songTitle = *fileName;
         }
 
+        songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
+
         repaint();
     }
 }

@@ -2,11 +2,15 @@
 #include <JuceHeader.h>
 #include "LoopingZoneProcessor.h"
 
+
+class AudioPlayerAudioProcessor;
+
 class SlotProcessor
 {
+
 public:
 
-	SlotProcessor(bool& isReference);
+	SlotProcessor(AudioPlayerAudioProcessor& p);
 	~SlotProcessor();
 
 	void prepareToPlay(double sampleRate, int samplePerBlock);
@@ -24,10 +28,11 @@ public:
 
 	bool isFileLoaded() const { return readerSource != nullptr; }
 
-	bool& getIsReference() const { return isReference; }
+	bool getIsReference() const;
+
 private:
 
-	bool& isReference;
+	AudioPlayerAudioProcessor& audioProcessor;
 
 	juce::AudioTransportSource transportSource;
 	juce::File currentFile;

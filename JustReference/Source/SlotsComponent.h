@@ -31,6 +31,8 @@ public:
     SlotSelected getCurrentSlotSelected() const { return currentSlot; }
     void setCurrentSlotSelected(SlotSelected slotToBeSelected) { currentSlot = slotToBeSelected; }
 
+    std::function<void(SlotSelected)> onSlotSelected;
+
 private:
 
     void updateButtonState();
