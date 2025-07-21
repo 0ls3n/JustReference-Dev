@@ -48,10 +48,10 @@ private:
     SlotsComponent slotComponent{ audioProcessor.getSlotSelected() };
 	TransportToolComponent transportTool;
 
-    SlotMainContentComponent slotMainContent1{ *audioProcessor.getSlotProcessor(1) };
-    SlotMainContentComponent slotMainContent2{ *audioProcessor.getSlotProcessor(2) };
-    SlotMainContentComponent slotMainContent3{ *audioProcessor.getSlotProcessor(3) };
-    SlotMainContentComponent slotMainContent4{ *audioProcessor.getSlotProcessor(4) };
+    SlotMainContentComponent slotMainContent1{ *audioProcessor.getSlotProcessor(1), 1 };
+    SlotMainContentComponent slotMainContent2{ *audioProcessor.getSlotProcessor(2), 2 };
+    SlotMainContentComponent slotMainContent3{ *audioProcessor.getSlotProcessor(3), 3 };
+    SlotMainContentComponent slotMainContent4{ *audioProcessor.getSlotProcessor(4), 4 };
 
     void timerCallback() override;
 

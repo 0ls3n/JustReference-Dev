@@ -69,6 +69,11 @@ bool SlotProcessor::getIsReference() const
     return audioProcessor.isReferenceActive;
 }
 
+juce::AudioProcessorValueTreeState& SlotProcessor::getAudioValueTreeState() const
+{
+    return audioProcessor.getTreeState();
+}
+
 void SlotProcessor::setFileName(juce::String newFileName)
 {
     std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFileName);
