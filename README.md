@@ -33,8 +33,3 @@ If you like what I do, I would be very happy to recieve any kind of contribution
 ## Screenshot
 
 ![[image]](Resources/screenshot.png)
-
-## License
-
-This project is **not open source**. It is proprietary software owned by Rasmus Olsen.  
-You are not permitted to copy, modify, or redistribute any part of this repository.
