@@ -110,25 +110,6 @@ void AudioPlayerAudioProcessorEditor::resized()
     filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
 }
 
-void AudioPlayerAudioProcessorEditor::loadFile(const juce::File& file)
-{
-    if (file.existsAsFile())
-    {
-        audioProcessor.loadFile(file);
-        auto fileName = audioProcessor.getFileName();
-        saveFilePath(file.getFullPathName());
-
-        audioProcessor.getLoopingZoneProcessor().setLoopEnabled(false);
-
-        updateButtonStates();
-        repaint();
-    }
-}
-
-void AudioPlayerAudioProcessorEditor::openButtonClicked()
-{
-}
-
 void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 {
 	audioProcessor.isReferenceActive = !audioProcessor.isReferenceActive;

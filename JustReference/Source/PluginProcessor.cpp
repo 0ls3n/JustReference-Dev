@@ -25,14 +25,11 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
 #endif
 {
     formatManager.registerBasicFormats();
-
-    audioThumbnail.addChangeListener(this);
 }
 
 AudioPlayerAudioProcessor::~AudioPlayerAudioProcessor()
 {
     transportSource.setSource(nullptr);
-	readerSource.reset();
 }
 
 //==============================================================================
@@ -194,20 +191,6 @@ void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeI
     }
 }
 
-void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
-{
-	currentFile = file;
-    auto* reader = formatManager.createReaderFor(file);
-    if (reader != nullptr)
-    {
-        transportSource.setSource(nullptr);
-        readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-        transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
-        audioThumbnail.setSource(new juce::FileInputSource(file));
-        setFileName(file.getFileNameWithoutExtension());
-    }
-}
-
 SlotProcessor* AudioPlayerAudioProcessor::getSlotProcessor(int index)
 {
 	switch (index)
@@ -231,24 +214,8 @@ SlotProcessor* AudioPlayerAudioProcessor::getSlotProcessor(int index)
 	}
 }
 
-void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)
-{
-    std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFilename);
-
-	std::atomic_store_explicit(&filename, newPtr, std::memory_order_release);
-}
-
 void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    if (source == &audioThumbnail)
-    {
-        // Handle thumbnail changes if necessary
-	}
-}
-
-std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()
-{
-	return std::atomic_load_explicit(&filename, std::memory_order_acquire);
 }
 
 //==============================================================================

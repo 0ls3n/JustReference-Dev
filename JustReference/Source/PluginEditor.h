@@ -35,9 +35,6 @@ private:
 
     AudioPlayerAudioProcessor& audioProcessor;
 
-    void loadFile(const juce::File& file);
-
-    void openButtonClicked();
 	void referenceSwitchButtonClicked();
 
 	void updateButtonStates();

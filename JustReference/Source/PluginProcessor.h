@@ -71,15 +71,11 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
-    void loadFile(const juce::File& file);
     
     juce::AudioTransportSource transportSource;
 
     TransportState getTransportState() const { return transportState; }
     void setTransportState(TransportState newState) { transportState = newState; }
-
-	bool isFileLoaded() const { return readerSource != nullptr; }
 
 	juce::File getCurrentFile() const { return currentFile; }
 
@@ -88,11 +84,6 @@ public:
     std::shared_ptr<const juce::String> getFileName();
 
     juce::AudioFormatManager formatManager;
-
-    juce::AudioThumbnail& getAudioThumbnail() { return audioThumbnail; }
-	juce::AudioThumbnailCache& getThumbnailCache() { return thumbnailCache; }
-
-	LoopingZoneProcessor& getLoopingZoneProcessor() { return loopingZoneProcessor; }
 
     SoloFilterProcessing soloFilterProcessing{ 60.0f, 500.0f, 3000.0f, 10000.0f };
 
@@ -104,20 +95,10 @@ public:
 private:
 
     juce::AudioProcessorValueTreeState apvts;
-
-	juce::AudioThumbnailCache thumbnailCache{ 10 };
-	juce::AudioThumbnail audioThumbnail{ 256, formatManager, thumbnailCache };
-
-    LoopingZoneProcessor loopingZoneProcessor;
-
-    void setFileName(const juce::String newFilename);
-    std::shared_ptr<const juce::String> filename{ std::make_shared<juce::String>("No song loaded...") };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlayerAudioProcessor)
 
     TransportState transportState = TransportState::Stopped;
-
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 
     juce::File currentFile;
 
