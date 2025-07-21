@@ -19,18 +19,17 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, nullptr, juce::Identifier("apvtsJustReference"), 
+                           {
+                           })
 #endif
 {
     formatManager.registerBasicFormats();
-
-    audioThumbnail.addChangeListener(this);
 }
 
 AudioPlayerAudioProcessor::~AudioPlayerAudioProcessor()
 {
     transportSource.setSource(nullptr);
-	readerSource.reset();
 }
 
 //==============================================================================
@@ -98,7 +97,10 @@ void AudioPlayerAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+    slotProcessor1.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor2.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor3.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor4.prepareToPlay(sampleRate, samplesPerBlock);
 
 	soloFilterProcessing.prepareToPlay(sampleRate, samplesPerBlock);
 }
@@ -142,22 +144,21 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         juce::AudioPlayHead::CurrentPositionInfo position;
         if (playHead->getCurrentPosition(position) && position.isPlaying)
         {
-            transportSource.start();
-            if (isReferenceActive)
-            {
-                // REFERENCE: Process the audio block with the transport source
-                buffer.clear();
-
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-
-            }
-            else {
-                // DAW: Process the audio regularly
-                juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
-            }
-
-            loopingZoneProcessor.process(buffer, transportSource);
+	        switch (currentSlot)
+	        {
+	        case SlotSelected::Slot1:
+                slotProcessor1.process(buffer);
+                break;
+	        case SlotSelected::Slot2:
+                slotProcessor2.process(buffer);
+                break;
+	        case SlotSelected::Slot3:
+                slotProcessor3.process(buffer);
+                break;
+	        case SlotSelected::Slot4:
+                slotProcessor4.process(buffer);
+                break;
+	        }
         }
     }
 
@@ -177,49 +178,44 @@ juce::AudioProcessorEditor* AudioPlayerAudioProcessor::createEditor()
 //==============================================================================
 void AudioPlayerAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    juce::MemoryOutputStream stream(destData, true);
+    apvts.state.writeToStream(stream);
 }
 
 void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-}
-
-void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
-{
-	currentFile = file;
-    auto* reader = formatManager.createReaderFor(file);
-    if (reader != nullptr)
+    juce::ValueTree tree = juce::ValueTree::readFromData(data, sizeInBytes);
+    if (tree.isValid())
     {
-        transportSource.setSource(nullptr);
-        readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-        transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
-        audioThumbnail.setSource(new juce::FileInputSource(file));
-        setFileName(file.getFileNameWithoutExtension());
+        apvts.state = tree;
     }
 }
 
-void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)
+SlotProcessor* AudioPlayerAudioProcessor::getSlotProcessor(int index)
 {
-    std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFilename);
+	switch (index)
+	{
+	case 1:
+        return &slotProcessor1;
+        break;
+	case 2:
+        return &slotProcessor2;
+        break;
+	case 3:
+        return &slotProcessor3;
+        break;
+	case 4:
+        return &slotProcessor4;
+		break;
+	default:
+        return nullptr;
+        break;
 
-	std::atomic_store_explicit(&filename, newPtr, std::memory_order_release);
+	}
 }
 
 void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    if (source == &audioThumbnail)
-    {
-        // Handle thumbnail changes if necessary
-	}
-}
-
-std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()
-{
-	return std::atomic_load_explicit(&filename, std::memory_order_acquire);
 }
 
 //==============================================================================

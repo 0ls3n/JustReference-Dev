@@ -22,50 +22,18 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(brandingHeader);
     addAndMakeVisible(transportTool);
 	addAndMakeVisible(filterTool);
+    addAndMakeVisible(slotComponent);
+
+    slotComponent.onSlotSelected = [this](SlotSelected slotToBeSelected)
+        {
+            changeSlot(slotToBeSelected);
+        };
 
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
-	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
-
-
-    addAndMakeVisible(&songTitleLabel);
-    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
-    songTitleLabel.setJustificationType(juce::Justification::centred);
-    songTitleLabel.setFont(juce::Font(25.0f, juce::Font::bold));
-
-	addAndMakeVisible(waveformVisualizer);
-    waveformVisualizer.onSeek = [this](double position) {
-        audioProcessor.transportSource.setPosition(position);
-        repaint();
-		};
-
-    waveformVisualizer.onFileDropped = [this](const juce::StringArray& files, int x, int y)
-        {
-            if (files.size() > 0)
-            {
-                juce::File file(files[0]);
-                if (file.existsAsFile())
-                {
-                    audioProcessor.loadFile(file);
-                    auto fileName = audioProcessor.getFileName();
-                    if (fileName != nullptr)
-                    {
-                        this->songTitle = *fileName;
-                    }
-                    
-                    updateButtonStates();
-                    repaint();
-                }
-            }
-        };
-
-    waveformVisualizer.onComponentClicked = [this]()
-        {
-            openButtonClicked();
-        };
 
     addAndMakeVisible(filterToggleButton);
     filterToggleButton.setButtonText("Filters");
-	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+	filterToggleButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
 
     filterToggleButton.onClick = [this]() {
         if (filterIsAnimating)
@@ -79,9 +47,25 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
         filterIsAnimating = true;
         };
 
-    startTimerHz(30);
+    addAndMakeVisible(slotMainContent1);
+    slotMainContent1.setVisible(true);
 
-	chooser.reset();
+    addAndMakeVisible(slotMainContent2);
+    slotMainContent2.setVisible(false);
+
+    addAndMakeVisible(slotMainContent3);
+    slotMainContent3.setVisible(false);
+
+    addAndMakeVisible(slotMainContent4);
+    slotMainContent4.setVisible(false);
+
+    slotMainContent1.update();
+    slotMainContent2.update();
+    slotMainContent3.update();
+    slotMainContent4.update();
+
+
+    startTimerHz(30);
 
     updateButtonStates();
 }
@@ -92,7 +76,7 @@ AudioPlayerAudioProcessorEditor::~AudioPlayerAudioProcessorEditor() {  }
 void AudioPlayerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(ApplicationColours().background);
+    g.fillAll(ApplicationColours::background);
 }
 
 void AudioPlayerAudioProcessorEditor::resized()
@@ -106,6 +90,7 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto filterButtonContainerHeight = 60;
 
 	auto headerArea = area.removeFromTop(headerAndFooterHeight);
+    auto slotArea = area.removeFromTop(60);
 	auto transportArea = area.removeFromBottom(headerAndFooterHeight);
 	auto filterArea = area.removeFromBottom(filterCurrentHeight);
     auto filterToggleButtonArea = area.removeFromBottom(20);
@@ -113,34 +98,16 @@ void AudioPlayerAudioProcessorEditor::resized()
     auto rightSidebarArea = area.removeFromRight(sideBarWidth);
 
 	brandingHeader.setBounds(headerArea);
-    songTitleLabel.setBounds(area.removeFromTop(60));
-	waveformVisualizer.setBounds(area.removeFromTop(area.getHeight() - headerAndFooterHeight).reduced(20, 0));
+    slotComponent.setBounds(slotArea);
 	filterTool.setBounds(filterArea);
     transportTool.setBounds(transportArea);
+
+    slotMainContent1.setBounds(area);
+    slotMainContent2.setBounds(area);
+    slotMainContent3.setBounds(area);
+    slotMainContent4.setBounds(area);
+
     filterToggleButton.setBounds(getWidth() / 2 - (buttonWidth / 2), filterToggleButtonArea.getY(), buttonWidth, 20);
-}
-
-void AudioPlayerAudioProcessorEditor::openButtonClicked()
-{
-    chooser = std::make_unique<juce::FileChooser>("Select a file...", juce::File{}, "*.wav;*.mp3");
-
-    chooser->launchAsync(juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles,
-        [this](const juce::FileChooser& fc)
-        {
-            auto file = fc.getResult();
-            if (file.existsAsFile())
-            {
-                audioProcessor.loadFile(file);
-				auto fileName = audioProcessor.getFileName();
-                if (fileName != nullptr)
-                {
-					this->songTitle = *fileName;
-                }
-
-                updateButtonStates();
-				repaint();
-            }
-        });
 }
 
 void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
@@ -149,65 +116,72 @@ void AudioPlayerAudioProcessorEditor::referenceSwitchButtonClicked()
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
-        waveformVisualizer.setWaveformColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
     }
     else
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
-        waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
     }
 
 	repaint();
+
+    slotMainContent1.update();
+    slotMainContent2.update();
+    slotMainContent3.update();
+    slotMainContent4.update();
 }
 
 void AudioPlayerAudioProcessorEditor::updateButtonStates()
 {
-
-    if (audioProcessor.isFileLoaded())
-    {
-        waveformVisualizer.repaint();
-    }
-
-	auto fileName = audioProcessor.getFileName();
-    if (fileName != nullptr)
-    {
-		this->songTitle = *fileName;
-    }
+    changeSlot(audioProcessor.getSlotSelected());
 
     if (audioProcessor.isReferenceActive)
     {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().primary);
-		waveformVisualizer.setWaveformColour(ApplicationColours().primary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::primary);
     }
     else {
-		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours().secondary);
-		waveformVisualizer.setWaveformColour(ApplicationColours().secondary);
+		transportTool.setButtonColour(TransportToolComponent::ButtonId::ReferenceButton, ApplicationColours::secondary);
     }
+}
 
-    songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
+void AudioPlayerAudioProcessorEditor::saveFilePath(const juce::String& path) const
+{
+    audioProcessor.getTreeState().state.setProperty("filePath", path, nullptr);
+}
+
+void AudioPlayerAudioProcessorEditor::changeSlot(SlotSelected slot)
+{
+	switch (slot)
+	{
+	case SlotSelected::Slot1:
+        slotMainContent1.setVisible(true);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot2:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(true);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot3:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(true);
+        slotMainContent4.setVisible(false);
+        break;
+    case SlotSelected::Slot4:
+        slotMainContent1.setVisible(false);
+        slotMainContent2.setVisible(false);
+        slotMainContent3.setVisible(false);
+        slotMainContent4.setVisible(true);
+        break;
+	}
 }
 
 void AudioPlayerAudioProcessorEditor::timerCallback()
 {
-    // Update the playhead!!
-    waveformVisualizer.setPlayheadTime(audioProcessor.transportSource.getCurrentPosition());
-
-    /*if (waveformVisualizer.getLoopingComponent().getIsLooping())
-    {
-        double loopStart = waveformVisualizer.getLoopingComponent().xToTime(
-            std::min(waveformVisualizer.getLoopingComponent().getLoopStart(),
-            waveformVisualizer.getLoopingComponent().getLoopEnd()));
-
-        double loopEnd = waveformVisualizer.getLoopingComponent().xToTime(
-            std::max(waveformVisualizer.getLoopingComponent().getLoopStart(),
-            waveformVisualizer.getLoopingComponent().getLoopEnd()));
-    
-        if (audioProcessor.transportSource.getCurrentPosition() >= loopEnd)
-        {
-            audioProcessor.transportSource.setPosition(loopStart);
-        }
-    }*/
 
     if (filterIsAnimating)
     {

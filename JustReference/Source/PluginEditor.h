@@ -15,6 +15,8 @@
 #include "TransportToolComponent.h"
 #include "BrandingHeader.h"
 #include "FilterToolComponent.h"
+#include "SlotMainContentComponent.h"
+#include "SlotsComponent.h"
 
 //==============================================================================
 /**
@@ -32,25 +34,24 @@ public:
 private:
 
     AudioPlayerAudioProcessor& audioProcessor;
-    std::unique_ptr<juce::FileChooser> chooser;
 
-    void openButtonClicked();
 	void referenceSwitchButtonClicked();
 
 	void updateButtonStates();
 
-    juce::String songTitle;
+    void saveFilePath(const juce::String& path) const;
 
-    juce::Label songTitleLabel;
-
-    SectionComponent leftSidebar;
-    SectionComponent rightSidebar;
+    void changeSlot(SlotSelected slot);
 
     BrandingHeader brandingHeader{ "JustReference", "JustMixing" };
     FilterToolComponent filterTool{ audioProcessor.soloFilterProcessing.getSoloFilterType() };
+    SlotsComponent slotComponent{ audioProcessor.getSlotSelected() };
 	TransportToolComponent transportTool;
 
-    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail(), audioProcessor.getLoopingZoneProcessor() };
+    SlotMainContentComponent slotMainContent1{ *audioProcessor.getSlotProcessor(1), 1 };
+    SlotMainContentComponent slotMainContent2{ *audioProcessor.getSlotProcessor(2), 2 };
+    SlotMainContentComponent slotMainContent3{ *audioProcessor.getSlotProcessor(3), 3 };
+    SlotMainContentComponent slotMainContent4{ *audioProcessor.getSlotProcessor(4), 4 };
 
     void timerCallback() override;
 

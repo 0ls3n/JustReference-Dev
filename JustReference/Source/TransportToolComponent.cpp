@@ -15,17 +15,17 @@
 TransportToolComponent::TransportToolComponent()
 {
 
-    addAndMakeVisible(openButton);
+    /*addAndMakeVisible(openButton);
     openButton.setButtonText("Open file");
-    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+    openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
     openButton.onClick = [this]()
         {
             if (onOpenButtonClicked) onOpenButtonClicked();
-        };
+        };*/
 
     addAndMakeVisible(referenceButton);
     referenceButton.setButtonText("Reference");
-    referenceButton.setColour(juce::TextButton::buttonColourId, ApplicationColours().secondary);
+    referenceButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
     referenceButton.setEnabled(true);
     referenceButton.onClick = [this]()
         {
@@ -39,7 +39,7 @@ TransportToolComponent::~TransportToolComponent()
 
 void TransportToolComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (ApplicationColours().toolbar);
+    g.fillAll (ApplicationColours::toolbar);
 }
 
 void TransportToolComponent::resized()
@@ -49,7 +49,7 @@ void TransportToolComponent::resized()
     auto buttonWidth = 100;
     auto buttonMargin = 10;
 
-	openButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
+	//openButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	referenceButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 
 }

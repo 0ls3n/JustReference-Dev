@@ -37,7 +37,7 @@ BrandingHeader::~BrandingHeader()
 
 void BrandingHeader::paint (juce::Graphics& g)
 {
-    g.fillAll(ApplicationColours().toolbar);
+    g.fillAll(ApplicationColours::toolbar);
 }
 
 void BrandingHeader::resized()
