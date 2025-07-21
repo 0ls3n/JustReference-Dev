@@ -30,6 +30,8 @@ public:
 
 	bool getIsReference() const;
 
+	juce::AudioProcessorValueTreeState& getAudioValueTreeState() const;
+
 private:
 
 	AudioPlayerAudioProcessor& audioProcessor;

@@ -23,7 +23,7 @@ class SlotMainContentComponent  : public juce::Component, private juce::Timer
 public:
 	
 
-	SlotMainContentComponent(SlotProcessor& p);
+	SlotMainContentComponent(SlotProcessor& p, int i);
     ~SlotMainContentComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -33,9 +33,15 @@ public:
 
     void loadFile(const juce::File& file);
 
+    void saveFilePath(const juce::String& filepath) const;
+
     void update();
 
 private:
+
+    int slotIndex;
+
+    juce::String slotName;
 
     void timerCallback() override;
 

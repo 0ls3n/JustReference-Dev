@@ -14,8 +14,11 @@
 
 
 //==============================================================================
-SlotMainContentComponent::SlotMainContentComponent(SlotProcessor& p) : slotProcessor(p)
+SlotMainContentComponent::SlotMainContentComponent(SlotProcessor& p, const int i) : slotIndex(i), slotProcessor(p)
 {
+
+    slotName << "slot" << slotIndex;
+
     addAndMakeVisible(&songTitleLabel);
     songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
     songTitleLabel.setJustificationType(juce::Justification::centred);
@@ -49,7 +52,22 @@ SlotMainContentComponent::SlotMainContentComponent(SlotProcessor& p) : slotProce
                 });
         };
 
+
+    if (!slotProcessor.isFileLoaded())
+    {
+        auto filePathVar = slotProcessor.getAudioValueTreeState().state.getProperty(slotName);
+
+        if (filePathVar.isString())
+        {
+            juce::File file(filePathVar.toString());
+            loadFile(file);
+        }
+    }
+
+
     startTimerHz(30);
+
+    
 
     chooser.reset();
 
@@ -89,8 +107,15 @@ void SlotMainContentComponent::loadFile(const juce::File& file)
 
         songTitleLabel.setText(songTitle, juce::NotificationType::dontSendNotification);
 
+        saveFilePath(file.getFullPathName());
+
         repaint();
     }
+}
+
+void SlotMainContentComponent::saveFilePath(const juce::String& filepath) const
+{
+    slotProcessor.getAudioValueTreeState().state.setProperty(slotName, filepath, nullptr);
 }
 
 void SlotMainContentComponent::update()
