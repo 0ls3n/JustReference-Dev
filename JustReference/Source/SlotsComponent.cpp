@@ -13,7 +13,7 @@
 #include "ApplicationColours.h"
 
 //==============================================================================
-SlotsComponent::SlotsComponent()
+SlotsComponent::SlotsComponent(SlotSelected& sharedSlotSelected) : currentSlot(sharedSlotSelected)
 {
     addAndMakeVisible(slot1);
     slot1.setButtonText("Slot 1");
@@ -23,6 +23,7 @@ SlotsComponent::SlotsComponent()
             if (currentSlot != SlotSelected::Slot1)
             {
                 currentSlot = SlotSelected::Slot1;
+                onSlotSelected(SlotSelected::Slot1);
             }
             repaint();
         };
@@ -35,6 +36,7 @@ SlotsComponent::SlotsComponent()
             if (currentSlot != SlotSelected::Slot2)
             {
                 currentSlot = SlotSelected::Slot2;
+                onSlotSelected(SlotSelected::Slot2);
             }
             repaint();
         };
@@ -47,6 +49,7 @@ SlotsComponent::SlotsComponent()
             if (currentSlot != SlotSelected::Slot3)
             {
                 currentSlot = SlotSelected::Slot3;
+                onSlotSelected(SlotSelected::Slot3);
             }
             repaint();
         };
@@ -60,6 +63,7 @@ SlotsComponent::SlotsComponent()
             if (currentSlot != SlotSelected::Slot4)
             {
                 currentSlot = SlotSelected::Slot4;
+                onSlotSelected(SlotSelected::Slot4);
             }
             repaint();
         };
@@ -99,25 +103,25 @@ void SlotsComponent::updateButtonState()
 {
 	switch (currentSlot)
 	{
-	case Slot1:
+	case SlotSelected::Slot1:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot2:
+	case SlotSelected::Slot2:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot3:
+	case SlotSelected::Slot3:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::primary);
         slot4.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         break;
-	case Slot4:
+	case SlotSelected::Slot4:
         slot1.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot2.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
         slot3.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);

@@ -12,20 +12,17 @@
 
 #include <JuceHeader.h>
 
+#include "PluginProcessor.h"
+#include "WaveformVisualizerComponent.h"
+
+class AudioPlayerAudioProcessor;
+
 
 class SlotsComponent  : public juce::Component
 {
 public:
 
-    enum SlotSelected
-    {
-        Slot1,
-        Slot2,
-        Slot3,
-        Slot4
-    };
-
-    SlotsComponent();
+    SlotsComponent(SlotSelected& sharedSlotSelected);
     ~SlotsComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -33,6 +30,8 @@ public:
 
     SlotSelected getCurrentSlotSelected() const { return currentSlot; }
     void setCurrentSlotSelected(SlotSelected slotToBeSelected) { currentSlot = slotToBeSelected; }
+
+    std::function<void(SlotSelected)> onSlotSelected;
 
 private:
 
@@ -43,7 +42,7 @@ private:
     juce::TextButton slot3;
     juce::TextButton slot4;
 
-    SlotSelected currentSlot = Slot1;
+    SlotSelected& currentSlot;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SlotsComponent)
 };

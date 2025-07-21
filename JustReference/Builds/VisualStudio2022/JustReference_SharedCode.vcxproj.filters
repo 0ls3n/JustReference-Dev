@@ -709,7 +709,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SlotMainContentComponent.cpp">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\SlotsComponent.cpp">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SlotsProcessor.cpp">
       <Filter>JustReference\SlotFeature</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\LoopingZoneComponent.cpp">
@@ -3714,7 +3720,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SlotMainContentComponent.h">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\SlotsComponent.h">
+      <Filter>JustReference\SlotFeature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SlotsProcessor.h">
       <Filter>JustReference\SlotFeature</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LoopingZoneComponent.h">

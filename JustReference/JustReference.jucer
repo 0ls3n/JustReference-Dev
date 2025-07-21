@@ -5,10 +5,18 @@
               companyName="JustMixing" pluginAUMainType="'aumx'">
   <MAINGROUP id="chsqBg" name="JustReference">
     <GROUP id="{CA3C2F08-9415-5AFE-139F-7472C7FC9B91}" name="SlotFeature">
+      <FILE id="IyfUZm" name="SlotMainContentComponent.cpp" compile="1" resource="0"
+            file="Source/SlotMainContentComponent.cpp"/>
+      <FILE id="oRvp0L" name="SlotMainContentComponent.h" compile="0" resource="0"
+            file="Source/SlotMainContentComponent.h"/>
       <FILE id="fqzm5i" name="SlotsComponent.cpp" compile="1" resource="0"
             file="Source/SlotsComponent.cpp"/>
       <FILE id="PRDLHB" name="SlotsComponent.h" compile="0" resource="0"
             file="Source/SlotsComponent.h"/>
+      <FILE id="A6CbIL" name="SlotsProcessor.cpp" compile="1" resource="0"
+            file="Source/SlotsProcessor.cpp"/>
+      <FILE id="iMNFlG" name="SlotsProcessor.h" compile="0" resource="0"
+            file="Source/SlotsProcessor.h"/>
     </GROUP>
     <GROUP id="{2961A776-B31C-D12E-1526-C9B5F979851C}" name="LoopingProcessing">
       <FILE id="CxGNyn" name="LoopingZoneComponent.cpp" compile="1" resource="0"

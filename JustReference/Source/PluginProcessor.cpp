@@ -25,14 +25,11 @@ AudioPlayerAudioProcessor::AudioPlayerAudioProcessor()
 #endif
 {
     formatManager.registerBasicFormats();
-
-    audioThumbnail.addChangeListener(this);
 }
 
 AudioPlayerAudioProcessor::~AudioPlayerAudioProcessor()
 {
     transportSource.setSource(nullptr);
-	readerSource.reset();
 }
 
 //==============================================================================
@@ -100,7 +97,10 @@ void AudioPlayerAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void AudioPlayerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    transportSource.prepareToPlay(samplesPerBlock, sampleRate);
+    slotProcessor1.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor2.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor3.prepareToPlay(sampleRate, samplesPerBlock);
+    slotProcessor4.prepareToPlay(sampleRate, samplesPerBlock);
 
 	soloFilterProcessing.prepareToPlay(sampleRate, samplesPerBlock);
 }
@@ -144,22 +144,21 @@ void AudioPlayerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         juce::AudioPlayHead::CurrentPositionInfo position;
         if (playHead->getCurrentPosition(position) && position.isPlaying)
         {
-            transportSource.start();
-            if (isReferenceActive)
-            {
-                // REFERENCE: Process the audio block with the transport source
-                buffer.clear();
-
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
-
-            }
-            else {
-                // DAW: Process the audio regularly
-                juce::AudioBuffer<float> tempBuffer(buffer.getNumChannels(), buffer.getNumSamples());
-                transportSource.getNextAudioBlock(juce::AudioSourceChannelInfo(tempBuffer));
-            }
-
-            loopingZoneProcessor.process(buffer, transportSource);
+	        switch (currentSlot)
+	        {
+	        case SlotSelected::Slot1:
+                slotProcessor1.process(buffer);
+                break;
+	        case SlotSelected::Slot2:
+                slotProcessor2.process(buffer);
+                break;
+	        case SlotSelected::Slot3:
+                slotProcessor3.process(buffer);
+                break;
+	        case SlotSelected::Slot4:
+                slotProcessor4.process(buffer);
+                break;
+	        }
         }
     }
 
@@ -192,38 +191,31 @@ void AudioPlayerAudioProcessor::setStateInformation (const void* data, int sizeI
     }
 }
 
-void AudioPlayerAudioProcessor::loadFile(const juce::File& file)
+SlotProcessor* AudioPlayerAudioProcessor::getSlotProcessor(int index)
 {
-	currentFile = file;
-    auto* reader = formatManager.createReaderFor(file);
-    if (reader != nullptr)
-    {
-        transportSource.setSource(nullptr);
-        readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-        transportSource.setSource(readerSource.get(), 0, nullptr, reader->sampleRate);
-        audioThumbnail.setSource(new juce::FileInputSource(file));
-        setFileName(file.getFileNameWithoutExtension());
-    }
-}
+	switch (index)
+	{
+	case 1:
+        return &slotProcessor1;
+        break;
+	case 2:
+        return &slotProcessor2;
+        break;
+	case 3:
+        return &slotProcessor3;
+        break;
+	case 4:
+        return &slotProcessor4;
+		break;
+	default:
+        return nullptr;
+        break;
 
-void AudioPlayerAudioProcessor::setFileName(const juce::String newFilename)
-{
-    std::shared_ptr<const juce::String> newPtr = std::make_shared<juce::String>(newFilename);
-
-	std::atomic_store_explicit(&filename, newPtr, std::memory_order_release);
+	}
 }
 
 void AudioPlayerAudioProcessor::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    if (source == &audioThumbnail)
-    {
-        // Handle thumbnail changes if necessary
-	}
-}
-
-std::shared_ptr<const juce::String> AudioPlayerAudioProcessor::getFileName()
-{
-	return std::atomic_load_explicit(&filename, std::memory_order_acquire);
 }
 
 //==============================================================================
