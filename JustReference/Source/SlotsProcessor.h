@@ -6,11 +6,11 @@ class SlotProcessor
 {
 public:
 
-	SlotProcessor();
+	SlotProcessor(bool& isReference);
 	~SlotProcessor();
 
 	void prepareToPlay(double sampleRate, int samplePerBlock);
-	void process(juce::AudioBuffer<float>& buffer, const bool& isReference);
+	void process(juce::AudioBuffer<float>& buffer);
 
 	void loadFile(const juce::File& file);
 	std::shared_ptr<const juce::String> getFileName() const;
@@ -21,7 +21,14 @@ public:
 	juce::AudioTransportSource& getTransportSource() { return transportSource; }
 
 	LoopingZoneProcessor& getLoopingZoneProcessor() { return loopingZoneProcessor; }
+
+	bool isFileLoaded() const { return readerSource != nullptr; }
+
+	bool& getIsReference() const { return isReference; }
 private:
+
+	bool& isReference;
+
 	juce::AudioTransportSource transportSource;
 	juce::File currentFile;
 	juce::AudioFormatManager formatManager;

@@ -15,13 +15,13 @@
 TransportToolComponent::TransportToolComponent()
 {
 
-    addAndMakeVisible(openButton);
+    /*addAndMakeVisible(openButton);
     openButton.setButtonText("Open file");
     openButton.setColour(juce::TextButton::buttonColourId, ApplicationColours::secondary);
     openButton.onClick = [this]()
         {
             if (onOpenButtonClicked) onOpenButtonClicked();
-        };
+        };*/
 
     addAndMakeVisible(referenceButton);
     referenceButton.setButtonText("Reference");
@@ -49,7 +49,7 @@ void TransportToolComponent::resized()
     auto buttonWidth = 100;
     auto buttonMargin = 10;
 
-	openButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
+	//openButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 	referenceButton.setBounds(area.removeFromLeft(buttonWidth).reduced(buttonMargin));
 
 }

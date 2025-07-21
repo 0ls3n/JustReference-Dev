@@ -10,7 +10,7 @@
 
 #include "SlotsProcessor.h"
 
-SlotProcessor::SlotProcessor()
+SlotProcessor::SlotProcessor(bool& sharedReference) : isReference(sharedReference)
 {
     formatManager.registerBasicFormats();
 }
@@ -26,7 +26,7 @@ void SlotProcessor::prepareToPlay(double sampleRate, int samplePerBlock)
     transportSource.prepareToPlay(samplePerBlock, sampleRate);
 }
 
-void SlotProcessor::process(juce::AudioBuffer<float>& buffer, const bool& isReference)
+void SlotProcessor::process(juce::AudioBuffer<float>& buffer)
 {
     transportSource.start();
     if (isReference)

@@ -12,17 +12,18 @@
 
 #include <JuceHeader.h>
 
-#include "PluginProcessor.h"
 #include "SlotsProcessor.h"
 #include "WaveformVisualizerComponent.h"
 
 //==============================================================================
 /*
 */
-class SlotMainContentComponent  : public juce::Component
+class SlotMainContentComponent  : public juce::Component, private juce::Timer
 {
 public:
-    SlotMainContentComponent(SlotProcessor& p);
+	
+
+	SlotMainContentComponent(SlotProcessor& p);
     ~SlotMainContentComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -30,16 +31,22 @@ public:
 
     void setSongTitle(const juce::String& newTitle) { songTitle = newTitle; }
 
-    void loadFile();
+    void loadFile(const juce::File& file);
+
+    void update();
 
 private:
 
-    SlotProcessor& audioProcessor;
+    void timerCallback() override;
+
+    std::unique_ptr<juce::FileChooser> chooser;
+
+    SlotProcessor& slotProcessor;
 
     juce::String songTitle;
     juce::Label songTitleLabel;
 
-    WaveformVisualizerComponent waveformVisualizer{ audioProcessor.getAudioThumbnail(), audioProcessor.getLoopingZoneProcessor() };
+    WaveformVisualizerComponent waveformVisualizer{ slotProcessor.getAudioThumbnail(), slotProcessor.getLoopingZoneProcessor() };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SlotMainContentComponent)
 };

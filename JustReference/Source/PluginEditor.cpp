@@ -25,7 +25,7 @@ AudioPlayerAudioProcessorEditor::AudioPlayerAudioProcessorEditor (AudioPlayerAud
     addAndMakeVisible(slotComponent);
 
 	transportTool.onReferenceButtonClicked = [this] { referenceSwitchButtonClicked(); };
-	transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
+	//transportTool.onOpenButtonClicked = [this] { openButtonClicked(); };
 
 
     addAndMakeVisible(&songTitleLabel);
