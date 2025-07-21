@@ -16,10 +16,12 @@ If you like what I do, I would be very happy to recieve any kind of contribution
 ## Features
 
 - **Toggle between reference and mix** at the click of a button  
-- **Waveform view** for basic visual context (no analyzers or distractions)  
-- **Minimal design**, intentionally simple and clean  
-- Intuitive controls with responsive layout  
-- Lightweight, fast, and efficient  
+- **Waveform view** for basic visual context and a way to navigate the song
+- **Looping zone** click and drag to create a looping zone to loop certain sections of the song
+- **4 Individual slots** so you can have up to 4 different reference tracks loaded on the same time
+- **Minimal design**, intentionally simple and clean
+- Intuitive controls with responsive layout
+- Lightweight, fast, and efficient
 
 ---
 
